@@ -8,12 +8,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:onClick="onSubmit"
-        android:text="Submit" />
+        android:text="@string/btn_submit" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_submit" >
+        android:layout_above="@id/btn_submit"
+        android:padding="16dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,21 +29,25 @@
             <EditText
                 android:id="@+id/textfield_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/form_default_age" />
 
             <EditText
                 android:id="@+id/textfield_age"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/form_default_gender" />
 
             <RadioGroup
@@ -67,6 +72,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/form_default_credit_card_company" />
 
             <Spinner

@@ -1,10 +1,13 @@
 <resources>
 
+    <string name="title_activity_default">標準の動作(Toast使用)</string>
+    <string name="title_activity_default_fragment">標準の動作(Dialog使用)</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_age">年齢</string>
     <string name="form_default_gender">性別</string>
     <string name="form_radio_gender_male">男性</string>
     <string name="form_radio_gender_female">女性</string>
     <string name="form_default_credit_card_company">クレジットカード会社</string>
+    <string name="btn_submit">送信</string>
 
 </resources>
