@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="form_entries_credit_card_companies">
+        <item>Please select</item>
+        <item>JCB</item>
+        <item>VISA</item>
+        <item>MasterCard</item>
+        <item>AMEX</item>
+    </string-array>
+
+</resources>

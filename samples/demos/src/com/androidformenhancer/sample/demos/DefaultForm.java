@@ -6,6 +6,7 @@ import com.androidformenhancer.form.annotation.Order;
 import com.androidformenhancer.form.annotation.Radio;
 import com.androidformenhancer.form.annotation.RadioValue;
 import com.androidformenhancer.form.annotation.Required;
+import com.androidformenhancer.form.annotation.Spinner;
 import com.androidformenhancer.form.annotation.Text;
 
 public class DefaultForm {
@@ -29,5 +30,10 @@ public class DefaultForm {
             })
     @Order(3)
     public String gender;
+
+    @Required(nameResId = R.string.form_default_credit_card_company)
+    @Spinner(id = R.id.spn_credit_card_company, headIsDummy = true)
+    @Order(4)
+    public String creditCardCompany;
 
 }

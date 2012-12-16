@@ -63,6 +63,17 @@
                     android:layout_height="wrap_content"
                     android:text="@string/form_radio_gender_female" />
             </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/form_default_credit_card_company" />
+
+            <Spinner
+                android:id="@+id/spn_credit_card_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/form_entries_credit_card_companies" />
         </LinearLayout>
     </ScrollView>
 

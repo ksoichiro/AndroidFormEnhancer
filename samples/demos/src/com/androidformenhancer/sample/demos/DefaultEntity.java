@@ -7,4 +7,8 @@ public class DefaultEntity {
 
     public int age;
 
+    public int gender;
+
+    public int creditCardCompany;
+
 }

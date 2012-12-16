@@ -18,6 +18,7 @@ package com.androidformenhancer.utils;
 
 import com.androidformenhancer.form.annotation.Radio;
 import com.androidformenhancer.form.annotation.RadioValue;
+import com.androidformenhancer.form.annotation.Spinner;
 import com.androidformenhancer.form.annotation.Text;
 
 import android.app.Activity;
@@ -91,6 +92,15 @@ public class FormHelper<T> {
                             break;
                         }
                     }
+                    continue;
+                }
+
+                // Spinner type
+                Spinner spinner = (Spinner) field.getAnnotation(Spinner.class);
+                if (spinner != null) {
+                    int index = ((android.widget.Spinner) rootView.findViewById(spinner.id()))
+                            .getSelectedItemPosition();
+                    field.set(mForm, Integer.toString(index));
                     continue;
                 }
             }

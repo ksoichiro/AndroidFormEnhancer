@@ -8,5 +8,6 @@
     <string name="form_default_gender">Gender</string>
     <string name="form_radio_gender_male">Male</string>
     <string name="form_radio_gender_female">Female</string>
+    <string name="form_default_credit_card_company">Credit card company</string>
 
 </resources>

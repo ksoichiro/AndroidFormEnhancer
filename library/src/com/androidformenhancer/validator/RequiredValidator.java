@@ -19,6 +19,7 @@ package com.androidformenhancer.validator;
 import com.androidformenhancer.R;
 import com.androidformenhancer.form.annotation.Radio;
 import com.androidformenhancer.form.annotation.Required;
+import com.androidformenhancer.form.annotation.Spinner;
 import com.androidformenhancer.form.annotation.When;
 
 import android.content.res.Resources;
@@ -83,7 +84,9 @@ public class RequiredValidator extends Validator {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
                 final String strValue = (String) value;
-                if (TextUtils.isEmpty(strValue)) {
+                Spinner spinner = (Spinner) field.getAnnotation(Spinner.class);
+                if (TextUtils.isEmpty(strValue)
+                        || (spinner != null && spinner.headIsDummy() && strValue.equals("0"))) {
                     String name = field.getName();
                     int nameResId = required.nameResId();
                     if (nameResId > 0) {
@@ -91,7 +94,8 @@ public class RequiredValidator extends Validator {
                     }
                     // Select message according to the type of the field
                     Resources res = getContext().getResources();
-                    if (field.getAnnotation(Radio.class) != null) {
+                    if (field.getAnnotation(Radio.class) != null
+                            || spinner != null) {
                         return res.getString(
                                 R.string.afe__msg_validation_require_selection,
                                 new Object[] {
