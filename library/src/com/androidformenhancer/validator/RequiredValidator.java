@@ -17,9 +17,11 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
+import com.androidformenhancer.form.annotation.Radio;
 import com.androidformenhancer.form.annotation.Required;
 import com.androidformenhancer.form.annotation.When;
 
+import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -87,11 +89,21 @@ public class RequiredValidator extends Validator {
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    return getContext().getResources().getString(
-                                    R.string.afe__msg_validation_required,
-                                    new Object[] {
-                                        name
-                                    });
+                    // Select message according to the type of the field
+                    Resources res = getContext().getResources();
+                    if (field.getAnnotation(Radio.class) != null) {
+                        return res.getString(
+                                R.string.afe__msg_validation_require_selection,
+                                new Object[] {
+                                    name
+                                });
+                    } else {
+                        return res.getString(
+                                R.string.afe__msg_validation_required,
+                                new Object[] {
+                                    name
+                                });
+                    }
                 }
             }
         }
