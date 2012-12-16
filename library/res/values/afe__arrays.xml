@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="afe__validators">
+        <item>@string/afe__validator_required</item>
+        <item>@string/afe__validator_number</item>
+    </string-array>
+
+</resources>

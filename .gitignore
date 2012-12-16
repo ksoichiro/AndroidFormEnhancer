@@ -1,0 +1,6 @@
+library/bin
+library/gen
+samples/demos/bin
+samples/demos/gen
+tests/bin
+tests/gen

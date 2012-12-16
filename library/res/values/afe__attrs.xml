@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="afeValidatorDefinitions" format="reference" />
+    <attr name="afeStopPolicy" format="integer">
+        <enum name="continueAll" value="0" />
+        <enum name="stopAllIfAny" value="1" />
+        <enum name="stopAndResumeNext" value="2" />
+    </attr>
+    <attr name="afeStandardValidators" format="reference" />
+    <attr name="afeCustomValidators" format="reference" />
+
+    <declare-styleable name="ValidatorDefinitions">
+        <attr name="afeStopPolicy" />
+        <attr name="afeStandardValidators" />
+        <attr name="afeCustomValidators" />
+    </declare-styleable>
+
+</resources>

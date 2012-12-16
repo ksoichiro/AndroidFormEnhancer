@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="app_name">AFE-Demos</string>
+    <string name="title_activity_default">Default behavior with Toast</string>
+    <string name="title_activity_default_fragment">Default behavior with Dialog</string>
+    <string name="form_default_name">Name</string>
+    <string name="form_default_age">Age</string>
+
+</resources>
