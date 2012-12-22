@@ -18,6 +18,7 @@ package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
 import com.androidformenhancer.form.annotation.IntValue;
+import com.androidformenhancer.form.annotation.Validated;
 
 import android.util.Log;
 
@@ -52,7 +53,12 @@ public class NumberValidator extends Validator {
                     Integer.parseInt(strValue);
                 } catch (NumberFormatException e) {
                     String name = field.getName();
-                    int nameResId = intValue.nameResId();
+                    Validated validated = (Validated) field.getAnnotation(Validated.class);
+                    int nameResId = validated.nameResId();
+                    if (nameResId > 0) {
+                        name = getContext().getResources().getString(nameResId);
+                    }
+                    nameResId = intValue.nameResId();
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }

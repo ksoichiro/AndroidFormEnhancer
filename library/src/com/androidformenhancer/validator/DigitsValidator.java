@@ -18,6 +18,7 @@ package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
 import com.androidformenhancer.form.annotation.Digits;
+import com.androidformenhancer.form.annotation.Validated;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -54,7 +55,12 @@ public class DigitsValidator extends Validator {
                 }
                 if (!strValue.matches("^[0-9]+$")) {
                     String name = field.getName();
-                    int nameResId = digits.nameResId();
+                    Validated validated = (Validated) field.getAnnotation(Validated.class);
+                    int nameResId = validated.nameResId();
+                    if (nameResId > 0) {
+                        name = getContext().getResources().getString(nameResId);
+                    }
+                    nameResId = digits.nameResId();
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
