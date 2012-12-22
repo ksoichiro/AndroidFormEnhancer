@@ -3,7 +3,9 @@
 
     <string-array name="afe__validators">
         <item>@string/afe__validator_required</item>
+        <item>@string/afe__validator_digits</item>
         <item>@string/afe__validator_number</item>
+        <item>@string/afe__validator_max_value</item>
     </string-array>
 
 </resources>

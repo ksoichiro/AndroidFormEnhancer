@@ -9,6 +9,8 @@ public class DefaultEntity {
 
     public int gender;
 
+    public String phone;
+
     public int creditCardCompany;
 
 }

@@ -29,6 +29,13 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MaxValue {
+    /**
+     * Resource ID of the field name for the error message.<br>
+     * This is set to {@code 0}(invalid) as default, and the field name will be
+     * used in the error messages.
+     */
+    int nameResId() default 0;
+
     /** Max value of the field. */
     int value();
 }

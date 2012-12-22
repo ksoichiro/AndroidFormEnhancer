@@ -8,6 +8,7 @@
     <string name="form_default_gender">性別</string>
     <string name="form_radio_gender_male">男性</string>
     <string name="form_radio_gender_female">女性</string>
+    <string name="form_default_phone">電話番号</string>
     <string name="form_default_credit_card_company">クレジットカード会社</string>
     <string name="btn_submit">送信</string>
 

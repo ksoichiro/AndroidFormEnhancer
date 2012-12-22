@@ -17,7 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.annotation.IntValue;
+import com.androidformenhancer.form.annotation.MaxValue;
 import com.androidformenhancer.form.annotation.Validated;
 
 import android.text.TextUtils;
@@ -26,13 +26,13 @@ import android.util.Log;
 import java.lang.reflect.Field;
 
 /**
- * This validator provides the required field validation.
+ * Validates that the value exceeds the max value or not.
  * 
  * @author Soichiro Kashima
  */
-public class NumberValidator extends Validator {
+public class MaxValueValidator extends Validator {
 
-    private static final String TAG = "NumberValidator";
+    private static final String TAG = "MaxValueValidator";
 
     @Override
     public String validate(final Field field) {
@@ -45,31 +45,36 @@ public class NumberValidator extends Validator {
             return null;
         }
 
-        IntValue intValue = field.getAnnotation(IntValue.class);
-        if (intValue != null) {
+        MaxValue maxValue = field.getAnnotation(MaxValue.class);
+        if (maxValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
                 final String strValue = (String) value;
                 if (TextUtils.isEmpty(strValue)) {
                     return null;
                 }
+                int nValue = -1;
+                boolean hasError = false;
                 try {
-                    Integer.parseInt(strValue);
+                    nValue = Integer.parseInt(strValue);
                 } catch (NumberFormatException e) {
+                    hasError = true;
+                }
+                if (hasError || maxValue.value() < nValue) {
                     String name = field.getName();
                     Validated validated = (Validated) field.getAnnotation(Validated.class);
                     int nameResId = validated.nameResId();
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    nameResId = intValue.nameResId();
+                    nameResId = maxValue.nameResId();
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
                     return getContext().getResources().getString(
-                            R.string.afe__msg_validation_integer,
+                            R.string.afe__msg_validation_max_value,
                             new Object[] {
-                                    name
+                                name, maxValue.value()
                             });
                 }
             }
@@ -77,4 +82,5 @@ public class NumberValidator extends Validator {
 
         return null;
     }
+
 }
