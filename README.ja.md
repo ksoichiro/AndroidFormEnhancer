@@ -41,6 +41,26 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
         }
 
 
+ProGuard
+===
+
+ProGuardを使用する場合は、以下のようにproguard-project.txtを編集してください。
+
+1. Validatorのクラス名を維持します。これは常に必須です。
+
+        -keep class com.androidformenhancer.validator.* { <init>(...); }
+
+1. FormクラスとEntityクラスのメンバー(publicなフィールド)名を維持します。
+   FormHelper#createEntityFromForm()を使用する場合は必須です。
+
+        -keepclassmembers class com.androidformenhancer.sample.demos.DefaultForm {
+          public *;
+        }
+        -keepclassmembers class com.androidformenhancer.sample.demos.DefaultEntity {
+          public *;
+        }
+
+
 サンプル
 ===
 
