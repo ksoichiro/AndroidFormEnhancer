@@ -4,7 +4,9 @@
     <string name="afe__msg_validation_require_selection">%1$sは必ず選択してください</string>
     <string name="afe__msg_validation_integer">%1$sは数字で入力してください</string>
     <string name="afe__msg_validation_singlebyte_numbers">%1$sは半角数字で入力してください</string>
-    <string name="afe__msg_validation_min_value">%1$sは%1$d以上で入力してください</string>
-    <string name="afe__msg_validation_max_value">%1$sは%1$d以下で入力してください</string>
-
+    <string name="afe__msg_validation_min_value">%1$sは%2$d以上で入力してください</string>
+    <string name="afe__msg_validation_max_value">%1$sは%2$d以下で入力してください</string>
+    <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
+    <string name="afe__validator_number">com.androidformenhancer.validator.NumberValidator</string>
+    
 </resources>

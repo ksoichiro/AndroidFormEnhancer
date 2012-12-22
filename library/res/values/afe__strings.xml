@@ -4,8 +4,8 @@
     <string name="afe__msg_validation_require_selection">%1$s must be selected</string>
     <string name="afe__msg_validation_integer">%1$s must be an integer</string>
     <string name="afe__msg_validation_singlebyte_numbers">%1$s must be single byte numbers</string>
-    <string name="afe__msg_validation_min_value">%1$s must be more than or equal to %1$d</string>
-    <string name="afe__msg_validation_max_value">%1$s must be less than or equal to %1$d</string>
+    <string name="afe__msg_validation_min_value">%1$s must be more than or equal to %2$d</string>
+    <string name="afe__msg_validation_max_value">%1$s must be less than or equal to %2$d</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
     <string name="afe__validator_number">com.androidformenhancer.validator.NumberValidator</string>
 

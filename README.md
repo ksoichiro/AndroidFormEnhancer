@@ -42,6 +42,25 @@ Usage
             DefaultEntity entity = helper.createEntityFromForm(DefaultEntity.class);
         }
 
+ProGuard
+===
+
+If you want to use ProGuard, edit proguard-project.txt.
+
+1. Keep class name of the Validators. This is always required.
+
+       -keep class com.androidformenhancer.validator.* { <init>(...); }
+
+1. Keep class members (public fields) of the Forms and Entities.
+   If you use FormHelper#createEntityFromForm(), this is required.
+
+       -keepclassmembers class com.androidformenhancer.sample.demos.DefaultForm {
+         public *;
+       }
+       -keepclassmembers class com.androidformenhancer.sample.demos.DefaultEntity {
+         public *;
+       }
+
 Samples
 ===
 
