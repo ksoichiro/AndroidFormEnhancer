@@ -23,4 +23,12 @@
         <!-- <item name="afeStopPolicy">continueAll</item> -->
     </style>
 
+    <style name="AppTheme.DontStop">
+        <item name="afeValidatorDefinitions">@style/ValidatorDefinitions.DontStop</item>
+    </style>
+
+    <style name="ValidatorDefinitions.DontStop">
+        <item name="afeStopPolicy">continueAll</item>
+    </style>
+
 </resources>
