@@ -50,8 +50,10 @@
     <string name="custom_msg_validation_hiragana">[%1$s] must be hiragana characters.</string>
     <string name="custom_msg_validation_katakana">[%1$s] must be katakana characters.</string>
     <string name="custom_msg_validation_singlebyte">[%1$s] must be singlebyte characters.</string>
-    <string name="custom_msg_validation_length">[%1$s] must be %2$d characters.</string>
+    <string name="custom_msg_validation_length">[%1$s] must be [%2$d] characters.</string>
     <string name="custom_msg_validation_max_length">[%1$s] must be less than [%2$d] characters.</string>
+    <string name="custom_msg_validation_num_of_digits">[%1$s] must be [%2$d] digits.</string>
+    <string name="custom_msg_validation_max_num_of_digits">[%1$s] must be less than [%2$d] digits.</string>
     <string name="custom_msg_validation_regex">[%1$s] is invalid.</string>
     <string name="custom_msg_validation_email">[%1$s] is invalid e-mail address.</string>
     <string name="custom_msg_validation_date">[%1$s] is invalid date.</string>

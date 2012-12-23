@@ -41,9 +41,11 @@
     <attr name="afeErrorIntType" format="reference" />
     <attr name="afeErrorLength" format="reference" />
     <attr name="afeErrorMaxLength" format="reference" />
+    <attr name="afeErrorMaxNumOfDigits" format="reference" />
     <attr name="afeErrorMaxValue" format="reference" />
     <attr name="afeErrorMinValue" format="reference" />
     <attr name="afeErrorMultibyte" format="reference" />
+    <attr name="afeErrorNumOfDigits" format="reference" />
     <attr name="afeErrorPastDate" format="reference" />
     <attr name="afeErrorRegex" format="reference" />
     <attr name="afeErrorRequired" format="reference" />
@@ -61,9 +63,11 @@
         <attr name="afeErrorIntType" />
         <attr name="afeErrorLength" />
         <attr name="afeErrorMaxLength" />
+        <attr name="afeErrorMaxNumOfDigits" />
         <attr name="afeErrorMaxValue" />
         <attr name="afeErrorMinValue" />
         <attr name="afeErrorMultibyte" />
+        <attr name="afeErrorNumOfDigits" />
         <attr name="afeErrorPastDate" />
         <attr name="afeErrorRegex" />
         <attr name="afeErrorRequired" />

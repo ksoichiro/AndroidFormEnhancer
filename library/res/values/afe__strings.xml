@@ -28,6 +28,8 @@
     <string name="afe__msg_validation_singlebyte">%1$s must be singlebyte characters</string>
     <string name="afe__msg_validation_length">%1$s must be %2$d characters</string>
     <string name="afe__msg_validation_max_length">%1$s must be less than %2$d characters</string>
+    <string name="afe__msg_validation_num_of_digits">%1$s must be %2$d digits</string>
+    <string name="afe__msg_validation_max_num_of_digits">%1$s must be less than %2$d digits</string>
     <string name="afe__msg_validation_regex">%1$s is invalid</string>
     <string name="afe__msg_validation_email">%1$s is invalid e-mail address</string>
     <string name="afe__msg_validation_date">%1$s is invalid date</string>
@@ -44,6 +46,8 @@
     <string name="afe__validator_singlebyte">com.androidformenhancer.validator.SinglebyteValidator</string>
     <string name="afe__validator_length">com.androidformenhancer.validator.LengthValidator</string>
     <string name="afe__validator_max_length">com.androidformenhancer.validator.MaxLengthValidator</string>
+    <string name="afe__validator_num_of_digits">com.androidformenhancer.validator.NumOfDigitsValidator</string>
+    <string name="afe__validator_max_num_of_digits">com.androidformenhancer.validator.MaxNumOfDigitsValidator</string>
     <string name="afe__validator_regex">com.androidformenhancer.validator.RegexValidator</string>
     <string name="afe__validator_email">com.androidformenhancer.validator.EmailValidator</string>
     <string name="afe__validator_date_pattern">com.androidformenhancer.validator.DatePatternValidator</string>

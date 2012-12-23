@@ -50,6 +50,8 @@ public class ValidatorTestRunner extends InstrumentationTestRunner {
         testSuite.addTestSuite(DigitsValidatorTest.class);
         testSuite.addTestSuite(LengthValidatorTest.class);
         testSuite.addTestSuite(MaxLengthValidatorTest.class);
+        testSuite.addTestSuite(NumOfDigitsValidatorTest.class);
+        testSuite.addTestSuite(MaxNumOfDigitsValidatorTest.class);
         testSuite.addTestSuite(MaxValueValidatorTest.class);
         testSuite.addTestSuite(MinValueValidatorTest.class);
         testSuite.addTestSuite(IntRangeValidatorTest.class);
