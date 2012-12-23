@@ -46,6 +46,16 @@
                 <category android:name="com.androidformenhancer.sample.demos" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ResumeNextActivity"
+            android:label="@string/title_activity_resume_next"
+            android:theme="@style/AppTheme.ResumeNext" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.androidformenhancer.sample.demos" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

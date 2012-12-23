@@ -31,4 +31,12 @@
         <item name="afeStopPolicy">continueAll</item>
     </style>
 
+    <style name="AppTheme.ResumeNext">
+        <item name="afeValidatorDefinitions">@style/ValidatorDefinitions.ResumeNext</item>
+    </style>
+
+    <style name="ValidatorDefinitions.ResumeNext">
+        <item name="afeStopPolicy">stopAndResumeNext</item>
+    </style>
+
 </resources>

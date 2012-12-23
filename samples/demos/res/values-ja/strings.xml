@@ -4,6 +4,7 @@
     <string name="title_activity_default">標準の動作(Toast使用)</string>
     <string name="title_activity_default_fragment">標準の動作(Dialog使用)</string>
     <string name="title_activity_dont_stop">全てのエラーを表示</string>
+    <string name="title_activity_resume_next">各項目で最初のエラーのみ表示</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_age">年齢</string>
     <string name="form_default_gender">性別</string>
