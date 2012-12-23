@@ -67,9 +67,12 @@ public class MultibyteValidator extends Validator {
                 }
                 boolean hasError = false;
                 try {
-                    for (int i = 0; i < strValue.length(); i++) {
-                        String s = strValue.substring(i, i + 1);
-                        byte[] b = s.getBytes(mEncoding);
+                    for (int i = 0; i < strValue.length(); i = strValue.offsetByCodePoints(i, 1)) {
+                        char[] c = Character.toChars(strValue.codePointAt(i));
+                        if (c.length > 1) {
+                            continue;
+                        }
+                        byte[] b = new String(c).getBytes(mEncoding);
                         if (b.length < 2) {
                             hasError = true;
                         }
@@ -97,6 +100,14 @@ public class MultibyteValidator extends Validator {
         }
 
         return null;
+    }
+
+    public String getEncoding() {
+        return mEncoding;
+    }
+
+    public void setEncoding(final String encoding) {
+        mEncoding = encoding;
     }
 
     private void setEncoding() {
