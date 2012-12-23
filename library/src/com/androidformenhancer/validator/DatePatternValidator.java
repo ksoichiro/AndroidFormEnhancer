@@ -17,22 +17,25 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.annotation.Email;
+import com.androidformenhancer.form.annotation.DatePattern;
 
 import android.text.TextUtils;
 import android.util.Log;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Validates that the value matches the regular expression.
  * 
  * @author Soichiro Kashima
  */
-public class EmailValidator extends Validator {
+public class DatePatternValidator extends Validator {
 
-    private static final String TAG = "EmailValidator";
-    private static final String REGEX_EMAIL = "^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$";
+    private static final String TAG = "DatePatternValidator";
 
     @Override
     public String validate(final Field field) {
@@ -45,26 +48,38 @@ public class EmailValidator extends Validator {
             return null;
         }
 
-        Email emailValue = field.getAnnotation(Email.class);
-        if (emailValue != null) {
+        DatePattern datePatternValue = field.getAnnotation(DatePattern.class);
+        if (datePatternValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
                 final String strValue = (String) value;
                 if (TextUtils.isEmpty(strValue)) {
                     return null;
                 }
-                if (!strValue.matches(REGEX_EMAIL)) {
+                DateFormat dateFormat = null;
+
+                if (TextUtils.isEmpty(datePatternValue.value())) {
+                    dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+                } else {
+                    dateFormat = new SimpleDateFormat(datePatternValue.value(),
+                            Locale.getDefault());
+                }
+                dateFormat.setLenient(false);
+                try {
+                    dateFormat.parse(strValue);
+                    return null;
+                } catch (ParseException e) {
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    nameResId = emailValue.nameResId();
+                    nameResId = datePatternValue.nameResId();
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
                     return getContext().getResources().getString(
-                            R.string.afe__msg_validation_email,
+                            R.string.afe__msg_validation_date,
                             new Object[] {
                                 name
                             });

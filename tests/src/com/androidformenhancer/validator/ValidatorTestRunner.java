@@ -58,6 +58,7 @@ public class ValidatorTestRunner extends InstrumentationTestRunner {
         testSuite.addTestSuite(RequiredValidatorTest.class);
         testSuite.addTestSuite(RegexValidatorTest.class);
         testSuite.addTestSuite(EmailValidatorTest.class);
+        testSuite.addTestSuite(DatePatternValidatorTest.class);
 
         return testSuite;
     }

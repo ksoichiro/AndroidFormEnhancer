@@ -27,6 +27,7 @@
         <item>@string/afe__validator_max_length</item>
         <item>@string/afe__validator_regex</item>
         <item>@string/afe__validator_email</item>
+        <item>@string/afe__validator_date_pattern</item>
     </string-array>
 
 </resources>

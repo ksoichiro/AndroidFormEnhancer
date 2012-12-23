@@ -26,7 +26,9 @@
     <string name="afe__msg_validation_multibyte">%1$sは全角文字で入力してください</string>
     <string name="afe__msg_validation_singlebyte">%1$sは半角文字で入力してください</string>
     <string name="afe__msg_validation_max_length">%1$sは%2$d文字以下で入力してください</string>
-    <string name="afe__msg_validation_regex">%1$sの形式が正しくありません</string>
+    <string name="afe__msg_validation_regex">%1$sが無効な形式です</string>
+    <string name="afe__msg_validation_email">%1$sが無効なメールアドレスです</string>
+    <string name="afe__msg_validation_date">%1$sが無効な日付です</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
     <string name="afe__validator_number">com.androidformenhancer.validator.NumberValidator</string>
     <string name="afe__validator_digits">com.androidformenhancer.validator.DigitsValidator</string>
@@ -37,5 +39,6 @@
     <string name="afe__validator_max_length">com.androidformenhancer.validator.MaxLengthValidator</string>
     <string name="afe__validator_regex">com.androidformenhancer.validator.RegexValidator</string>
     <string name="afe__validator_email">com.androidformenhancer.validator.EmailValidator</string>
+    <string name="afe__validator_date_pattern">com.androidformenhancer.validator.DatePatternValidator</string>
 
 </resources>
