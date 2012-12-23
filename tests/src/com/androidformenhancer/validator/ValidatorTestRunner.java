@@ -55,6 +55,8 @@ public class ValidatorTestRunner extends InstrumentationTestRunner {
         testSuite.addTestSuite(SinglebyteValidatorTest.class);
         testSuite.addTestSuite(IntTypeValidatorTest.class);
         testSuite.addTestSuite(RequiredValidatorTest.class);
+        testSuite.addTestSuite(RegexValidatorTest.class);
+        testSuite.addTestSuite(EmailValidatorTest.class);
 
         return testSuite;
     }

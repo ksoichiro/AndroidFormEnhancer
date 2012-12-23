@@ -25,6 +25,8 @@
         <item>@string/afe__validator_multibyte</item>
         <item>@string/afe__validator_singlebyte</item>
         <item>@string/afe__validator_max_length</item>
+        <item>@string/afe__validator_regex</item>
+        <item>@string/afe__validator_email</item>
     </string-array>
 
 </resources>

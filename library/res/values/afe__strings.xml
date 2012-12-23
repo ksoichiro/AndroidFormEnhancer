@@ -25,6 +25,7 @@
     <string name="afe__msg_validation_multibyte">%1$s must be multibyte characters</string>
     <string name="afe__msg_validation_singlebyte">%1$s must be singlebyte characters</string>
     <string name="afe__msg_validation_max_length">%1$s must be less than %2$d characters</string>
+    <string name="afe__msg_validation_regex">%1$s is illegal format</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
     <string name="afe__validator_int_type">com.androidformenhancer.validator.IntTypeValidator</string>
     <string name="afe__validator_digits">com.androidformenhancer.validator.DigitsValidator</string>
@@ -33,5 +34,7 @@
     <string name="afe__validator_multibyte">com.androidformenhancer.validator.MultibyteValidator</string>
     <string name="afe__validator_singlebyte">com.androidformenhancer.validator.SinglebyteValidator</string>
     <string name="afe__validator_max_length">com.androidformenhancer.validator.MaxLengthValidator</string>
+    <string name="afe__validator_regex">com.androidformenhancer.validator.RegexValidator</string>
+    <string name="afe__validator_email">com.androidformenhancer.validator.EmailValidator</string>
 
 </resources>
