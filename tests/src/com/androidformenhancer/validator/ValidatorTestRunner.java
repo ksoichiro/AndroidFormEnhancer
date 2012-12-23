@@ -32,6 +32,7 @@ public class ValidatorTestRunner extends InstrumentationTestRunner {
 
         testSuite.addTestSuite(DigitsValidatorTest.class);
         testSuite.addTestSuite(MaxLengthValidatorTest.class);
+        testSuite.addTestSuite(NumberValidatorTest.class);
 
         return testSuite;
     }
