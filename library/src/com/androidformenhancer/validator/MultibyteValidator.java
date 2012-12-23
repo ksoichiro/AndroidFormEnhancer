@@ -18,7 +18,6 @@ package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
 import com.androidformenhancer.form.annotation.Multibyte;
-import com.androidformenhancer.form.annotation.Validated;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -80,8 +79,7 @@ public class MultibyteValidator extends Validator {
                 }
                 if (hasError) {
                     String name = field.getName();
-                    Validated validated = (Validated) field.getAnnotation(Validated.class);
-                    int nameResId = validated.nameResId();
+                    int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }

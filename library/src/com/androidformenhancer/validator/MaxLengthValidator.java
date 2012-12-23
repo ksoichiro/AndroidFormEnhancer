@@ -18,7 +18,6 @@ package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
 import com.androidformenhancer.form.annotation.MaxLength;
-import com.androidformenhancer.form.annotation.Validated;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -56,8 +55,7 @@ public class MaxLengthValidator extends Validator {
                 }
                 if (maxLengthValue.value() < strValue.length()) {
                     String name = field.getName();
-                    Validated validated = (Validated) field.getAnnotation(Validated.class);
-                    int nameResId = validated.nameResId();
+                    int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }

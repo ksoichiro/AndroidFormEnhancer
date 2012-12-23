@@ -16,6 +16,8 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.form.annotation.Validated;
+
 import android.content.Context;
 
 import java.lang.reflect.Field;
@@ -65,4 +67,8 @@ public abstract class Validator {
         mTarget = target;
     }
 
+    protected int getNameResourceId(final Field field) {
+        Validated validated = (Validated) field.getAnnotation(Validated.class);
+        return validated == null ? 0 : validated.nameResId();
+    }
 }

@@ -24,6 +24,9 @@
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="com.androidformenhancer.test" />
+    <instrumentation
+        android:name="com.androidformenhancer.validator.ValidatorTestRunner"
+        android:targetPackage="com.androidformenhancer.test" />
 
     <application
         android:icon="@drawable/ic_launcher"

@@ -20,7 +20,6 @@ import com.androidformenhancer.R;
 import com.androidformenhancer.form.annotation.Radio;
 import com.androidformenhancer.form.annotation.Required;
 import com.androidformenhancer.form.annotation.Spinner;
-import com.androidformenhancer.form.annotation.Validated;
 import com.androidformenhancer.form.annotation.When;
 
 import android.content.res.Resources;
@@ -89,8 +88,7 @@ public class RequiredValidator extends Validator {
                 if (TextUtils.isEmpty(strValue)
                         || (spinner != null && spinner.headIsDummy() && strValue.equals("0"))) {
                     String name = field.getName();
-                    Validated validated = (Validated) field.getAnnotation(Validated.class);
-                    int nameResId = validated.nameResId();
+                    int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
