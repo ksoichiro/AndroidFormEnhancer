@@ -63,11 +63,12 @@ public class MaxLengthValidator extends Validator {
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    return getContext().getResources().getString(
+                    Object[] messageParams = new Object[] {
+                            name, maxLengthValue.value()
+                    };
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorMaxLength,
                             R.string.afe__msg_validation_max_length,
-                            new Object[] {
-                                    name, maxLengthValue.value()
-                            });
+                            messageParams);
                 }
             }
         }

@@ -16,9 +16,11 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.R;
 import com.androidformenhancer.form.annotation.Validated;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 
 import java.lang.reflect.Field;
 
@@ -71,4 +73,17 @@ public abstract class Validator {
         Validated validated = (Validated) field.getAnnotation(Validated.class);
         return validated == null ? 0 : validated.nameResId();
     }
+
+    protected String getMessage(final int index, final int defaultId, final Object[] messageParams) {
+        TypedArray a = getContext().getTheme().obtainStyledAttributes(null,
+                R.styleable.ValidatorMessages,
+                R.attr.afeValidatorMessages, 0);
+        int messageResId = a.getResourceId(index, 0);
+        a.recycle();
+        if (messageResId == 0) {
+            messageResId = defaultId;
+        }
+        return getContext().getResources().getString(messageResId, messageParams);
+    }
+
 }

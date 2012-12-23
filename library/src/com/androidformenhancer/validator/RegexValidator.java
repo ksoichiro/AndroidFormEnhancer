@@ -62,11 +62,12 @@ public class RegexValidator extends Validator {
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    return getContext().getResources().getString(
+                    Object[] messageParams = new Object[] {
+                            name
+                    };
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorRegex,
                             R.string.afe__msg_validation_regex,
-                            new Object[] {
-                                    name
-                            });
+                            messageParams);
                 }
             }
         }

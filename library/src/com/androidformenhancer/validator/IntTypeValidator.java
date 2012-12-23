@@ -64,11 +64,12 @@ public class IntTypeValidator extends Validator {
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    return getContext().getResources().getString(
+                    Object[] messageParams = new Object[] {
+                            name
+                    };
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorIntType,
                             R.string.afe__msg_validation_integer,
-                            new Object[] {
-                                    name
-                            });
+                            messageParams);
                 }
             }
         }

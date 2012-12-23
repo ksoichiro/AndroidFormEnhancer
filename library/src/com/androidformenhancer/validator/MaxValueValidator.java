@@ -69,11 +69,12 @@ public class MaxValueValidator extends Validator {
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    return getContext().getResources().getString(
+                    Object[] messageParams = new Object[] {
+                            name, maxValue.value()
+                    };
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorMaxValue,
                             R.string.afe__msg_validation_max_value,
-                            new Object[] {
-                                name, maxValue.value()
-                            });
+                            messageParams);
                 }
             }
         }

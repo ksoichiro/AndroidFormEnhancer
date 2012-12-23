@@ -33,4 +33,39 @@
         <attr name="afeCharacterEncoding" />
     </declare-styleable>
 
+    <attr name="afeValidatorMessages" format="reference" />
+    <attr name="afeErrorDatePattern" format="reference" />
+    <attr name="afeErrorDigits" format="reference" />
+    <attr name="afeErrorEmail" format="reference" />
+    <attr name="afeErrorIntRange" format="reference" />
+    <attr name="afeErrorIntType" format="reference" />
+    <attr name="afeErrorMaxLength" format="reference" />
+    <attr name="afeErrorMaxValue" format="reference" />
+    <attr name="afeErrorMinValue" format="reference" />
+    <attr name="afeErrorMultibyte" format="reference" />
+    <attr name="afeErrorPastDate" format="reference" />
+    <attr name="afeErrorRegex" format="reference" />
+    <attr name="afeErrorRequired" format="reference" />
+    <attr name="afeErrorRequiredSelection" format="reference" />
+    <attr name="afeErrorRequiredMultipleSelection" format="reference" />
+    <attr name="afeErrorSinglebyte" format="reference" />
+
+    <declare-styleable name="ValidatorMessages">
+        <attr name="afeErrorDatePattern" />
+        <attr name="afeErrorDigits" />
+        <attr name="afeErrorEmail" />
+        <attr name="afeErrorIntRange" />
+        <attr name="afeErrorIntType" />
+        <attr name="afeErrorMaxLength" />
+        <attr name="afeErrorMaxValue" />
+        <attr name="afeErrorMinValue" />
+        <attr name="afeErrorMultibyte" />
+        <attr name="afeErrorPastDate" />
+        <attr name="afeErrorRegex" />
+        <attr name="afeErrorRequired" />
+        <attr name="afeErrorRequiredSelection" />
+        <attr name="afeErrorRequiredMultipleSelection" />
+        <attr name="afeErrorSinglebyte" />
+    </declare-styleable>
+
 </resources>

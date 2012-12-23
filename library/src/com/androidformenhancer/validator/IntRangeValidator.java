@@ -70,11 +70,12 @@ public class IntRangeValidator extends Validator {
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    return getContext().getResources().getString(
+                    Object[] messageParams = new Object[] {
+                            name, intRangeValue.min(), intRangeValue.max()
+                    };
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorIntRange,
                             R.string.afe__msg_validation_int_range,
-                            new Object[] {
-                                    name, intRangeValue.min(), intRangeValue.max()
-                            });
+                            messageParams);
                 }
             }
         }

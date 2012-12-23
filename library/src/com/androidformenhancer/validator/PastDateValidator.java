@@ -96,11 +96,12 @@ public class PastDateValidator extends Validator {
                 if (nameResId > 0) {
                     name = getContext().getResources().getString(nameResId);
                 }
-                return getContext().getResources().getString(
+                Object[] messageParams = new Object[] {
+                        name
+                };
+                return getMessage(R.styleable.ValidatorMessages_afeErrorPastDate,
                         R.string.afe__msg_validation_past_date,
-                        new Object[] {
-                            name
-                        });
+                        messageParams);
             }
         }
 

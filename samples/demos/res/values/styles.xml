@@ -55,4 +55,27 @@
         <item name="afeStopPolicy">stopAndResumeNext</item>
     </style>
 
+    <style name="AppTheme.CustomMessages">
+        <item name="afeValidatorDefinitions">@style/ValidatorDefinitions.DontStop</item>
+        <item name="afeValidatorMessages">@style/ValidatorMessages</item>
+    </style>
+
+    <style name="ValidatorMessages">
+        <item name="afeErrorDatePattern">@string/custom_msg_validation_date</item>
+        <item name="afeErrorDigits">@string/custom_msg_validation_digits</item>
+        <item name="afeErrorEmail">@string/custom_msg_validation_email</item>
+        <item name="afeErrorIntRange">@string/custom_msg_validation_int_range</item>
+        <item name="afeErrorIntType">@string/custom_msg_validation_integer</item>
+        <item name="afeErrorMaxLength">@string/custom_msg_validation_max_length</item>
+        <item name="afeErrorMaxValue">@string/custom_msg_validation_max_value</item>
+        <item name="afeErrorMinValue">@string/custom_msg_validation_min_value</item>
+        <item name="afeErrorMultibyte">@string/custom_msg_validation_multibyte</item>
+        <item name="afeErrorPastDate">@string/custom_msg_validation_past_date</item>
+        <item name="afeErrorRegex">@string/custom_msg_validation_regex</item>
+        <item name="afeErrorRequired">@string/custom_msg_validation_required</item>
+        <item name="afeErrorRequiredSelection">@string/custom_msg_validation_required_selection</item>
+        <item name="afeErrorRequiredMultipleSelection">@string/custom_msg_validation_required_multiple_selection</item>
+        <item name="afeErrorSinglebyte">@string/custom_msg_validation_singlebyte</item>
+    </style>
+
 </resources>

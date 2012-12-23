@@ -63,11 +63,12 @@ public class EmailValidator extends Validator {
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    return getContext().getResources().getString(
+                    Object[] messageParams = new Object[] {
+                            name
+                    };
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorEmail,
                             R.string.afe__msg_validation_email,
-                            new Object[] {
-                                name
-                            });
+                            messageParams);
                 }
             }
         }

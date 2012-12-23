@@ -69,11 +69,12 @@ public class MinValueValidator extends Validator {
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    return getContext().getResources().getString(
+                    Object[] messageParams = new Object[] {
+                            name, minValue.value()
+                    };
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorMinValue,
                             R.string.afe__msg_validation_min_value,
-                            new Object[] {
-                                name, minValue.value()
-                            });
+                            messageParams);
                 }
             }
         }

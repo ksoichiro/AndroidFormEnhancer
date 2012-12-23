@@ -17,8 +17,8 @@
 <resources>
 
     <string name="afe__msg_validation_required">%1$sは必ず入力してください</string>
-    <string name="afe__msg_validation_require_selection">%1$sは必ず選択してください</string>
-    <string name="afe__msg_validation_require_multiple_selection">%1$sは少なくとも%2$d個選択してください</string>
+    <string name="afe__msg_validation_required_selection">%1$sは必ず選択してください</string>
+    <string name="afe__msg_validation_required_multiple_selection">%1$sは少なくとも%2$d個選択してください</string>
     <string name="afe__msg_validation_integer">%1$sは数字で入力してください</string>
     <string name="afe__msg_validation_digits">%1$sは半角数字で入力してください</string>
     <string name="afe__msg_validation_min_value">%1$sは%2$d以上で入力してください</string>

@@ -21,6 +21,7 @@
     <string name="title_activity_default_fragment">Default behavior with Dialog</string>
     <string name="title_activity_dont_stop">Show all errors</string>
     <string name="title_activity_resume_next">Stop at 1st error for each items</string>
+    <string name="title_activity_custom_messages">Custom messages</string>
     <string name="form_default_name">Name</string>
     <string name="form_default_age">Age</string>
     <string name="form_default_gender">Gender</string>
@@ -35,5 +36,20 @@
     <string name="form_checkbox_got_to_know_by_twitter">Twitter</string>
     <string name="form_checkbox_got_to_know_by_facebook">Facebook</string>
     <string name="btn_submit">Submit</string>
+    <string name="custom_msg_validation_required">[%1$s] is required.</string>
+    <string name="custom_msg_validation_required_selection">[%1$s] must be selected.</string>
+    <string name="custom_msg_validation_required_multiple_selection">[%1$s] must be selected at least [%2$d].</string>
+    <string name="custom_msg_validation_integer">[%1$s] must be an integer.</string>
+    <string name="custom_msg_validation_digits">[%1$s] must be digits.</string>
+    <string name="custom_msg_validation_min_value">[%1$s] must be more than or equal to [%2$d].</string>
+    <string name="custom_msg_validation_max_value">[%1$s] must be less than or equal to [%2$d].</string>
+    <string name="custom_msg_validation_int_range">[%1$s] is not in the range [%2$d] through [%3$d].</string>
+    <string name="custom_msg_validation_multibyte">[%1$s] must be multibyte characters.</string>
+    <string name="custom_msg_validation_singlebyte">[%1$s] must be singlebyte characters.</string>
+    <string name="custom_msg_validation_max_length">[%1$s] must be less than [%2$d] characters.</string>
+    <string name="custom_msg_validation_regex">[%1$s] is invalid.</string>
+    <string name="custom_msg_validation_email">[%1$s] is invalid e-mail address.</string>
+    <string name="custom_msg_validation_date">[%1$s] is invalid date.</string>
+    <string name="custom_msg_validation_past_date">[%1$s] must be past date.</string>
 
 </resources>

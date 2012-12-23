@@ -72,6 +72,16 @@
                 <category android:name="com.androidformenhancer.sample.demos" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CustomMessagesActivity"
+            android:label="@string/title_activity_custom_messages"
+            android:theme="@style/AppTheme.CustomMessages" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.androidformenhancer.sample.demos" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

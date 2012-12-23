@@ -21,6 +21,7 @@
     <string name="title_activity_default_fragment">標準の動作(Dialog使用)</string>
     <string name="title_activity_dont_stop">全てのエラーを表示</string>
     <string name="title_activity_resume_next">各項目で最初のエラーのみ表示</string>
+    <string name="title_activity_custom_messages">カスタムメッセージ</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_age">年齢</string>
     <string name="form_default_gender">性別</string>
@@ -35,5 +36,20 @@
     <string name="form_checkbox_got_to_know_by_twitter">ツイッター</string>
     <string name="form_checkbox_got_to_know_by_facebook">Facebook</string>
     <string name="btn_submit">送信</string>
+    <string name="custom_msg_validation_required">[%1$s]は必ず入力してください。</string>
+    <string name="custom_msg_validation_required_selection">[%1$s]は必ず選択してください。</string>
+    <string name="custom_msg_validation_required_multiple_selection">[%1$s]は少なくとも[%2$d]個選択してください。</string>
+    <string name="custom_msg_validation_integer">[%1$s]は数字で入力してください。</string>
+    <string name="custom_msg_validation_digits">[%1$s]は半角数字で入力してください。</string>
+    <string name="custom_msg_validation_min_value">[%1$s]は[%2$d]以上で入力してください。</string>
+    <string name="custom_msg_validation_max_value">[%1$s]は[%2$d]以下で入力してください。</string>
+    <string name="custom_msg_validation_int_range">[%1$s]は[%2$d]から[%3$d]の範囲で入力してください。</string>
+    <string name="custom_msg_validation_multibyte">[%1$s]は全角文字で入力してください。</string>
+    <string name="custom_msg_validation_singlebyte">[%1$s]は半角文字で入力してください。</string>
+    <string name="custom_msg_validation_max_length">[%1$s]は[%2$d]文字以下で入力してください。</string>
+    <string name="custom_msg_validation_regex">[%1$s]が無効な形式です。</string>
+    <string name="custom_msg_validation_email">[%1$s]が無効なメールアドレスです。</string>
+    <string name="custom_msg_validation_date">[%1$s]が無効な日付です。</string>
+    <string name="custom_msg_validation_past_date">[%1$s]は過去の日付で入力してください。</string>
 
 </resources>

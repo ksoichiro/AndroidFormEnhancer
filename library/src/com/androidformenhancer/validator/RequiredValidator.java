@@ -23,7 +23,6 @@ import com.androidformenhancer.form.annotation.Required;
 import com.androidformenhancer.form.annotation.Spinner;
 import com.androidformenhancer.form.annotation.When;
 
-import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -99,20 +98,18 @@ public class RequiredValidator extends Validator {
                         name = getContext().getResources().getString(nameResId);
                     }
                     // Select message according to the type of the field
-                    Resources res = getContext().getResources();
+                    Object[] messageParams = new Object[] {
+                            name
+                    };
                     if (field.getAnnotation(Radio.class) != null
                             || spinner != null) {
-                        return res.getString(
-                                R.string.afe__msg_validation_require_selection,
-                                new Object[] {
-                                    name
-                                });
+                        return getMessage(R.styleable.ValidatorMessages_afeErrorRequiredSelection,
+                                R.string.afe__msg_validation_required_selection,
+                                messageParams);
                     } else {
-                        return res.getString(
+                        return getMessage(R.styleable.ValidatorMessages_afeErrorRequired,
                                 R.string.afe__msg_validation_required,
-                                new Object[] {
-                                    name
-                                });
+                                messageParams);
                     }
                 }
             } else if (type.equals(List.class)) {
@@ -131,12 +128,13 @@ public class RequiredValidator extends Validator {
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    Resources res = getContext().getResources();
-                    return res.getString(
-                            R.string.afe__msg_validation_require_multiple_selection,
-                            new Object[] {
-                                    name, checkBoxGroup.atLeast()
-                            });
+                    Object[] messageParams = new Object[] {
+                            name, checkBoxGroup.atLeast()
+                    };
+                    return getMessage(
+                            R.styleable.ValidatorMessages_afeErrorRequiredMultipleSelection,
+                            R.string.afe__msg_validation_required_multiple_selection,
+                            messageParams);
                 }
             }
         }
