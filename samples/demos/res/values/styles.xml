@@ -70,6 +70,8 @@
         <item name="afeErrorMaxValue">@string/custom_msg_validation_max_value</item>
         <item name="afeErrorMinValue">@string/custom_msg_validation_min_value</item>
         <item name="afeErrorMultibyte">@string/custom_msg_validation_multibyte</item>
+        <item name="afeErrorHiragana">@string/custom_msg_validation_hiragana</item>
+        <item name="afeErrorKatakana">@string/custom_msg_validation_katakana</item>
         <item name="afeErrorPastDate">@string/custom_msg_validation_past_date</item>
         <item name="afeErrorRegex">@string/custom_msg_validation_regex</item>
         <item name="afeErrorRequired">@string/custom_msg_validation_required</item>

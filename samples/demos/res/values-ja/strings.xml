@@ -23,6 +23,8 @@
     <string name="title_activity_resume_next">各項目で最初のエラーのみ表示</string>
     <string name="title_activity_custom_messages">カスタムメッセージ</string>
     <string name="form_default_name">お名前</string>
+    <string name="form_default_hiragana">お名前(ひらがな)</string>
+    <string name="form_default_katakana">お名前(カタカナ)</string>
     <string name="form_default_age">年齢</string>
     <string name="form_default_gender">性別</string>
     <string name="form_radio_gender_male">男性</string>
@@ -45,6 +47,8 @@
     <string name="custom_msg_validation_max_value">[%1$s]は[%2$d]以下で入力してください。</string>
     <string name="custom_msg_validation_int_range">[%1$s]は[%2$d]から[%3$d]の範囲で入力してください。</string>
     <string name="custom_msg_validation_multibyte">[%1$s]は全角文字で入力してください。</string>
+    <string name="custom_msg_validation_hiragana">[%1$s]はひらがなで入力してください。</string>
+    <string name="custom_msg_validation_katakana">[%1$s]はカタカナで入力してください。</string>
     <string name="custom_msg_validation_singlebyte">[%1$s]は半角文字で入力してください。</string>
     <string name="custom_msg_validation_max_length">[%1$s]は[%2$d]文字以下で入力してください。</string>
     <string name="custom_msg_validation_regex">[%1$s]が無効な形式です。</string>

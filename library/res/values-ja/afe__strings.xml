@@ -31,6 +31,8 @@
     <string name="afe__msg_validation_email">%1$sが無効なメールアドレスです</string>
     <string name="afe__msg_validation_date">%1$sが無効な日付です</string>
     <string name="afe__msg_validation_past_date">%1$sは過去の日付で入力してください</string>
+    <string name="afe__msg_validation_hiragana">%1$sはひらがなで入力してください</string>
+    <string name="afe__msg_validation_katakana">%1$sはカタカナで入力してください</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
     <string name="afe__validator_number">com.androidformenhancer.validator.NumberValidator</string>
     <string name="afe__validator_digits">com.androidformenhancer.validator.DigitsValidator</string>
@@ -43,5 +45,7 @@
     <string name="afe__validator_email">com.androidformenhancer.validator.EmailValidator</string>
     <string name="afe__validator_date_pattern">com.androidformenhancer.validator.DatePatternValidator</string>
     <string name="afe__validator_past_date">com.androidformenhancer.validator.PastDateValidator</string>
+    <string name="afe__validator_hiragana">com.androidformenhancer.validator.HiraganaValidator</string>
+    <string name="afe__validator_katakana">com.androidformenhancer.validator.KatakanaValidator</string>
 
 </resources>

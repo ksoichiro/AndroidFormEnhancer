@@ -23,6 +23,8 @@
     <string name="title_activity_resume_next">Stop at 1st error for each items</string>
     <string name="title_activity_custom_messages">Custom messages</string>
     <string name="form_default_name">Name</string>
+    <string name="form_default_hiragana">Name(Hiragana)</string>
+    <string name="form_default_katakana">Name(Katakana)</string>
     <string name="form_default_age">Age</string>
     <string name="form_default_gender">Gender</string>
     <string name="form_radio_gender_male">Male</string>
@@ -45,6 +47,8 @@
     <string name="custom_msg_validation_max_value">[%1$s] must be less than or equal to [%2$d].</string>
     <string name="custom_msg_validation_int_range">[%1$s] is not in the range [%2$d] through [%3$d].</string>
     <string name="custom_msg_validation_multibyte">[%1$s] must be multibyte characters.</string>
+    <string name="custom_msg_validation_hiragana">[%1$s] must be hiragana characters.</string>
+    <string name="custom_msg_validation_katakana">[%1$s] must be katakana characters.</string>
     <string name="custom_msg_validation_singlebyte">[%1$s] must be singlebyte characters.</string>
     <string name="custom_msg_validation_max_length">[%1$s] must be less than [%2$d] characters.</string>
     <string name="custom_msg_validation_regex">[%1$s] is invalid.</string>

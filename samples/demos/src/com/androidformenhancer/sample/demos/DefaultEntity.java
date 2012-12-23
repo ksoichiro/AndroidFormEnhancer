@@ -25,6 +25,10 @@ public class DefaultEntity {
 
     public String name;
 
+    public String hiragana;
+
+    public String katakana;
+
     public int age;
 
     public int gender;
