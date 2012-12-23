@@ -17,7 +17,7 @@
 package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.form.annotation.Digits;
-import com.androidformenhancer.form.annotation.IntValue;
+import com.androidformenhancer.form.annotation.IntType;
 import com.androidformenhancer.form.annotation.MaxLength;
 import com.androidformenhancer.form.annotation.MaxValue;
 import com.androidformenhancer.form.annotation.MinValue;
@@ -44,7 +44,7 @@ public class DefaultForm {
     public String name;
 
     @Validated(nameResId = R.string.form_default_age)
-    @IntValue
+    @IntType
     @MinValue(20)
     @MaxValue(100)
     @Text(id = R.id.textfield_age)

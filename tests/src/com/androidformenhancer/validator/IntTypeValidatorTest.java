@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.IntValue;
+import com.androidformenhancer.form.annotation.IntType;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;
@@ -24,25 +24,25 @@ import android.util.Log;
 import java.lang.reflect.Field;
 
 /**
- * Test case for NumberValidator.<br>
+ * Test case for IntTypeValidator.<br>
  * Include AndroidFormEnhancer project as library and run as Android JUnit test.
  * 
  * @author Soichiro Kashima
  */
-public class NumberValidatorTest extends InstrumentationTestCase {
+public class IntTypeValidatorTest extends InstrumentationTestCase {
 
     /**
-     * Dummy class which has @IntValue field.
+     * Dummy class which has @IntType field.
      */
     public class Foo {
-        @IntValue
+        @IntType
         public String a;
     }
 
     public void testValidate() throws Exception {
         Foo foo = new Foo();
 
-        NumberValidator validator = new NumberValidator();
+        IntTypeValidator validator = new IntTypeValidator();
         validator.setContext(getInstrumentation().getContext());
         validator.setTarget(foo);
         Field field = Foo.class.getDeclaredField("a");

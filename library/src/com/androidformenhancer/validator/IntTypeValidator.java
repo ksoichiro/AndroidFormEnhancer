@@ -17,7 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.annotation.IntValue;
+import com.androidformenhancer.form.annotation.IntType;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,13 +25,13 @@ import android.util.Log;
 import java.lang.reflect.Field;
 
 /**
- * This validator provides the required field validation.
+ * This validator provides the integer field validation.
  * 
  * @author Soichiro Kashima
  */
-public class NumberValidator extends Validator {
+public class IntTypeValidator extends Validator {
 
-    private static final String TAG = "NumberValidator";
+    private static final String TAG = "IntTypeValidator";
 
     @Override
     public String validate(final Field field) {
@@ -44,7 +44,7 @@ public class NumberValidator extends Validator {
             return null;
         }
 
-        IntValue intValue = field.getAnnotation(IntValue.class);
+        IntType intValue = field.getAnnotation(IntType.class);
         if (intValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
