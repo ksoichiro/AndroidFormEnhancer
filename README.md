@@ -43,6 +43,87 @@ Usage
         }
 
 
+Validations
+===
+
+Following validation classes are available:
+
+1. DatePatternValidator
+1. DigitsValidator
+1. EmailValidator
+1. HiraganaValidator
+1. IntRangeValidator
+1. IntTypeValidator
+1. KatakanaValidator
+1. LengthValidator
+1. MaxLengthValidator
+1. MaxNumOfDigitsValidator
+1. MaxValueValidator
+1. MinValueValidator
+1. MultibyteValidator
+1. NumOfDigitsValidator
+1. PastDateValidator
+1. RegexValidator
+1. RequiredValidator
+1. SinglebyteValidator
+
+
+Customizations
+===
+
+You can customize the behaviours and messages like following:
+
+1. Stop policy
+
+    Stop policy controls the validators to continue or stop
+    when they detected errors.
+    For example, if you want to validate all the items and show all the errors,
+    you should define your theme like this:
+
+        <style name="YourTheme">
+            <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+        </style>
+
+        <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+            <item name="afeStopPolicy">continueAll</item>
+        </style>
+
+1. Available validations
+
+    You can enable or disable the standard validators.
+    You can also add your own validator.
+    For example, if you want to use only the RequiredValidator,
+    you should define your theme like this:
+
+        <string-array name="your_standard_validators">
+            <item>com.androidformenhancer.validator.RequiredValidator</item>
+        </string>
+
+        <style name="YourTheme">
+            <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+        </style>
+
+        <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+            <item name="afeStandardValidators">@array/your_standard_validators</item>
+        </style>
+
+1. Validation error messages
+
+    You can override validation error messages.
+    For example, if you want to override the error message for the RequiredValidator,
+    You should define your theme like this:
+
+        <string name="custom_msg_validation_required">You MUST fill in %1$s!</string>
+
+        <style name="YourTheme">
+            <item name="afeValidatorMessages">@style/YourValidatorMessages</item>
+        </style>
+
+        <style name="YourValidatorMessages">
+            <item name="afeErrorRequired">@string/custom_msg_validation_required</item>
+        </style>
+
+
 ProGuard
 ===
 
@@ -67,6 +148,12 @@ Samples
 ===
 
 * Sample applications using this library are included in the samples folder.
+
+
+Tests
+===
+
+* Test codes for JUnit test are included in the tests folder.
 
 
 Developed By

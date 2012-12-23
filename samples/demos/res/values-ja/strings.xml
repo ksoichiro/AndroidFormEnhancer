@@ -22,6 +22,7 @@
     <string name="title_activity_dont_stop">全てのエラーを表示</string>
     <string name="title_activity_resume_next">各項目で最初のエラーのみ表示</string>
     <string name="title_activity_custom_messages">カスタムメッセージ</string>
+    <string name="title_activity_custom_validator">カスタム検証クラス</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_hiragana">お名前(ひらがな)</string>
     <string name="form_default_katakana">お名前(カタカナ)</string>
@@ -37,6 +38,7 @@
     <string name="form_checkbox_got_to_know_by_internet">インターネット</string>
     <string name="form_checkbox_got_to_know_by_twitter">ツイッター</string>
     <string name="form_checkbox_got_to_know_by_facebook">Facebook</string>
+    <string name="form_sample_custom_sample">サンプル</string>
     <string name="btn_submit">送信</string>
     <string name="custom_msg_validation_required">[%1$s]は必ず入力してください。</string>
     <string name="custom_msg_validation_required_selection">[%1$s]は必ず選択してください。</string>
@@ -58,5 +60,6 @@
     <string name="custom_msg_validation_email">[%1$s]が無効なメールアドレスです。</string>
     <string name="custom_msg_validation_date">[%1$s]が無効な日付です。</string>
     <string name="custom_msg_validation_past_date">[%1$s]は過去の日付で入力してください。</string>
+    <string name="msg_validation_sample">%1$sには A を入力してください</string>
 
 </resources>

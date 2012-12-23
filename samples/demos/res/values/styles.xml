@@ -35,9 +35,7 @@
         <item name="afeValidatorDefinitions">@style/ValidatorDefinitions</item>
     </style>
 
-    <style name="ValidatorDefinitions" parent="@style/AfeDefaultValidators">
-        <!-- <item name="afeStopPolicy">continueAll</item> -->
-    </style>
+    <style name="ValidatorDefinitions" parent="@style/AfeDefaultValidators"></style>
 
     <style name="AppTheme.DontStop">
         <item name="afeValidatorDefinitions">@style/ValidatorDefinitions.DontStop</item>
@@ -81,6 +79,14 @@
         <item name="afeErrorRequiredSelection">@string/custom_msg_validation_required_selection</item>
         <item name="afeErrorRequiredMultipleSelection">@string/custom_msg_validation_required_multiple_selection</item>
         <item name="afeErrorSinglebyte">@string/custom_msg_validation_singlebyte</item>
+    </style>
+
+    <style name="AppTheme.CustomValidator">
+        <item name="afeValidatorDefinitions">@style/ValidatorDefinitions.CustomValidator</item>
+    </style>
+
+    <style name="ValidatorDefinitions.CustomValidator">
+        <item name="afeCustomValidators">@array/custom_validators</item>
     </style>
 
 </resources>

@@ -82,6 +82,16 @@
                 <category android:name="com.androidformenhancer.sample.demos" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.androidformenhancer.sample.demos.CustomValidatorActivity"
+            android:label="@string/title_activity_custom_validator"
+            android:theme="@style/AppTheme.CustomValidator" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.androidformenhancer.sample.demos" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

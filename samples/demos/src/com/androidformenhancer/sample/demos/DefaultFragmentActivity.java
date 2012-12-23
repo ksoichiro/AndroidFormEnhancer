@@ -28,6 +28,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -59,6 +60,7 @@ public class DefaultFragmentActivity extends FragmentActivity {
             // Create entity and do what you want
             // e.g. insert into database, send to server by HTTP
             DefaultEntity entity = helper.createEntityFromForm(DefaultEntity.class);
+            Toast.makeText(this, "OK!", Toast.LENGTH_SHORT).show();
         }
     }
 

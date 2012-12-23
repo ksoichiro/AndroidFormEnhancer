@@ -22,6 +22,7 @@
     <string name="title_activity_dont_stop">Show all errors</string>
     <string name="title_activity_resume_next">Stop at 1st error for each items</string>
     <string name="title_activity_custom_messages">Custom messages</string>
+    <string name="title_activity_custom_validator">Custom validator</string>
     <string name="form_default_name">Name</string>
     <string name="form_default_hiragana">Name(Hiragana)</string>
     <string name="form_default_katakana">Name(Katakana)</string>
@@ -37,6 +38,7 @@
     <string name="form_checkbox_got_to_know_by_internet">Internet</string>
     <string name="form_checkbox_got_to_know_by_twitter">Twitter</string>
     <string name="form_checkbox_got_to_know_by_facebook">Facebook</string>
+    <string name="form_sample_custom_sample">Sample</string>
     <string name="btn_submit">Submit</string>
     <string name="custom_msg_validation_required">[%1$s] is required.</string>
     <string name="custom_msg_validation_required_selection">[%1$s] must be selected.</string>
@@ -58,5 +60,6 @@
     <string name="custom_msg_validation_email">[%1$s] is invalid e-mail address.</string>
     <string name="custom_msg_validation_date">[%1$s] is invalid date.</string>
     <string name="custom_msg_validation_past_date">[%1$s] must be past date.</string>
+    <string name="msg_validation_sample">%1$s must be A.</string>
 
 </resources>

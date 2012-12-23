@@ -41,6 +41,85 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
         }
 
 
+検証クラス
+===
+
+以下の検証クラスが利用できます。
+
+1. DatePatternValidator
+1. DigitsValidator
+1. EmailValidator
+1. HiraganaValidator
+1. IntRangeValidator
+1. IntTypeValidator
+1. KatakanaValidator
+1. LengthValidator
+1. MaxLengthValidator
+1. MaxNumOfDigitsValidator
+1. MaxValueValidator
+1. MinValueValidator
+1. MultibyteValidator
+1. NumOfDigitsValidator
+1. PastDateValidator
+1. RegexValidator
+1. RequiredValidator
+1. SinglebyteValidator
+
+
+カスタマイズ
+===
+
+ライブラリの挙動やメッセージは、以下のようにカスタマイズすることができます。
+
+1. 停止ポリシー
+
+    検証クラスがエラーを検出したときに、そのまま続行するか停止するかを制御します。
+    例えば、エラーを検出しても全項目を検証し、全てのエラーを表示したい場合は
+    以下のようにテーマを定義します。
+
+        <style name="YourTheme">
+            <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+        </style>
+
+        <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+            <item name="afeStopPolicy">continueAll</item>
+        </style>
+
+1. 利用可能な検証クラス
+
+    標準で利用可能な検証クラスは、有効/無効を切り替えることができ、
+    独自の検証クラスを追加することもできます。
+    例えば、RequiredValidatorだけを有効にしたい場合は、以下のようにテーマを定義します。
+
+        <string-array name="your_standard_validators">
+            <item>com.androidformenhancer.validator.RequiredValidator</item>
+        </string>
+
+        <style name="YourTheme">
+            <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+        </style>
+
+        <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+            <item name="afeStandardValidators">@array/your_standard_validators</item>
+        </style>
+
+1. 検証エラーメッセージ
+
+    検証エラーメッセージは上書きすることができます。
+    例えば、RequiredValidatorのエラーメッセージを上書きしたい場合は
+    以下のようにテーマを定義します。
+
+        <string name="custom_msg_validation_required">%1$sは絶対に入力してください！</string>
+
+        <style name="YourTheme">
+            <item name="afeValidatorMessages">@style/YourValidatorMessages</item>
+        </style>
+
+        <style name="YourValidatorMessages">
+            <item name="afeErrorRequired">@string/custom_msg_validation_required</item>
+        </style>
+
+
 ProGuard
 ===
 
@@ -65,6 +144,12 @@ ProGuardを使用する場合は、以下のようにproguard-project.txtを編�
 ===
 
 * ライブラリを使用したサンプルアプリケーションは、samplesフォルダに含まれています。
+
+
+テスト
+===
+
+* JUnitテストコードはtestsフォルダに含まれています。
 
 
 開発者

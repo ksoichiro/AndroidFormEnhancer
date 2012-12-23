@@ -51,37 +51,58 @@ public final class ValidationManager {
 
     private void init() {
         mValidators.clear();
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(null, R.styleable.ValidatorDefinitions,
+        TypedArray a = mContext.getTheme().obtainStyledAttributes(null,
+                R.styleable.ValidatorDefinitions,
                 R.attr.afeValidatorDefinitions, 0);
 
         mStopPolicy = a.getInt(R.styleable.ValidatorDefinitions_afeStopPolicy,
                 STOP_POLICY_CONTINUE_ALL);
 
-        CharSequence[] standards = a
-                .getTextArray(R.styleable.ValidatorDefinitions_afeStandardValidators);
+        CharSequence[] standards =
+                a.getTextArray(R.styleable.ValidatorDefinitions_afeStandardValidators);
 
         if (standards == null) {
             // Use default standard validators if not specified with style.
             standards = mContext.getResources().getTextArray(R.array.afe__validators);
         }
 
-        for (CharSequence validatorClassName : standards) {
-            try {
-                Class<?> validatorClass = Class.forName(validatorClassName.toString());
-                Validator validator = (Validator) validatorClass.newInstance();
-                validator.setContext(mContext);
-                mValidators.add(validator);
-            } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+        if (standards != null) {
+            for (CharSequence validatorClassName : standards) {
+                try {
+                    Class<?> validatorClass = Class.forName(validatorClassName.toString());
+                    Validator validator = (Validator) validatorClass.newInstance();
+                    validator.setContext(mContext);
+                    mValidators.add(validator);
+                } catch (ClassNotFoundException e) {
+                    throw new ValidationException(e);
+                } catch (InstantiationException e) {
+                    throw new ValidationException(e);
+                } catch (IllegalAccessException e) {
+                    throw new ValidationException(e);
+                }
             }
         }
+
+        CharSequence[] customs =
+                a.getTextArray(R.styleable.ValidatorDefinitions_afeCustomValidators);
+
+        if (customs != null) {
+            for (CharSequence validatorClassName : customs) {
+                try {
+                    Class<?> validatorClass = Class.forName(validatorClassName.toString());
+                    Validator validator = (Validator) validatorClass.newInstance();
+                    validator.setContext(mContext);
+                    mValidators.add(validator);
+                } catch (ClassNotFoundException e) {
+                    throw new ValidationException(e);
+                } catch (InstantiationException e) {
+                    throw new ValidationException(e);
+                } catch (IllegalAccessException e) {
+                    throw new ValidationException(e);
+                }
+            }
+        }
+
         a.recycle();
     }
 

@@ -30,18 +30,18 @@ import java.util.ArrayList;
 /**
  * @author Soichiro Kashima
  */
-public class DefaultActivity extends Activity {
+public class CustomValidatorActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_default);
+        setContentView(R.layout.activity_custom_validator);
     }
 
     public void onSubmit(View v) {
-        FormHelper<DefaultForm> helper = new FormHelper<DefaultForm>();
+        FormHelper<SampleCustomForm> helper = new FormHelper<SampleCustomForm>();
 
-        DefaultForm form = helper.extractFormFromView(this, DefaultForm.class);
+        SampleCustomForm form = helper.extractFormFromView(this, SampleCustomForm.class);
 
         // Validation
         ValidationManager validationManager = new ValidationManager(this);
@@ -53,9 +53,6 @@ public class DefaultActivity extends Activity {
                     StringUtils.serialize(errorMessages),
                     Toast.LENGTH_SHORT).show();
         } else {
-            // Create entity and do what you want
-            // e.g. insert into database, send to server by HTTP
-            DefaultEntity entity = helper.createEntityFromForm(DefaultEntity.class);
             Toast.makeText(this, "OK!", Toast.LENGTH_SHORT).show();
         }
     }

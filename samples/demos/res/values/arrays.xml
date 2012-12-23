@@ -23,5 +23,8 @@
         <item>MasterCard</item>
         <item>AMEX</item>
     </string-array>
+    <string-array name="custom_validators">
+        <item>com.androidformenhancer.sample.demos.SampleValidator</item>
+    </string-array>
 
 </resources>
