@@ -22,6 +22,7 @@
     <string name="afe__msg_validation_digits">%1$sは半角数字で入力してください</string>
     <string name="afe__msg_validation_min_value">%1$sは%2$d以上で入力してください</string>
     <string name="afe__msg_validation_max_value">%1$sは%2$d以下で入力してください</string>
+    <string name="afe__msg_validation_int_range">%1$sは%2$dから%3$dの範囲で入力してください</string>
     <string name="afe__msg_validation_multibyte">%1$sは全角文字で入力してください</string>
     <string name="afe__msg_validation_singlebyte">%1$sは半角文字で入力してください</string>
     <string name="afe__msg_validation_max_length">%1$sは%2$d文字以下で入力してください</string>
