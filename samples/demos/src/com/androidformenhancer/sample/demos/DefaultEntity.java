@@ -31,6 +31,8 @@ public class DefaultEntity {
 
     public String phone;
 
+    public String birthday;
+
     public int creditCardCompany;
 
     public List<String> gotToKnowBy;

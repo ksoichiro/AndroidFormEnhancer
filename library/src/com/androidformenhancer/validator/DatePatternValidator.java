@@ -59,7 +59,7 @@ public class DatePatternValidator extends Validator {
                 DateFormat dateFormat = null;
 
                 if (TextUtils.isEmpty(datePatternValue.value())) {
-                    dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+                    dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
                 } else {
                     dateFormat = new SimpleDateFormat(datePatternValue.value(),
                             Locale.getDefault());

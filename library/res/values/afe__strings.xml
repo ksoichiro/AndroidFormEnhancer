@@ -30,6 +30,7 @@
     <string name="afe__msg_validation_regex">%1$s is invalid</string>
     <string name="afe__msg_validation_email">%1$s is invalid e-mail address</string>
     <string name="afe__msg_validation_date">%1$s is invalid date</string>
+    <string name="afe__msg_validation_past_date">%1$s must be past date</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
     <string name="afe__validator_int_type">com.androidformenhancer.validator.IntTypeValidator</string>
     <string name="afe__validator_digits">com.androidformenhancer.validator.DigitsValidator</string>
@@ -42,5 +43,6 @@
     <string name="afe__validator_regex">com.androidformenhancer.validator.RegexValidator</string>
     <string name="afe__validator_email">com.androidformenhancer.validator.EmailValidator</string>
     <string name="afe__validator_date_pattern">com.androidformenhancer.validator.DatePatternValidator</string>
+    <string name="afe__validator_past_date">com.androidformenhancer.validator.PastDateValidator</string>
 
 </resources>

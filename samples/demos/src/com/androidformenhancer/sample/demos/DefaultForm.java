@@ -18,6 +18,7 @@ package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.form.annotation.CheckBoxGroup;
 import com.androidformenhancer.form.annotation.CheckBoxValue;
+import com.androidformenhancer.form.annotation.DatePattern;
 import com.androidformenhancer.form.annotation.Digits;
 import com.androidformenhancer.form.annotation.IntType;
 import com.androidformenhancer.form.annotation.MaxLength;
@@ -25,6 +26,7 @@ import com.androidformenhancer.form.annotation.MaxValue;
 import com.androidformenhancer.form.annotation.MinValue;
 import com.androidformenhancer.form.annotation.Multibyte;
 import com.androidformenhancer.form.annotation.Order;
+import com.androidformenhancer.form.annotation.PastDate;
 import com.androidformenhancer.form.annotation.Radio;
 import com.androidformenhancer.form.annotation.RadioValue;
 import com.androidformenhancer.form.annotation.Required;
@@ -71,10 +73,18 @@ public class DefaultForm {
     @Order(4)
     public String phone;
 
+    @Validated(nameResId = R.string.form_default_birthday)
+    @Required
+    @DatePattern
+    @PastDate
+    @Text(id = R.id.textfield_birthday)
+    @Order(5)
+    public String birthday;
+
     @Validated(nameResId = R.string.form_default_credit_card_company)
     @Required
     @Spinner(id = R.id.spn_credit_card_company, headIsDummy = true)
-    @Order(5)
+    @Order(6)
     public String creditCardCompany;
 
     @Validated(nameResId = R.string.form_default_got_to_know_by)
@@ -87,6 +97,6 @@ public class DefaultForm {
                     @CheckBoxValue(id = R.id.cb_got_to_know_by_twitter, value = "TW"),
                     @CheckBoxValue(id = R.id.cb_got_to_know_by_facebook, value = "FB"),
             })
-    @Order(6)
+    @Order(7)
     public List<String> gotToKnowBy;
 }
