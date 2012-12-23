@@ -17,6 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
+import com.androidformenhancer.form.annotation.CheckBoxGroup;
 import com.androidformenhancer.form.annotation.Radio;
 import com.androidformenhancer.form.annotation.Required;
 import com.androidformenhancer.form.annotation.Spinner;
@@ -27,6 +28,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * This validator provides the required field validation.
@@ -112,6 +114,29 @@ public class RequiredValidator extends Validator {
                                     name
                                 });
                     }
+                }
+            } else if (type.equals(List.class)) {
+                @SuppressWarnings("unchecked")
+                final List<String> list = (List<String>) value;
+                CheckBoxGroup checkBoxGroup = (CheckBoxGroup) field
+                        .getAnnotation(CheckBoxGroup.class);
+                if (checkBoxGroup != null
+                        && (list == null || list.size() < checkBoxGroup.atLeast())) {
+                    String name = field.getName();
+                    int nameResId = getNameResourceId(field);
+                    if (nameResId > 0) {
+                        name = getContext().getResources().getString(nameResId);
+                    }
+                    nameResId = required.nameResId();
+                    if (nameResId > 0) {
+                        name = getContext().getResources().getString(nameResId);
+                    }
+                    Resources res = getContext().getResources();
+                    return res.getString(
+                            R.string.afe__msg_validation_require_multiple_selection,
+                            new Object[] {
+                                    name, checkBoxGroup.atLeast()
+                            });
                 }
             }
         }

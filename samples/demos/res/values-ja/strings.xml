@@ -28,6 +28,11 @@
     <string name="form_radio_gender_female">女性</string>
     <string name="form_default_phone">電話番号</string>
     <string name="form_default_credit_card_company">クレジットカード会社</string>
+    <string name="form_default_got_to_know_by">どこで知りましたか？</string>
+    <string name="form_checkbox_got_to_know_by_tv">TV</string>
+    <string name="form_checkbox_got_to_know_by_internet">インターネット</string>
+    <string name="form_checkbox_got_to_know_by_twitter">ツイッター</string>
+    <string name="form_checkbox_got_to_know_by_facebook">Facebook</string>
     <string name="btn_submit">送信</string>
 
 </resources>

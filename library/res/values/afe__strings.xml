@@ -18,6 +18,7 @@
 
     <string name="afe__msg_validation_required">%1$s is required</string>
     <string name="afe__msg_validation_require_selection">%1$s must be selected</string>
+    <string name="afe__msg_validation_require_multiple_selection">%1$s must be selected at least %2$d</string>
     <string name="afe__msg_validation_integer">%1$s must be an integer</string>
     <string name="afe__msg_validation_digits">%1$s must be digits</string>
     <string name="afe__msg_validation_min_value">%1$s must be more than or equal to %2$d</string>

@@ -16,6 +16,8 @@
 
 package com.androidformenhancer.sample.demos;
 
+import java.util.List;
+
 /**
  * @author Soichiro Kashima
  */
@@ -31,4 +33,5 @@ public class DefaultEntity {
 
     public int creditCardCompany;
 
+    public List<String> gotToKnowBy;
 }

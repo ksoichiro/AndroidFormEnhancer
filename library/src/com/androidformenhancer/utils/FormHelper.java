@@ -16,6 +16,8 @@
 
 package com.androidformenhancer.utils;
 
+import com.androidformenhancer.form.annotation.CheckBoxGroup;
+import com.androidformenhancer.form.annotation.CheckBoxValue;
 import com.androidformenhancer.form.annotation.Radio;
 import com.androidformenhancer.form.annotation.RadioValue;
 import com.androidformenhancer.form.annotation.Spinner;
@@ -26,10 +28,14 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility about the form operations.
@@ -94,6 +100,23 @@ public class FormHelper<T> {
                     continue;
                 }
 
+                // Multiple check boxes type
+                CheckBoxGroup checkBoxGroup = (CheckBoxGroup) field
+                        .getAnnotation(CheckBoxGroup.class);
+                if (checkBoxGroup != null) {
+                    int groupId = checkBoxGroup.groupId();
+                    ViewGroup group = (ViewGroup) rootView.findViewById(groupId);
+                    List<String> checkedValues = new ArrayList<String>();
+                    for (CheckBoxValue checkBoxValue : checkBoxGroup.values()) {
+                        CheckBox cb = (CheckBox) group.findViewById(checkBoxValue.id());
+                        if (cb != null && cb.isChecked()) {
+                            checkedValues.add(checkBoxValue.value());
+                        }
+                    }
+                    field.set(mForm, checkedValues);
+                    continue;
+                }
+
                 // Spinner type
                 Spinner spinner = (Spinner) field.getAnnotation(Spinner.class);
                 if (spinner != null) {
@@ -131,27 +154,37 @@ public class FormHelper<T> {
                 String name = srcField.getName();
                 Field dstField = clazz.getField(name);
                 Class<?> dstType = dstField.getType();
-                String valueString = (String) value;
-                if (dstType.equals(String.class)) {
-                    dstField.set(dst, valueString);
-                } else if (dstType.equals(int.class)) {
-                    dstField.setInt(dst, Integer.parseInt(valueString));
-                } else if (dstType.equals(float.class)) {
-                    dstField.setFloat(dst, Float.parseFloat(valueString));
-                } else if (dstType.equals(double.class)) {
-                    dstField.setDouble(dst, Double.parseDouble(valueString));
-                } else if (dstType.equals(boolean.class)) {
-                    dstField.setBoolean(dst, Boolean.parseBoolean(valueString));
-                } else if (dstType.equals(long.class)) {
-                    dstField.setLong(dst, Long.parseLong(valueString));
-                } else if (dstType.equals(short.class)) {
-                    dstField.setShort(dst, Short.parseShort(valueString));
-                } else if (dstType.equals(char.class)) {
-                    dstField.setChar(dst, valueString.charAt(0));
+                if (dstType.equals(List.class)) {
+                    @SuppressWarnings("unchecked")
+                    List<String> srcList = (List<String>) value;
+                    List<String> dstList = new ArrayList<String>();
+                    for (String srcValue : srcList) {
+                        dstList.add(srcValue);
+                    }
+                    dstField.set(dst, dstList);
                 } else {
-                    throw new IllegalArgumentException(
-                            "Entity field types must be primitive types or String: "
-                                    + dstType.getCanonicalName());
+                    String valueString = (String) value;
+                    if (dstType.equals(String.class)) {
+                        dstField.set(dst, valueString);
+                    } else if (dstType.equals(int.class)) {
+                        dstField.setInt(dst, Integer.parseInt(valueString));
+                    } else if (dstType.equals(float.class)) {
+                        dstField.setFloat(dst, Float.parseFloat(valueString));
+                    } else if (dstType.equals(double.class)) {
+                        dstField.setDouble(dst, Double.parseDouble(valueString));
+                    } else if (dstType.equals(boolean.class)) {
+                        dstField.setBoolean(dst, Boolean.parseBoolean(valueString));
+                    } else if (dstType.equals(long.class)) {
+                        dstField.setLong(dst, Long.parseLong(valueString));
+                    } else if (dstType.equals(short.class)) {
+                        dstField.setShort(dst, Short.parseShort(valueString));
+                    } else if (dstType.equals(char.class)) {
+                        dstField.setChar(dst, valueString.charAt(0));
+                    } else {
+                        throw new IllegalArgumentException(
+                                "Entity field types must be primitive types or String or List<String>: "
+                                        + dstType.getCanonicalName());
+                    }
                 }
             }
             return dst;
@@ -164,15 +197,18 @@ public class FormHelper<T> {
     private void ensureFormFieldsTypes(Class<T> clazz) {
         final Field[] fields = clazz.getFields();
         for (Field field : fields) {
-            // Ensure the field types in form class are all String.
+            // Ensure the field types in form class are all String or
+            // List<String>.
             Class<?> type = field.getType();
-            if (!type.equals(String.class)) {
+            if (!type.equals(String.class) && !type.equals(List.class)) {
                 throw new IllegalArgumentException(""
-                        + "All the form instance fields must be String. "
-                        + "If you want to use types other than String, "
+                        + "All the form instance fields must be String or List<String>. "
+                        + "If you want to use types other than String and List<String>, "
                         + "create an 'entity class' and use FormHelper#createEntityFromForm() "
                         + "after calling this method. Field name: "
-                        + field.getName());
+                        + field.getName()
+                        + " Field type: "
+                        + type);
             }
         }
     }

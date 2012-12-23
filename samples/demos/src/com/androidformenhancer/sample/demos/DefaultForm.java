@@ -16,6 +16,8 @@
 
 package com.androidformenhancer.sample.demos;
 
+import com.androidformenhancer.form.annotation.CheckBoxGroup;
+import com.androidformenhancer.form.annotation.CheckBoxValue;
 import com.androidformenhancer.form.annotation.Digits;
 import com.androidformenhancer.form.annotation.IntType;
 import com.androidformenhancer.form.annotation.MaxLength;
@@ -29,6 +31,8 @@ import com.androidformenhancer.form.annotation.Required;
 import com.androidformenhancer.form.annotation.Spinner;
 import com.androidformenhancer.form.annotation.Text;
 import com.androidformenhancer.form.annotation.Validated;
+
+import java.util.List;
 
 /**
  * @author Soichiro Kashima
@@ -73,4 +77,16 @@ public class DefaultForm {
     @Order(5)
     public String creditCardCompany;
 
+    @Validated(nameResId = R.string.form_default_got_to_know_by)
+    @Required
+    @CheckBoxGroup(groupId = R.id.cbg_got_to_know_by,
+            atLeast = 2,
+            values = {
+                    @CheckBoxValue(id = R.id.cb_got_to_know_by_tv, value = "TV"),
+                    @CheckBoxValue(id = R.id.cb_got_to_know_by_internet, value = "IN"),
+                    @CheckBoxValue(id = R.id.cb_got_to_know_by_twitter, value = "TW"),
+                    @CheckBoxValue(id = R.id.cb_got_to_know_by_facebook, value = "FB"),
+            })
+    @Order(6)
+    public List<String> gotToKnowBy;
 }
