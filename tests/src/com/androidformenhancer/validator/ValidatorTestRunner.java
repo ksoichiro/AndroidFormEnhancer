@@ -16,8 +16,12 @@
 
 package com.androidformenhancer.validator;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.test.InstrumentationTestRunner;
 import android.test.InstrumentationTestSuite;
+
+import java.util.Locale;
 
 import junit.framework.TestSuite;
 
@@ -28,6 +32,19 @@ public class ValidatorTestRunner extends InstrumentationTestRunner {
 
     @Override
     public TestSuite getAllTests() {
+        updateLocale(Locale.US);
+        return getTargetTestSuite();
+    }
+
+    protected void updateLocale(Locale locale) {
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        Resources resources = getContext().getResources();
+        resources.updateConfiguration(config, null);
+    }
+
+    protected InstrumentationTestSuite getTargetTestSuite() {
         final InstrumentationTestSuite testSuite = new InstrumentationTestSuite(this);
 
         testSuite.addTestSuite(DigitsValidatorTest.class);
