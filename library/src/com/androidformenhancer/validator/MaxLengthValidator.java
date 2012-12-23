@@ -32,7 +32,7 @@ import java.lang.reflect.Field;
  */
 public class MaxLengthValidator extends Validator {
 
-    private static final String TAG = "MaxValueValidator";
+    private static final String TAG = "MaxLengthValidator";
 
     @Override
     public String validate(final Field field) {

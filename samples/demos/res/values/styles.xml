@@ -66,6 +66,7 @@
         <item name="afeErrorEmail">@string/custom_msg_validation_email</item>
         <item name="afeErrorIntRange">@string/custom_msg_validation_int_range</item>
         <item name="afeErrorIntType">@string/custom_msg_validation_int_type</item>
+        <item name="afeErrorLength">@string/custom_msg_validation_length</item>
         <item name="afeErrorMaxLength">@string/custom_msg_validation_max_length</item>
         <item name="afeErrorMaxValue">@string/custom_msg_validation_max_value</item>
         <item name="afeErrorMinValue">@string/custom_msg_validation_min_value</item>

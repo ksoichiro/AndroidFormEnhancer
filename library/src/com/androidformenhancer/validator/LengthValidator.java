@@ -17,7 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.annotation.Katakana;
+import com.androidformenhancer.form.annotation.Length;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,15 +25,13 @@ import android.util.Log;
 import java.lang.reflect.Field;
 
 /**
- * Validates that the value of the field consists of Japanese katakana
- * characters or not.
+ * Validates that the length of the value of the field.
  * 
  * @author Soichiro Kashima
  */
-public class KatakanaValidator extends Validator {
+public class LengthValidator extends Validator {
 
-    private static final String TAG = "KatakanaValidator";
-    private static final String REGEX = "^[アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンャュョッァィゥェォヵヶガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヴー、。]+$";
+    private static final String TAG = "LengthValidator";
 
     @Override
     public String validate(final Field field) {
@@ -46,29 +44,29 @@ public class KatakanaValidator extends Validator {
             return null;
         }
 
-        Katakana katakana = field.getAnnotation(Katakana.class);
-        if (katakana != null) {
+        Length lengthValue = field.getAnnotation(Length.class);
+        if (lengthValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
                 final String strValue = (String) value;
                 if (TextUtils.isEmpty(strValue)) {
                     return null;
                 }
-                if (!strValue.matches(REGEX)) {
+                if (lengthValue.value() != strValue.length()) {
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
-                    nameResId = katakana.nameResId();
+                    nameResId = lengthValue.nameResId();
                     if (nameResId > 0) {
                         name = getContext().getResources().getString(nameResId);
                     }
                     Object[] messageParams = new Object[] {
-                            name
+                            name, lengthValue.value()
                     };
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorKatakana,
-                            R.string.afe__msg_validation_katakana,
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorLength,
+                            R.string.afe__msg_validation_length,
                             messageParams);
                 }
             }

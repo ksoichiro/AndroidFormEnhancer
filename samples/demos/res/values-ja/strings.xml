@@ -50,6 +50,7 @@
     <string name="custom_msg_validation_hiragana">[%1$s]はひらがなで入力してください。</string>
     <string name="custom_msg_validation_katakana">[%1$s]はカタカナで入力してください。</string>
     <string name="custom_msg_validation_singlebyte">[%1$s]は半角文字で入力してください。</string>
+    <string name="custom_msg_validation_length">[%1$s]は[%2$d]文字で入力してください。</string>
     <string name="custom_msg_validation_max_length">[%1$s]は[%2$d]文字以下で入力してください。</string>
     <string name="custom_msg_validation_regex">[%1$s]が無効な形式です。</string>
     <string name="custom_msg_validation_email">[%1$s]が無効なメールアドレスです。</string>

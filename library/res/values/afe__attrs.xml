@@ -39,6 +39,7 @@
     <attr name="afeErrorEmail" format="reference" />
     <attr name="afeErrorIntRange" format="reference" />
     <attr name="afeErrorIntType" format="reference" />
+    <attr name="afeErrorLength" format="reference" />
     <attr name="afeErrorMaxLength" format="reference" />
     <attr name="afeErrorMaxValue" format="reference" />
     <attr name="afeErrorMinValue" format="reference" />
@@ -58,6 +59,7 @@
         <attr name="afeErrorEmail" />
         <attr name="afeErrorIntRange" />
         <attr name="afeErrorIntType" />
+        <attr name="afeErrorLength" />
         <attr name="afeErrorMaxLength" />
         <attr name="afeErrorMaxValue" />
         <attr name="afeErrorMinValue" />
