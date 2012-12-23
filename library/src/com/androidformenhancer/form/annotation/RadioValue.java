@@ -26,7 +26,6 @@ import java.lang.annotation.Target;
  * 
  * @see {@link Radio}
  * @author Soichiro Kashima
- * @since 2011/05/05
  */
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)

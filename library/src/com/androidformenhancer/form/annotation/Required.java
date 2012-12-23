@@ -25,7 +25,6 @@ import java.lang.annotation.Target;
  * This is the annotation representing the required field.
  * 
  * @author Soichiro Kashima
- * @since 2011/05/03
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

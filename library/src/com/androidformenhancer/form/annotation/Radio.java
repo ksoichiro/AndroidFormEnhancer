@@ -26,7 +26,6 @@ import java.lang.annotation.Target;
  * This is the annotation representing the radio button group.
  * 
  * @author Soichiro Kashima
- * @since 2011/05/05
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

@@ -26,7 +26,6 @@ import java.lang.annotation.Target;
  * applied.
  * 
  * @author Soichiro Kashima
- * @since 2011/05/03
  */
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
