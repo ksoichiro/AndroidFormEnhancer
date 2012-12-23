@@ -4,6 +4,7 @@ package com.androidformenhancer.sample.demos;
 import com.androidformenhancer.form.annotation.Digits;
 import com.androidformenhancer.form.annotation.IntValue;
 import com.androidformenhancer.form.annotation.MaxValue;
+import com.androidformenhancer.form.annotation.MinValue;
 import com.androidformenhancer.form.annotation.Order;
 import com.androidformenhancer.form.annotation.Radio;
 import com.androidformenhancer.form.annotation.RadioValue;
@@ -22,6 +23,7 @@ public class DefaultForm {
 
     @Validated(nameResId = R.string.form_default_age)
     @IntValue
+    @MinValue(value = 20)
     @MaxValue(value = 100)
     @Text(id = R.id.textfield_age)
     @Order(2)

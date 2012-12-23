@@ -5,6 +5,7 @@
         <item>@string/afe__validator_required</item>
         <item>@string/afe__validator_digits</item>
         <item>@string/afe__validator_number</item>
+        <item>@string/afe__validator_min_value</item>
         <item>@string/afe__validator_max_value</item>
     </string-array>
 
