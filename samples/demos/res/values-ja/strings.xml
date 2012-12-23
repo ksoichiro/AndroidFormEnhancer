@@ -39,7 +39,7 @@
     <string name="custom_msg_validation_required">[%1$s]は必ず入力してください。</string>
     <string name="custom_msg_validation_required_selection">[%1$s]は必ず選択してください。</string>
     <string name="custom_msg_validation_required_multiple_selection">[%1$s]は少なくとも[%2$d]個選択してください。</string>
-    <string name="custom_msg_validation_integer">[%1$s]は数字で入力してください。</string>
+    <string name="custom_msg_validation_int_type">[%1$s]は数字で入力してください。</string>
     <string name="custom_msg_validation_digits">[%1$s]は半角数字で入力してください。</string>
     <string name="custom_msg_validation_min_value">[%1$s]は[%2$d]以上で入力してください。</string>
     <string name="custom_msg_validation_max_value">[%1$s]は[%2$d]以下で入力してください。</string>

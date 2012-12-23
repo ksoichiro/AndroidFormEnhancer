@@ -68,7 +68,7 @@ public class IntTypeValidator extends Validator {
                             name
                     };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorIntType,
-                            R.string.afe__msg_validation_integer,
+                            R.string.afe__msg_validation_int_type,
                             messageParams);
                 }
             }
