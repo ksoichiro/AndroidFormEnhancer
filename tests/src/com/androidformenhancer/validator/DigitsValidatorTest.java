@@ -17,9 +17,8 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.form.annotation.Digits;
-import com.androidformenhancer.test.DummyActivity;
 
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -30,15 +29,7 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class DigitsValidatorTest extends ActivityInstrumentationTestCase2<DummyActivity> {
-
-    public DigitsValidatorTest() {
-        super(DummyActivity.class);
-    }
-
-    public DigitsValidatorTest(Class<DummyActivity> activityClass) {
-        super(activityClass);
-    }
+public class DigitsValidatorTest extends InstrumentationTestCase {
 
     /**
      * Dummy class which has @Digits field.
@@ -52,7 +43,7 @@ public class DigitsValidatorTest extends ActivityInstrumentationTestCase2<DummyA
         Foo foo = new Foo();
 
         DigitsValidator validator = new DigitsValidator();
-        validator.setContext(getActivity());
+        validator.setContext(getInstrumentation().getContext());
         validator.setTarget(foo);
         Field field = Foo.class.getDeclaredField("a");
 
@@ -97,5 +88,15 @@ public class DigitsValidatorTest extends ActivityInstrumentationTestCase2<DummyA
         errorMessage = validator.validate(field);
         Log.i("TEST", "testValidate: " + errorMessage);
         assertNull(errorMessage);
+
+        foo.a = " ";
+        errorMessage = validator.validate(field);
+        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
+        assertNotNull(errorMessage);
+
+        foo.a = "　";
+        errorMessage = validator.validate(field);
+        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
+        assertNotNull(errorMessage);
     }
 }

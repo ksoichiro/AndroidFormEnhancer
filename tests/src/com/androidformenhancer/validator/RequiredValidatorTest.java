@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.IntValue;
+import com.androidformenhancer.form.annotation.Required;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;
@@ -24,25 +24,25 @@ import android.util.Log;
 import java.lang.reflect.Field;
 
 /**
- * Test case for NumberValidator.<br>
+ * Test case for RequiredValidator.<br>
  * Include AndroidFormEnhancer project as library and run as Android JUnit test.
  * 
  * @author Soichiro Kashima
  */
-public class NumberValidatorTest extends InstrumentationTestCase {
+public class RequiredValidatorTest extends InstrumentationTestCase {
 
     /**
-     * Dummy class which has @IntValue field.
+     * Dummy class which has @Required field.
      */
     public class Foo {
-        @IntValue
+        @Required
         public String a;
     }
 
     public void testValidate() throws Exception {
         Foo foo = new Foo();
 
-        NumberValidator validator = new NumberValidator();
+        RequiredValidator validator = new RequiredValidator();
         validator.setContext(getInstrumentation().getContext());
         validator.setTarget(foo);
         Field field = Foo.class.getDeclaredField("a");
@@ -51,72 +51,20 @@ public class NumberValidatorTest extends InstrumentationTestCase {
         foo.a = null;
         String errorMessage = validator.validate(field);
         Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        assertNotNull(errorMessage);
 
         // Empty
         foo.a = "";
         errorMessage = validator.validate(field);
         Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        assertNotNull(errorMessage);
 
         foo.a = " ";
         errorMessage = validator.validate(field);
         Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        assertNull(errorMessage);
 
         foo.a = "　";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
-
-        foo.a = "0";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
-
-        foo.a = "1";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
-
-        foo.a = "100";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
-
-        foo.a = "-1";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
-
-        foo.a = "1,000";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
-
-        foo.a = "1.0";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
-
-        foo.a = Integer.toString(Integer.MAX_VALUE);
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
-
-        // Invalid validation because of overflow
-        foo.a = Long.toString(Integer.MAX_VALUE + 1);
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
-
-        foo.a = Integer.toString(Integer.MIN_VALUE);
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
-
-        // Invalid validation because of overflow
-        foo.a = Long.toString(Integer.MIN_VALUE - 1);
         errorMessage = validator.validate(field);
         Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
         assertNull(errorMessage);
@@ -124,12 +72,17 @@ public class NumberValidatorTest extends InstrumentationTestCase {
         foo.a = "a";
         errorMessage = validator.validate(field);
         Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        assertNull(errorMessage);
+
+        foo.a = "　";
+        errorMessage = validator.validate(field);
+        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
+        assertNull(errorMessage);
 
         foo.a = "あ";
         errorMessage = validator.validate(field);
         Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        assertNull(errorMessage);
     }
 
 }

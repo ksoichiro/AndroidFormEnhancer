@@ -17,9 +17,8 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.form.annotation.MaxLength;
-import com.androidformenhancer.test.DummyActivity;
 
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -30,15 +29,7 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class MaxLengthValidatorTest extends ActivityInstrumentationTestCase2<DummyActivity> {
-
-    public MaxLengthValidatorTest() {
-        super(DummyActivity.class);
-    }
-
-    public MaxLengthValidatorTest(Class<DummyActivity> activityClass) {
-        super(activityClass);
-    }
+public class MaxLengthValidatorTest extends InstrumentationTestCase {
 
     /**
      * Dummy class which has @MaxLength field.
@@ -52,7 +43,7 @@ public class MaxLengthValidatorTest extends ActivityInstrumentationTestCase2<Dum
         Foo foo = new Foo();
 
         MaxLengthValidator validator = new MaxLengthValidator();
-        validator.setContext(getActivity());
+        validator.setContext(getInstrumentation().getContext());
         validator.setTarget(foo);
         Field field = Foo.class.getDeclaredField("a");
 
@@ -67,6 +58,16 @@ public class MaxLengthValidatorTest extends ActivityInstrumentationTestCase2<Dum
         errorMessage = validator.validate(field);
         Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
         assertNull(errorMessage);
+
+        foo.a = "      ";
+        errorMessage = validator.validate(field);
+        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
+        assertNotNull(errorMessage);
+
+        foo.a = "　　　　　　";
+        errorMessage = validator.validate(field);
+        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
+        assertNotNull(errorMessage);
 
         // 1 character with ASCII
         foo.a = "a";
