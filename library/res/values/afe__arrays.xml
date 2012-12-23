@@ -23,6 +23,7 @@
         <item>@string/afe__validator_min_value</item>
         <item>@string/afe__validator_max_value</item>
         <item>@string/afe__validator_multibyte</item>
+        <item>@string/afe__validator_singlebyte</item>
         <item>@string/afe__validator_max_length</item>
     </string-array>
 

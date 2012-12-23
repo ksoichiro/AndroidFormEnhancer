@@ -23,6 +23,7 @@
     <string name="afe__msg_validation_min_value">%1$sは%2$d以上で入力してください</string>
     <string name="afe__msg_validation_max_value">%1$sは%2$d以下で入力してください</string>
     <string name="afe__msg_validation_multibyte">%1$sは全角文字で入力してください</string>
+    <string name="afe__msg_validation_singlebyte">%1$sは半角文字で入力してください</string>
     <string name="afe__msg_validation_max_length">%1$sは%2$d文字以下で入力してください</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
     <string name="afe__validator_number">com.androidformenhancer.validator.NumberValidator</string>
@@ -30,6 +31,7 @@
     <string name="afe__validator_min_value">com.androidformenhancer.validator.MinValueValidator</string>
     <string name="afe__validator_max_value">com.androidformenhancer.validator.MaxValueValidator</string>
     <string name="afe__validator_multibyte">com.androidformenhancer.validator.MultibyteValidator</string>
+    <string name="afe__validator_singlebyte">com.androidformenhancer.validator.SinglebyteValidator</string>
     <string name="afe__validator_max_length">com.androidformenhancer.validator.MaxLengthValidator</string>
 
 </resources>
