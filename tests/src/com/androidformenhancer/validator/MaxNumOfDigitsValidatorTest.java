@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.MaxNumOfDigits;
+import com.androidformenhancer.annotation.MaxNumOfDigits;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;

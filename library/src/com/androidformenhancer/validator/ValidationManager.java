@@ -17,7 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.FieldOrderComparator;
+import com.androidformenhancer.internal.FieldOrderComparator;
 
 import android.content.Context;
 import android.content.res.TypedArray;

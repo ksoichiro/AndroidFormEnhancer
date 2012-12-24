@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.Email;
+import com.androidformenhancer.annotation.Email;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;

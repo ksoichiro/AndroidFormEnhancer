@@ -17,7 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.annotation.MaxValue;
+import com.androidformenhancer.annotation.MaxValue;
 
 import android.text.TextUtils;
 import android.util.Log;

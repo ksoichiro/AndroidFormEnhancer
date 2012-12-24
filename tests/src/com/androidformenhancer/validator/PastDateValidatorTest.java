@@ -16,8 +16,8 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.DatePattern;
-import com.androidformenhancer.form.annotation.PastDate;
+import com.androidformenhancer.annotation.DatePattern;
+import com.androidformenhancer.annotation.PastDate;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;

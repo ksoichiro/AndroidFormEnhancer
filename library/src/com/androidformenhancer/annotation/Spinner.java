@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form.annotation;
+package com.androidformenhancer.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

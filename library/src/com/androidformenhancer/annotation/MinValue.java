@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form.annotation;
+package com.androidformenhancer.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,13 +22,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents the value of the field must match the regular expression.
+ * This is the annotation which represents the minimum value.
  * 
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Regex {
+public @interface MinValue {
     /**
      * Resource ID of the field name for the error message.<br>
      * This is set to {@code 0}(invalid) as default, and the field name will be
@@ -36,6 +36,6 @@ public @interface Regex {
      */
     int nameResId() default 0;
 
-    /** Regular expression for the field. */
-    String value();
+    /** Minimum value of the field. */
+    int value();
 }

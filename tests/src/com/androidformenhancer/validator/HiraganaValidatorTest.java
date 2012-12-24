@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.Hiragana;
+import com.androidformenhancer.annotation.Hiragana;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;

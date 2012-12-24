@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form.annotation;
+package com.androidformenhancer.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,20 +22,25 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents the value of the field must match the date format.
+ * This is the annotation representing the condition when the validation is
+ * applied.
  * 
  * @author Soichiro Kashima
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DatePattern {
-    /**
-     * Resource ID of the field name for the error message.<br>
-     * This is set to {@code 0}(invalid) as default, and the field name will be
-     * used in the error messages.
-     */
-    int nameResId() default 0;
+public @interface When {
+    /** Name of the condition field. */
+    String name();
 
-    /** Date format of the field. */
-    String value() default "";
+    /**
+     * If true, validates the value when the value is not null and the length is
+     * not 0.
+     */
+    boolean isNotEmpty() default false;
+
+    /**
+     * Validates the value when the value equals to a certain value.
+     */
+    String equalsTo() default "";
 }

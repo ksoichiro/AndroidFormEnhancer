@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.MinValue;
+import com.androidformenhancer.annotation.MinValue;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;

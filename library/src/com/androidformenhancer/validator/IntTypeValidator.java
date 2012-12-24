@@ -17,7 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.annotation.IntType;
+import com.androidformenhancer.annotation.IntType;
 
 import android.text.TextUtils;
 import android.util.Log;

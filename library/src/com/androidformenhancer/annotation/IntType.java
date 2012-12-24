@@ -1,5 +1,4 @@
 /*
-/*
  * Copyright 2012 Soichiro Kashima
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form.annotation;
+package com.androidformenhancer.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,20 +22,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents the check box group.<br>
- * Any kind of the ViewGroups can be check box group.
+ * This is the annotation which represents the integer value.
  * 
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CheckBoxGroup {
-    /** Resource ID of the check box group. */
-    int groupId();
+public @interface IntType {
+    /**
+     * Resource ID of the field name for the error message.<br>
+     * This is set to {@code 0}(invalid) as default, and the field name will be
+     * used in the error messages.
+     */
+    int nameResId() default 0;
 
-    /** Values of the check boxes in this group. */
-    CheckBoxValue[] values();
-
-    /** Number of checks required. */
-    int atLeast() default 1;
 }

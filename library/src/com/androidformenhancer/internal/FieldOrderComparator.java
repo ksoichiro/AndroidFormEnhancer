@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form;
+package com.androidformenhancer.internal;
 
-import com.androidformenhancer.form.annotation.Order;
+import com.androidformenhancer.annotation.Order;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;

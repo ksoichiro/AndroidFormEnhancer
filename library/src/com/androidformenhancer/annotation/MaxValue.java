@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form.annotation;
+package com.androidformenhancer.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,13 +22,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation which represents that the field consists of digits.
+ * This is the annotation which represents the max value.
  * 
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Digits {
+public @interface MaxValue {
     /**
      * Resource ID of the field name for the error message.<br>
      * This is set to {@code 0}(invalid) as default, and the field name will be
@@ -36,4 +36,6 @@ public @interface Digits {
      */
     int nameResId() default 0;
 
+    /** Max value of the field. */
+    int value();
 }

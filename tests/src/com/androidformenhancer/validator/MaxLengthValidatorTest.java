@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.MaxLength;
+import com.androidformenhancer.annotation.MaxLength;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;

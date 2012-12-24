@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form.annotation;
+package com.androidformenhancer.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,25 +22,23 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation representing the condition when the validation is
- * applied.
+ * Represents the value of the field must be in the integer range.
  * 
  * @author Soichiro Kashima
  */
-@Target(ElementType.ANNOTATION_TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface When {
-    /** Name of the condition field. */
-    String name();
-
+public @interface IntRange {
     /**
-     * If true, validates the value when the value is not null and the length is
-     * not 0.
+     * Resource ID of the field name for the error message.<br>
+     * This is set to {@code 0}(invalid) as default, and the field name will be
+     * used in the error messages.
      */
-    boolean isNotEmpty() default false;
+    int nameResId() default 0;
 
-    /**
-     * Validates the value when the value equals to a certain value.
-     */
-    String equalsTo() default "";
+    /** Min value of the field. */
+    int min();
+
+    /** Max value of the field. */
+    int max();
 }

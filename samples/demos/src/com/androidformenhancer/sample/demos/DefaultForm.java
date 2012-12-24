@@ -16,25 +16,25 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.form.annotation.CheckBoxGroup;
-import com.androidformenhancer.form.annotation.CheckBoxValue;
-import com.androidformenhancer.form.annotation.DatePattern;
-import com.androidformenhancer.form.annotation.Digits;
-import com.androidformenhancer.form.annotation.Hiragana;
-import com.androidformenhancer.form.annotation.IntType;
-import com.androidformenhancer.form.annotation.Katakana;
-import com.androidformenhancer.form.annotation.MaxLength;
-import com.androidformenhancer.form.annotation.MaxValue;
-import com.androidformenhancer.form.annotation.MinValue;
-import com.androidformenhancer.form.annotation.Multibyte;
-import com.androidformenhancer.form.annotation.Order;
-import com.androidformenhancer.form.annotation.PastDate;
-import com.androidformenhancer.form.annotation.Radio;
-import com.androidformenhancer.form.annotation.RadioValue;
-import com.androidformenhancer.form.annotation.Required;
-import com.androidformenhancer.form.annotation.Spinner;
-import com.androidformenhancer.form.annotation.Text;
-import com.androidformenhancer.form.annotation.Validated;
+import com.androidformenhancer.annotation.CheckBoxGroup;
+import com.androidformenhancer.annotation.CheckBoxValue;
+import com.androidformenhancer.annotation.DatePattern;
+import com.androidformenhancer.annotation.Digits;
+import com.androidformenhancer.annotation.Hiragana;
+import com.androidformenhancer.annotation.IntType;
+import com.androidformenhancer.annotation.Katakana;
+import com.androidformenhancer.annotation.MaxLength;
+import com.androidformenhancer.annotation.MaxValue;
+import com.androidformenhancer.annotation.MinValue;
+import com.androidformenhancer.annotation.Multibyte;
+import com.androidformenhancer.annotation.Order;
+import com.androidformenhancer.annotation.PastDate;
+import com.androidformenhancer.annotation.Radio;
+import com.androidformenhancer.annotation.RadioValue;
+import com.androidformenhancer.annotation.Required;
+import com.androidformenhancer.annotation.Spinner;
+import com.androidformenhancer.annotation.Text;
+import com.androidformenhancer.annotation.Validated;
 
 import java.util.List;
 

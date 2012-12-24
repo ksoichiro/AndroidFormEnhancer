@@ -17,7 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.annotation.Regex;
+import com.androidformenhancer.annotation.Regex;
 
 import android.text.TextUtils;
 import android.util.Log;

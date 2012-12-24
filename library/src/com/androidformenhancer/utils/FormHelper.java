@@ -16,12 +16,12 @@
 
 package com.androidformenhancer.utils;
 
-import com.androidformenhancer.form.annotation.CheckBoxGroup;
-import com.androidformenhancer.form.annotation.CheckBoxValue;
-import com.androidformenhancer.form.annotation.Radio;
-import com.androidformenhancer.form.annotation.RadioValue;
-import com.androidformenhancer.form.annotation.Spinner;
-import com.androidformenhancer.form.annotation.Text;
+import com.androidformenhancer.annotation.CheckBoxGroup;
+import com.androidformenhancer.annotation.CheckBoxValue;
+import com.androidformenhancer.annotation.Radio;
+import com.androidformenhancer.annotation.RadioValue;
+import com.androidformenhancer.annotation.Spinner;
+import com.androidformenhancer.annotation.Text;
 
 import android.app.Activity;
 import android.content.Context;

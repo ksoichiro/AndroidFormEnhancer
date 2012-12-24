@@ -17,7 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.annotation.Singlebyte;
+import com.androidformenhancer.annotation.Singlebyte;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form.annotation;
+package com.androidformenhancer.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,17 +22,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation representing the radio button.
+ * This is the annotation representing the text box.
  * 
- * @see {@link Radio}
  * @author Soichiro Kashima
  */
-@Target(ElementType.ANNOTATION_TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RadioValue {
-    /** Resource ID of this radio button. */
+public @interface Text {
+    /** Resource ID of the text box. */
     int id();
-
-    /** Value of the radio button. */
-    String value();
 }

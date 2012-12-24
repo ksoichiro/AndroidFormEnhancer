@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form.annotation;
+package com.androidformenhancer.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,13 +22,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation which represents the max length.
+ * This is the annotation which represents the length.
  * 
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MaxLength {
+public @interface Length {
     /**
      * Resource ID of the field name for the error message.<br>
      * This is set to {@code 0}(invalid) as default, and the field name will be
@@ -36,6 +36,6 @@ public @interface MaxLength {
      */
     int nameResId() default 0;
 
-    /** Max length of the field. */
+    /** Length of the field. */
     int value();
 }

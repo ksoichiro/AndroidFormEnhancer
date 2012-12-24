@@ -17,11 +17,11 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.form.annotation.CheckBoxGroup;
-import com.androidformenhancer.form.annotation.Radio;
-import com.androidformenhancer.form.annotation.Required;
-import com.androidformenhancer.form.annotation.Spinner;
-import com.androidformenhancer.form.annotation.When;
+import com.androidformenhancer.annotation.CheckBoxGroup;
+import com.androidformenhancer.annotation.Radio;
+import com.androidformenhancer.annotation.Required;
+import com.androidformenhancer.annotation.Spinner;
+import com.androidformenhancer.annotation.When;
 
 import android.text.TextUtils;
 import android.util.Log;

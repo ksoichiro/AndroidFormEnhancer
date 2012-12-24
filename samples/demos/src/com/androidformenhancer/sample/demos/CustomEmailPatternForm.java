@@ -16,11 +16,11 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.form.annotation.Email;
-import com.androidformenhancer.form.annotation.Order;
-import com.androidformenhancer.form.annotation.Required;
-import com.androidformenhancer.form.annotation.Text;
-import com.androidformenhancer.form.annotation.Validated;
+import com.androidformenhancer.annotation.Email;
+import com.androidformenhancer.annotation.Order;
+import com.androidformenhancer.annotation.Required;
+import com.androidformenhancer.annotation.Text;
+import com.androidformenhancer.annotation.Validated;
 
 /**
  * @author Soichiro Kashima

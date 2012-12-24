@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright 2012 Soichiro Kashima
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.form.annotation;
+package com.androidformenhancer.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,18 +23,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents the value of the field must consist of Japanese katakana
- * characters.
+ * Represents the android.widget.CheckBox.
  * 
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Katakana {
-    /**
-     * Resource ID of the field name for the error message.<br>
-     * This is set to {@code 0}(invalid) as default, and the field name will be
-     * used in the error messages.
-     */
-    int nameResId() default 0;
+public @interface CheckBoxValue {
+    /** Resource ID of this check box. */
+    int id();
+
+    /** Value of the check box. */
+    String value();
 }

@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.Katakana;
+import com.androidformenhancer.annotation.Katakana;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;

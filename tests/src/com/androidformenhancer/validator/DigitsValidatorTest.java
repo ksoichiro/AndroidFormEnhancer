@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.Digits;
+import com.androidformenhancer.annotation.Digits;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;

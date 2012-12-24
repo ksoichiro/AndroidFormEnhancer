@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.form.annotation.Multibyte;
+import com.androidformenhancer.annotation.Multibyte;
 
 import android.test.InstrumentationTestCase;
 import android.util.Log;
