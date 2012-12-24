@@ -25,12 +25,14 @@
     <attr name="afeStandardValidators" format="reference" />
     <attr name="afeCustomValidators" format="reference" />
     <attr name="afeCharacterEncoding" format="string" />
+    <attr name="afeCustomEmailPattern" format="reference" />
 
     <declare-styleable name="ValidatorDefinitions">
         <attr name="afeStopPolicy" />
         <attr name="afeStandardValidators" />
         <attr name="afeCustomValidators" />
         <attr name="afeCharacterEncoding" />
+        <attr name="afeCustomEmailPattern" />
     </declare-styleable>
 
     <attr name="afeValidatorMessages" format="reference" />

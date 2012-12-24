@@ -92,6 +92,16 @@
                 <category android:name="com.androidformenhancer.sample.demos" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.androidformenhancer.sample.demos.CustomEmailPatternActivity"
+            android:label="@string/title_activity_custom_email_pattern"
+            android:theme="@style/AppTheme.CustomEmailPattern" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.androidformenhancer.sample.demos" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -23,6 +23,7 @@
     <string name="title_activity_resume_next">各項目で最初のエラーのみ表示</string>
     <string name="title_activity_custom_messages">カスタムメッセージ</string>
     <string name="title_activity_custom_validator">カスタム検証クラス</string>
+    <string name="title_activity_custom_email_pattern">カスタムEメールアドレスパターン</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_hiragana">お名前(ひらがな)</string>
     <string name="form_default_katakana">お名前(カタカナ)</string>

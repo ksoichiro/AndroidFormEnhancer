@@ -89,4 +89,12 @@
         <item name="afeCustomValidators">@array/custom_validators</item>
     </style>
 
+    <style name="AppTheme.CustomEmailPattern">
+        <item name="afeValidatorDefinitions">@style/ValidatorDefinitions.CustomEmailPattern</item>
+    </style>
+
+    <style name="ValidatorDefinitions.CustomEmailPattern">
+        <item name="afeCustomEmailPattern">@string/custom_email_pattern</item>
+    </style>
+
 </resources>

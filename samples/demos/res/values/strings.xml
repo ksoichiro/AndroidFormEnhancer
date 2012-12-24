@@ -23,6 +23,7 @@
     <string name="title_activity_resume_next">Stop at 1st error for each items</string>
     <string name="title_activity_custom_messages">Custom messages</string>
     <string name="title_activity_custom_validator">Custom validator</string>
+    <string name="title_activity_custom_email_pattern">Custom email pattern</string>
     <string name="form_default_name">Name</string>
     <string name="form_default_hiragana">Name(Hiragana)</string>
     <string name="form_default_katakana">Name(Katakana)</string>
@@ -61,5 +62,6 @@
     <string name="custom_msg_validation_date">[%1$s] is invalid date.</string>
     <string name="custom_msg_validation_past_date">[%1$s] must be past date.</string>
     <string name="msg_validation_sample">%1$s must be A.</string>
+    <string name="custom_email_pattern">^\\w+@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</string>
 
 </resources>

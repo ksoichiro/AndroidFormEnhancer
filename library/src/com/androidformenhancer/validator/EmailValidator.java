@@ -19,6 +19,8 @@ package com.androidformenhancer.validator;
 import com.androidformenhancer.R;
 import com.androidformenhancer.form.annotation.Email;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -33,6 +35,22 @@ public class EmailValidator extends Validator {
 
     private static final String TAG = "EmailValidator";
     private static final String REGEX_EMAIL = "^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$";
+    private String mRegex = REGEX_EMAIL;
+
+    @Override
+    public void setContext(Context context) {
+        super.setContext(context);
+        TypedArray a = getContext().getTheme().obtainStyledAttributes(null,
+                R.styleable.ValidatorDefinitions,
+                R.attr.afeValidatorDefinitions, 0);
+        int resId = a.getResourceId(R.styleable.ValidatorDefinitions_afeCustomEmailPattern, 0);
+        a.recycle();
+        if (resId == 0) {
+            mRegex = REGEX_EMAIL;
+        } else {
+            mRegex = getContext().getString(resId);
+        }
+    }
 
     @Override
     public String validate(final Field field) {
@@ -53,7 +71,7 @@ public class EmailValidator extends Validator {
                 if (TextUtils.isEmpty(strValue)) {
                     return null;
                 }
-                if (!strValue.matches(REGEX_EMAIL)) {
+                if (!strValue.matches(mRegex)) {
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {
