@@ -59,6 +59,138 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
         }
 
 
+入力値の取得
+===
+
+レイアウトから入力値を取得するには、まずFormクラスを作成します。
+Formクラスはpublicなフィールドを持つだけの単なるPOJOクラスです。
+全てのフィールドはpublicで、`String`か`java.util.List<String>`型である必要があります。
+
+    public class DefaultForm {
+        public String name;
+    }
+
+各フィールドは、`android.widget.EditText`のようなウィジェットと関連付ける必要がります。
+ウィジェットとの関連付けをするには、特別なアノテーションをフィールドに付与します。
+
+## @Text
+`<EditText>`タグを使う場合は、`@Text`をFormクラスのフィールドに付与します。
+例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
+
+    <EditText
+        android:id="@+id/textfield_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+この場合、Formクラスの定義は次のようにします。
+
+    public class DefaultForm {
+        @Text(id = R.id.textfield_name)
+        public String name;
+    }
+
+## @Radioと@RadioValue
+`<RadioGroup>`タグや`<RadioButton>`を使い、いずれかのラジオボタンが選択されていることを
+検証したい場合は、`@Radio`と`@RadioValue`のアノテーションをFormクラスのフィールドに付与します。
+例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
+
+    <RadioGroup
+        android:id="@+id/rg_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rb_male"
+            android:text="男性"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rb_female"
+            android:text="女性"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+この場合、Formクラスの定義は次のようにします。
+
+    public class DefaultForm {
+        @Radio(id = R.id.rg_gender,
+            values = {
+                @RadioValue(id = R.id.rb_male, value = "M"),
+                @RadioValue(id = R.id.rb_female, value = "F"),
+            })
+        public String gender;
+    }
+
+もし"男性"のラジオボタンを選択すれば、`DefaultForm#gender`の値は"M"になります。
+
+## @CheckBoxGroupと@CheckBoxValue
+`<CheckBox>`タグを使用し、少なくとも1つ以上のチェックボックスがチェックされている
+ことを検証したい場合は、`@CheckBoxGroup`と`@CheckBoxValue`アノテーションを
+Formクラスのフィールドに付与します。
+例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
+
+    <LinearLayout
+        android:id="@+id/cbg_sns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <CheckBox
+            android:id="@+id/cb_facebook"
+            android:text="Facebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:id="@+id/cb_googleplus"
+            android:text="Google+"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:id="@+id/cb_twitter"
+            android:text="Twitter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+この場合、Formクラスの定義は次のようにします。
+
+    public class DefaultForm {
+        @CheckBoxGroup(id = R.id.cbg_sns,
+            atLeast = 1,
+            values = {
+                @CheckBoxValue(id = R.id.cb_facebook, value = "FB"),
+                @CheckBoxValue(id = R.id.cb_googleplus, value = "GP"),
+                @CheckBoxValue(id = R.id.cb_twitter, value = "TW")
+            })
+        public List<String> sns;
+    }
+
+もし"Facebook"と"Google+"のチェックボックスを選択したならば、
+`DefaultForm#sns`の値は"FB"と"GP"の2つの要素を持つ`List<String>`になります。
+`@CheckBoxGroup`は、単に同じ種類の`CheckBox`をグループ化するためだけに使用しています。
+この例にある`LinearLayout`だけでなく、他の`ViewGroup`のサブクラスである
+`RelativeLayout`なども`@CheckBoxGroup`と関連付けられることに注意してください。
+
+## @Spinner
+`<Spinner>`タグを使う場合は、`@Spinner`アノテーションをFormクラスのフィールドに付与します。
+例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
+
+    <Spinner
+        android:id="@+id/spn_credit_card_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+この場合、Formクラスの定義は次のようにします。
+
+    public class DefaultForm {
+        @Spinner(id = R.id.spn_credit_card_type)
+        public String creditCardType;
+    }
+
+もし、先頭の要素を"選択してください"のようなダミー文字列として使いたい場合は、
+`Spinner#headIsDummy`を`true`に設定し、`@Required`アノテーションをフィールドに追加します。
+これにより、先頭の要素以外が選択されているかどうかを検証することができます。
+
+
 検証クラス
 ===
 

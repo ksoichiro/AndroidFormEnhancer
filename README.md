@@ -61,6 +61,138 @@ Usage
         }
 
 
+Get input values
+===
+
+To get input values from the layouts, create a Form class at first.
+Form class is just a POJO class, which has public fields.
+All the fields must be public and their types must be `String` or `java.util.List<String>`.
+
+    public class DefaultForm {
+        public String name;
+    }
+
+Each fields must be related to the widgets like `android.widget.EditText`.
+To create relationship with widgets, add special annotations to the fields.
+
+## @Text
+If you use `<EditText>`, then use `@Text` for the related field of the Form class.
+For example, if the part of your `res/layout/some_layout.xml` is like this:
+
+    <EditText
+        android:id="@+id/textfield_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+then you should define your Form class like this:
+
+    public class DefaultForm {
+        @Text(id = R.id.textfield_name)
+        public String name;
+    }
+
+## @Radio and @RadioValue
+If you use `<RadioGroup>` and `<RadioButton>`, and you want to validate
+whether the one of the radio buttons is checked or not,
+then use `@Radio` and `@RadioValue` for the related field of the Form class.
+For example, if the part of your `res/layout/some_layout.xml` is like this:
+
+    <RadioGroup
+        android:id="@+id/rg_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rb_male"
+            android:text="Male"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rb_female"
+            android:text="Female"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+then you should define your Form class like this:
+
+    public class DefaultForm {
+        @Radio(id = R.id.rg_gender,
+            values = {
+                @RadioValue(id = R.id.rb_male, value = "M"),
+                @RadioValue(id = R.id.rb_female, value = "F"),
+            })
+        public String gender;
+    }
+
+If you choose radio button "Male", then the value of the `DefaultForm#gender` will be "M".
+
+## @CheckBoxGroup and @CheckBoxValue
+If you use `<CheckBox>` and you want to validate that at least one check box is checked,
+then use `@CheckBoxGroup` and `@CheckBoxValue` for the related field of the Form class.
+For example, if the part of your `res/layout/some_layout.xml` is like this:
+
+    <LinearLayout
+        android:id="@+id/cbg_sns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <CheckBox
+            android:id="@+id/cb_facebook"
+            android:text="Facebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:id="@+id/cb_googleplus"
+            android:text="Google+"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:id="@+id/cb_twitter"
+            android:text="Twitter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+then you should define your Form class like this:
+
+    public class DefaultForm {
+        @CheckBoxGroup(id = R.id.cbg_sns,
+            atLeast = 1,
+            values = {
+                @CheckBoxValue(id = R.id.cb_facebook, value = "FB"),
+                @CheckBoxValue(id = R.id.cb_googleplus, value = "GP"),
+                @CheckBoxValue(id = R.id.cb_twitter, value = "TW")
+            })
+        public List<String> sns;
+    }
+
+If you choose check boxes "Facebook" and "Google+", then the value of
+the `DefaultForm#sns` will be `List<String>` which has 2 items "FB" and "GP".
+Note that `@CheckBoxGroup` is used just for grouping same kind of `CheckBox`es,
+so the other `ViewGroup`'s subclasses than `LinearLayotu` like `RelativeLayout`
+can be related to `@CheckBoxGroup`.
+
+## @Spinner
+If you use `<Spinner>`, then use `@Spinner` for the related field of the Form class.
+For example, if the part of your `res/layout/some_layout.xml` is like this:
+
+    <Spinner
+        android:id="@+id/spn_credit_card_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+then you should define your Form class like this:
+
+    public class DefaultForm {
+        @Spinner(id = R.id.spn_credit_card_type)
+        public String creditCardType;
+    }
+
+If you want to use the head item as a dummy text like "Please select",
+then set `Spinner#headIsDummy` to `true` and add `@Required` annotation.
+Then you can check whether the user selected other than the head item or not.
+
+
 Validations
 ===
 
