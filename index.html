@@ -1,0 +1,558 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Androidformenhancer by ksoichiro</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Androidformenhancer</h1>
+        <p class="header">Framework for Android applications.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/ksoichiro/AndroidFormEnhancer/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/ksoichiro/AndroidFormEnhancer/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/ksoichiro/AndroidFormEnhancer">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/ksoichiro">ksoichiro</a></p>
+
+
+      </header>
+      <section>
+        <h1>AndroidFormEnhancer</h1>
+
+<p>AndroidFormEnhancer is a library for implementing input forms easily in the Android application.
+You can use annotations to describe the definitions of the input form briefly,
+reduce codes that handle data of the screens in the Activities and Fragments.</p>
+
+<h1>Install</h1>
+
+<p>The 'library' folder is the main library.
+Please import it into the Eclipse or other IDEs.</p>
+
+<h1>Usage</h1>
+
+<ol>
+<li>
+<p>Create POJO class of the input form, define public fields and add annotations to them.</p>
+
+<pre><code>public class DefaultForm {
+    @Required
+    @Text(R.id.textfield_name)
+    @Order(1)
+    public String name;
+
+    @IntType
+    @Text(R.id.textfield_age)
+    @Order(2)
+    public String age;
+}
+</code></pre>
+</li>
+<li>
+<p>If you use types other than String, create an entity class which fields has the same names as
+the form class.</p>
+
+<pre><code>public class DefaultForm {
+    public String name;
+
+    public int age;
+}
+</code></pre>
+</li>
+<li>
+<p>Write the codes like following to the Activity or Fragment to extract data from the screen,
+validate them and convert types.</p>
+
+<pre><code>// Extract input data into the POJO class object
+FormHelper&lt;DefaultForm&gt; helper = new FormHelper&lt;DefaultForm&gt;();
+DefaultForm form = helper.extractFormFromView(this, DefaultForm.class);
+
+// Validate input data
+ValidationManager validationManager = new ValidationManager(this);
+ArrayList&lt;String&gt; errorMessages = validationManager.validate(form);
+
+if (errorMessages.size() &gt; 0) {
+    // Show error messages
+    Toast.makeText(
+            this,
+            StringUtils.serialize(errorMessages),
+            Toast.LENGTH_SHORT).show();
+} else {
+    // This entity object has clean and converted data
+    DefaultEntity entity = helper.createEntityFromForm(DefaultEntity.class);
+}
+</code></pre>
+</li>
+</ol><h1>Get input values</h1>
+
+<p>To get input values from the layouts, create a Form class at first.
+Form class is just a POJO class, which has public fields.
+All the fields must be public and their types must be <code>String</code> or <code>java.util.List&lt;String&gt;</code>.</p>
+
+<pre><code>public class DefaultForm {
+    public String name;
+}
+</code></pre>
+
+<p>Each fields must be related to the widgets like <code>android.widget.EditText</code>.
+To create relationship with widgets, add special annotations to the fields.</p>
+
+<h2><a href="https://github.com/Text" class="user-mention">@Text</a></h2>
+
+<p>If you use <code>&lt;EditText&gt;</code>, then use <code>@Text</code> for the related field of the Form class.
+For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
+
+<pre><code>&lt;EditText
+    android:id="@+id/textfield_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" /&gt;
+</code></pre>
+
+<p>then you should define your Form class like this:</p>
+
+<pre><code>public class DefaultForm {
+    @Text(id = R.id.textfield_name)
+    public String name;
+}
+</code></pre>
+
+<h2>
+<a href="https://github.com/Radio" class="user-mention">@Radio</a> and @RadioValue</h2>
+
+<p>If you use <code>&lt;RadioGroup&gt;</code> and <code>&lt;RadioButton&gt;</code>, and you want to validate
+whether the one of the radio buttons is checked or not,
+then use <code>@Radio</code> and <code>@RadioValue</code> for the related field of the Form class.
+For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
+
+<pre><code>&lt;RadioGroup
+    android:id="@+id/rg_gender"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"&gt;
+    &lt;RadioButton
+        android:id="@+id/rb_male"
+        android:text="Male"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /&gt;
+    &lt;RadioButton
+        android:id="@+id/rb_female"
+        android:text="Female"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /&gt;
+&lt;/RadioGroup&gt;
+</code></pre>
+
+<p>then you should define your Form class like this:</p>
+
+<pre><code>public class DefaultForm {
+    @Radio(id = R.id.rg_gender,
+        values = {
+            @RadioValue(id = R.id.rb_male, value = "M"),
+            @RadioValue(id = R.id.rb_female, value = "F"),
+        })
+    public String gender;
+}
+</code></pre>
+
+<p>If you choose radio button "Male", then the value of the <code>DefaultForm#gender</code> will be "M".</p>
+
+<h2>@CheckBoxGroup and @CheckBoxValue</h2>
+
+<p>If you use <code>&lt;CheckBox&gt;</code> and you want to validate that at least one check box is checked,
+then use <code>@CheckBoxGroup</code> and <code>@CheckBoxValue</code> for the related field of the Form class.
+For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
+
+<pre><code>&lt;LinearLayout
+    android:id="@+id/cbg_sns"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"&gt;
+    &lt;CheckBox
+        android:id="@+id/cb_facebook"
+        android:text="Facebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /&gt;
+    &lt;CheckBox
+        android:id="@+id/cb_googleplus"
+        android:text="Google+"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /&gt;
+    &lt;CheckBox
+        android:id="@+id/cb_twitter"
+        android:text="Twitter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /&gt;
+&lt;/LinearLayout&gt;
+</code></pre>
+
+<p>then you should define your Form class like this:</p>
+
+<pre><code>public class DefaultForm {
+    @CheckBoxGroup(id = R.id.cbg_sns,
+        atLeast = 1,
+        values = {
+            @CheckBoxValue(id = R.id.cb_facebook, value = "FB"),
+            @CheckBoxValue(id = R.id.cb_googleplus, value = "GP"),
+            @CheckBoxValue(id = R.id.cb_twitter, value = "TW")
+        })
+    public List&lt;String&gt; sns;
+}
+</code></pre>
+
+<p>If you choose check boxes "Facebook" and "Google+", then the value of
+the <code>DefaultForm#sns</code> will be <code>List&lt;String&gt;</code> which has 2 items "FB" and "GP".
+Note that <code>@CheckBoxGroup</code> is used just for grouping same kind of <code>CheckBox</code>es,
+so the other <code>ViewGroup</code>'s subclasses than <code>LinearLayotu</code> like <code>RelativeLayout</code>
+can be related to <code>@CheckBoxGroup</code>.</p>
+
+<h2><a href="https://github.com/Spinner" class="user-mention">@Spinner</a></h2>
+
+<p>If you use <code>&lt;Spinner&gt;</code>, then use <code>@Spinner</code> for the related field of the Form class.
+For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
+
+<pre><code>&lt;Spinner
+    android:id="@+id/spn_credit_card_type"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" /&gt;
+</code></pre>
+
+<p>then you should define your Form class like this:</p>
+
+<pre><code>public class DefaultForm {
+    @Spinner(id = R.id.spn_credit_card_type)
+    public String creditCardType;
+}
+</code></pre>
+
+<p>If you want to use the head item as a dummy text like "Please select",
+then set <code>Spinner#headIsDummy</code> to <code>true</code> and add <code>@Required</code> annotation.
+Then you can check whether the user selected other than the head item or not.</p>
+
+<h1>Validations</h1>
+
+<p>Following validation classes are available:</p>
+
+<ol>
+<li>DatePatternValidator
+
+<ul>
+<li>Validates the EditText's value with date format.</li>
+<li>The target fields must have field in Form class with <code>@DatePattern</code>.</li>
+<li>Date format used in validation is <code>java.text.DateFormat.SHORT</code>, which will change with locale.</li>
+<li>If you want to use custom format, use <code>DatePattern#value()</code>.</li>
+</ul>
+</li>
+<li>DigitsValidator
+
+<ul>
+<li>Validates the EditText's value whether it consists only of digits (which means 0 through 9).</li>
+<li>The target fields must have field in Form class with <code>@Digits</code>.</li>
+</ul>
+</li>
+<li>EmailValidator
+
+<ul>
+<li>Validates the EditText's value whether it is e-mail format.</li>
+<li>The target fields must have field in Form class with <code>@Email</code>.</li>
+<li>Pattern to be used in validation is this: <code>^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</code>
+</li>
+<li>If you want to use custom format, define your format in your style
+using <code>afeValidatorDefinitions</code> and <code>afeCustomEmailPattern</code>.</li>
+</ul>
+</li>
+<li>HiraganaValidator
+
+<ul>
+<li>Validates the EditText's value whether it consists only of Japanese Hiragana.</li>
+<li>The target fields must have field in Form class with <code>@Hiragana</code>.</li>
+</ul>
+</li>
+<li>IntRangeValidator
+
+<ul>
+<li>Validates the EditText's value whether it is in the specified range:
+the minimum value is <code>IntRange#min()</code> and the maximum value is <code>IntRange#max()</code>.</li>
+<li>The target fields must have field in Form class with <code>@IntRange</code>.</li>
+</ul>
+</li>
+<li>IntTypeValidator
+
+<ul>
+<li>Validates the EditText's value whether it is a valid integer format.</li>
+<li>The target fields must have field in Form class with <code>@IntType</code>.</li>
+</ul>
+</li>
+<li>KatakanaValidator
+
+<ul>
+<li>Validates the EditText's value whether it consists only of Japanese Katakana.</li>
+<li>The target fields must have field in Form class with <code>@Katakana</code>.</li>
+</ul>
+</li>
+<li>LengthValidator
+
+<ul>
+<li>Validates the EditText's value whether it has the specified length.</li>
+<li>The target fields must have field in Form class with <code>@Length</code>.</li>
+</ul>
+</li>
+<li>MaxLengthValidator
+
+<ul>
+<li>Validates the EditText's value whether its length is less than or equals to
+the specified length.</li>
+<li>The target fields must have field in Form class with <code>@MaxLength</code>.</li>
+</ul>
+</li>
+<li>MaxNumOfDigitsValidator
+
+<ul>
+<li>Validates the EditText's value whether its length is less than or equals to
+the specified length.</li>
+<li>The target fields must have field in Form class with <code>@MaxNumOfDigits</code>.</li>
+<li>This validator resembles to the MaxLengthValidator, but this validator
+does not treat as an error if the value includes non-digit character even
+though its length exceeds <code>MaxNumOfDigits#value()</code>.</li>
+</ul>
+</li>
+<li>MaxValueValidator
+
+<ul>
+<li>Validates the EditText's value whether it is less than or equals to
+the specified value.</li>
+<li>The target fields must have field in Form class with <code>@MaxValue</code>.</li>
+</ul>
+</li>
+<li>MinValueValidator
+
+<ul>
+<li>Validates the EditText's value whether it is more than or equals to
+the specified value.</li>
+<li>The target fields must have field in Form class with <code>@MinValue</code>.</li>
+</ul>
+</li>
+<li>MultibyteValidator
+
+<ul>
+<li>Validates the EditText's value whether it consists only of multi-byte characters.</li>
+<li>The target fields must have field in Form class with <code>@Multibyte</code>.</li>
+</ul>
+</li>
+<li>NumOfDigitsValidator
+
+<ul>
+<li>Validates the EditText's value whether its length is the specified length.</li>
+<li>The target fields must have field in Form class with <code>@NumOfDigits</code>.</li>
+<li>This validator resembles to the LengthValidator, but this validator
+does not treat as an error if the value includes non-digit character even
+though its length does not match <code>NumOfDigits#value()</code>.</li>
+</ul>
+</li>
+<li>PastDateValidator
+
+<ul>
+<li>Validates the EditText's value is valid date format and past date.</li>
+<li>The target fields must have field in Form class with <code>@PastDate</code>.</li>
+<li>Date format used in validation is <code>java.text.DateFormat.SHORT</code>, which will change with locale.</li>
+<li>If you want to use custom format, use <code>@DatePattern</code> annotation together.
+PastDateValidator uses <code>DatePattern#value()</code>.</li>
+<li>If you do not want to assume today as an error, set <code>PastDate#allowToday</code> to <code>true</code>.</li>
+</ul>
+</li>
+<li>RegexValidator
+
+<ul>
+<li>Validates the EditText's value whether it matches the specified regular expression.</li>
+<li>The target fields must have field in Form class with <code>@Regex</code>.</li>
+<li>Regular expression must be specified by <code>Regex#value()</code>.</li>
+</ul>
+</li>
+<li>RequiredValidator
+
+<ul>
+<li>Validates the EditText's value is not <code>null</code> nor empty string.</li>
+<li>The target fields must have field in Form class with <code>@Required</code>.</li>
+</ul>
+</li>
+<li>SinglebyteValidator
+
+<ul>
+<li>Validates the EditText's value whether it consists only of single-byte characters.</li>
+<li>The target fields must have field in Form class with <code>@Singlebyte</code>.</li>
+</ul>
+</li>
+</ol><h1>Orders of the validation</h1>
+
+<p>Orders of the validation for each items are defined by <code>@Order</code> annotations.
+For example, if you define form like following, the validators validate <code>name</code> at first,
+then validate <code>age</code>.
+Note that they are different from the orders in the screen.</p>
+
+<pre><code>public class DefaultForm {
+    @Required
+    @Text(R.id.textfield_name)
+    @Order(1)
+    public String name;
+
+    @IntType
+    @Text(R.id.textfield_age)
+    @Order(2)
+    public String age;
+}
+</code></pre>
+
+<h1>Customizations</h1>
+
+<p>You can customize the behaviours and messages like following:</p>
+
+<ol>
+<li>
+<p>Stop policy</p>
+
+<p>Stop policy controls the validators to continue or stop
+when they detected errors.
+For example, if you want to validate all the items and show all the errors,
+you should define your theme like this:</p>
+
+<pre><code>&lt;style name="YourTheme"&gt;
+    &lt;item name="afeValidatorDefinitions"&gt;@style/YourValidatorDefinitions&lt;/item&gt;
+&lt;/style&gt;
+
+&lt;style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators"&gt;
+    &lt;item name="afeStopPolicy"&gt;continueAll&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+</li>
+<li>
+<p>Available validations</p>
+
+<p>You can enable or disable the standard validators.
+You can also add your own validator.
+For example, if you want to use only the RequiredValidator,
+you should define your theme like this:</p>
+
+<pre><code>&lt;string-array name="your_standard_validators"&gt;
+    &lt;item&gt;com.androidformenhancer.validator.RequiredValidator&lt;/item&gt;
+&lt;/string&gt;
+
+&lt;style name="YourTheme"&gt;
+    &lt;item name="afeValidatorDefinitions"&gt;@style/YourValidatorDefinitions&lt;/item&gt;
+&lt;/style&gt;
+
+&lt;style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators"&gt;
+    &lt;item name="afeStandardValidators"&gt;@array/your_standard_validators&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+</li>
+<li>
+<p>Validation error messages</p>
+
+<p>You can override validation error messages.
+For example, if you want to override the error message for the RequiredValidator,
+You should define your theme like this:</p>
+
+<pre><code>&lt;string name="custom_msg_validation_required"&gt;You MUST fill in %1$s!&lt;/string&gt;
+
+&lt;style name="YourTheme"&gt;
+    &lt;item name="afeValidatorMessages"&gt;@style/YourValidatorMessages&lt;/item&gt;
+&lt;/style&gt;
+
+&lt;style name="YourValidatorMessages"&gt;
+    &lt;item name="afeErrorRequired"&gt;@string/custom_msg_validation_required&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+
+<p>The name of the item used in the error message is the name of the field in Form class.
+If you want to change name, use annotation's <code>nameResId</code> attribute.
+For example, if you define field like:</p>
+
+<pre><code>@Required
+public String firstName;
+</code></pre>
+
+<p>the error message will be "firstName is required".
+If you define Form like this:</p>
+
+<pre><code>@Required(nameResId = R.string.first_name)
+public String firstName;
+</code></pre>
+
+<p>and define strings.xml like:</p>
+
+<pre><code>&lt;string name="first_name"&gt;First name&lt;/string&gt;
+</code></pre>
+
+<p>then the result will be "First name is required".</p>
+</li>
+</ol><h1>ProGuard</h1>
+
+<p>If you want to use ProGuard, edit proguard-project.txt.</p>
+
+<ol>
+<li>
+<p>Keep class name of the Validators. This is always required.</p>
+
+<pre><code>-keep class com.androidformenhancer.validator.* { &lt;init&gt;(...); }
+</code></pre>
+</li>
+<li>
+<p>Keep class members (public fields) of the Forms and Entities.
+If you use FormHelper#createEntityFromForm(), this is required.</p>
+
+<pre><code>-keepclassmembers class com.androidformenhancer.sample.demos.DefaultForm {
+  public *;
+}
+-keepclassmembers class com.androidformenhancer.sample.demos.DefaultEntity {
+  public *;
+}
+</code></pre>
+</li>
+</ol><h1>Samples</h1>
+
+<ul>
+<li>Sample applications using this library are included in the samples folder.</li>
+</ul><h1>Tests</h1>
+
+<ul>
+<li>Test codes for JUnit test are included in the tests folder.</li>
+</ul><h1>Developed By</h1>
+
+<ul>
+<li>Soichiro Kashima - <a href="mailto:soichiro.kashima@gmail.com">soichiro.kashima@gmail.com</a>
+</li>
+</ul><h1>License</h1>
+
+<pre><code>Copyright 2012 Soichiro Kashima
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
