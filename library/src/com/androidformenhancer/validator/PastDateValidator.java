@@ -21,7 +21,6 @@ import com.androidformenhancer.annotation.DatePattern;
 import com.androidformenhancer.annotation.PastDate;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.text.DateFormat;
@@ -38,25 +37,15 @@ import java.util.Locale;
  */
 public class PastDateValidator extends Validator {
 
-    private static final String TAG = "PastDateValidator";
-
     @Override
     public String validate(final Field field) {
-        Object value;
-        try {
-            value = field.get(getTarget());
-        } catch (Exception e) {
-            // TODO Throw some exception to inform caller this illegal state
-            Log.v(TAG, e.getMessage());
-            return null;
-        }
+        final String value = getValueAsString(field);
 
         PastDate pastDateValue = field.getAnnotation(PastDate.class);
         if (pastDateValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
-                final String strValue = (String) value;
-                if (TextUtils.isEmpty(strValue)) {
+                if (TextUtils.isEmpty(value)) {
                     return null;
                 }
                 DateFormat dateFormat = null;
@@ -73,7 +62,7 @@ public class PastDateValidator extends Validator {
                 dateFormat.setLenient(false);
                 Date date = null;
                 try {
-                    date = dateFormat.parse(strValue);
+                    date = dateFormat.parse(value);
                     Calendar calendar = Calendar.getInstance(Locale.getDefault());
                     calendar.setTime(date);
                     discardTimeLessThanDay(calendar);

@@ -22,7 +22,6 @@ import com.androidformenhancer.annotation.Singlebyte;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -35,7 +34,6 @@ import java.lang.reflect.Field;
  */
 public class SinglebyteValidator extends Validator {
 
-    private static final String TAG = "SinglebyteValidator";
     private static final String DEFAULT_ENCODING = "UTF-8";
 
     private String mEncoding;
@@ -48,27 +46,19 @@ public class SinglebyteValidator extends Validator {
 
     @Override
     public String validate(final Field field) {
-        Object value;
-        try {
-            value = field.get(getTarget());
-        } catch (Exception e) {
-            // TODO Throw some exception to inform caller this illegal state
-            Log.v(TAG, e.getMessage());
-            return null;
-        }
+        final String value = getValueAsString(field);
 
         Singlebyte singlebyte = field.getAnnotation(Singlebyte.class);
         if (singlebyte != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
-                final String strValue = (String) value;
-                if (TextUtils.isEmpty(strValue)) {
+                if (TextUtils.isEmpty(value)) {
                     return null;
                 }
                 boolean hasError = false;
                 try {
-                    for (int i = 0; i < strValue.length(); i = strValue.offsetByCodePoints(i, 1)) {
-                        char[] c = Character.toChars(strValue.codePointAt(i));
+                    for (int i = 0; i < value.length(); i = value.offsetByCodePoints(i, 1)) {
+                        char[] c = Character.toChars(value.codePointAt(i));
                         if (c.length > 1) {
                             hasError = true;
                             break;

@@ -20,7 +20,6 @@ import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Regex;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 
@@ -31,28 +30,18 @@ import java.lang.reflect.Field;
  */
 public class RegexValidator extends Validator {
 
-    private static final String TAG = "RegexValidator";
-
     @Override
     public String validate(final Field field) {
-        Object value;
-        try {
-            value = field.get(getTarget());
-        } catch (Exception e) {
-            // TODO Throw some exception to inform caller this illegal state
-            Log.v(TAG, e.getMessage());
-            return null;
-        }
+        final String value = getValueAsString(field);
 
         Regex regexValue = field.getAnnotation(Regex.class);
         if (regexValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
-                final String strValue = (String) value;
-                if (TextUtils.isEmpty(strValue)) {
+                if (TextUtils.isEmpty(value)) {
                     return null;
                 }
-                if (!strValue.matches(regexValue.value())) {
+                if (!value.matches(regexValue.value())) {
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {

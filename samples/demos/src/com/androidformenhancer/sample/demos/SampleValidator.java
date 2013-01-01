@@ -30,20 +30,14 @@ public class SampleValidator extends Validator {
 
     @Override
     public String validate(final Field field) {
-        Object value;
-        try {
-            value = field.get(getTarget());
-        } catch (Exception e) {
-            return null;
-        }
+        final String value = getValueAsString(field);
 
         SampleAnnotation sampleValue = field.getAnnotation(SampleAnnotation.class);
         if (sampleValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
-                final String strValue = (String) value;
-                if (TextUtils.isEmpty(strValue)
-                        || !"A".equals(strValue.toUpperCase(Locale.getDefault()))) {
+                if (TextUtils.isEmpty(value)
+                        || !"A".equals(value.toUpperCase(Locale.getDefault()))) {
                     // Now this is a validation error, create message
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);

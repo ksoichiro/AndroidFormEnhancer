@@ -20,7 +20,6 @@ import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.DatePattern;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.text.DateFormat;
@@ -35,25 +34,15 @@ import java.util.Locale;
  */
 public class DatePatternValidator extends Validator {
 
-    private static final String TAG = "DatePatternValidator";
-
     @Override
     public String validate(final Field field) {
-        Object value;
-        try {
-            value = field.get(getTarget());
-        } catch (Exception e) {
-            // TODO Throw some exception to inform caller this illegal state
-            Log.v(TAG, e.getMessage());
-            return null;
-        }
+        final String value = getValueAsString(field);
 
         DatePattern datePatternValue = field.getAnnotation(DatePattern.class);
         if (datePatternValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
-                final String strValue = (String) value;
-                if (TextUtils.isEmpty(strValue)) {
+                if (TextUtils.isEmpty(value)) {
                     return null;
                 }
                 DateFormat dateFormat = null;
@@ -66,7 +55,7 @@ public class DatePatternValidator extends Validator {
                 }
                 dateFormat.setLenient(false);
                 try {
-                    dateFormat.parse(strValue);
+                    dateFormat.parse(value);
                     return null;
                 } catch (ParseException e) {
                     String name = field.getName();

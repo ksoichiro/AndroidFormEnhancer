@@ -32,29 +32,20 @@ import java.lang.reflect.Field;
  */
 public class HiraganaValidator extends Validator {
 
-    private static final String TAG = "HiraganaValidator";
     private static final String REGEX = "^[あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゃゅょっぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽゔー、。]+$";
 
     @Override
     public String validate(final Field field) {
-        Object value;
-        try {
-            value = field.get(getTarget());
-        } catch (Exception e) {
-            // TODO Throw some exception to inform caller this illegal state
-            Log.v(TAG, e.getMessage());
-            return null;
-        }
+        final String value = getValueAsString(field);
 
         Hiragana hiragana = field.getAnnotation(Hiragana.class);
         if (hiragana != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
-                final String strValue = (String) value;
-                if (TextUtils.isEmpty(strValue)) {
+                if (TextUtils.isEmpty(value)) {
                     return null;
                 }
-                if (!strValue.matches(REGEX)) {
+                if (!value.matches(REGEX)) {
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {

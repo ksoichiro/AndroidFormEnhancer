@@ -20,7 +20,6 @@ import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.IntType;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 
@@ -31,29 +30,19 @@ import java.lang.reflect.Field;
  */
 public class IntTypeValidator extends Validator {
 
-    private static final String TAG = "IntTypeValidator";
-
     @Override
     public String validate(final Field field) {
-        Object value;
-        try {
-            value = field.get(getTarget());
-        } catch (Exception e) {
-            // TODO Throw some exception to inform caller this illegal state
-            Log.v(TAG, e.getMessage());
-            return null;
-        }
+        final String value = getValueAsString(field);
 
         IntType intValue = field.getAnnotation(IntType.class);
         if (intValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
-                final String strValue = (String) value;
-                if (TextUtils.isEmpty(strValue)) {
+                if (TextUtils.isEmpty(value)) {
                     return null;
                 }
                 try {
-                    Integer.parseInt(strValue);
+                    Integer.parseInt(value);
                 } catch (NumberFormatException e) {
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);

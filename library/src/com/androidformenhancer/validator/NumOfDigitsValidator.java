@@ -20,7 +20,6 @@ import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.NumOfDigits;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 
@@ -31,28 +30,18 @@ import java.lang.reflect.Field;
  */
 public class NumOfDigitsValidator extends Validator {
 
-    private static final String TAG = "NumOfDigitsValidator";
-
     @Override
     public String validate(final Field field) {
-        Object value;
-        try {
-            value = field.get(getTarget());
-        } catch (Exception e) {
-            // TODO Throw some exception to inform caller this illegal state
-            Log.v(TAG, e.getMessage());
-            return null;
-        }
+        final String value = getValueAsString(field);
 
         NumOfDigits numOfDigitsValue = field.getAnnotation(NumOfDigits.class);
         if (numOfDigitsValue != null) {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
-                final String strValue = (String) value;
-                if (TextUtils.isEmpty(strValue) || !strValue.matches("^[0-9]+$")) {
+                if (TextUtils.isEmpty(value) || !value.matches("^[0-9]+$")) {
                     return null;
                 }
-                if (numOfDigitsValue.value() != strValue.length()) {
+                if (numOfDigitsValue.value() != value.length()) {
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {

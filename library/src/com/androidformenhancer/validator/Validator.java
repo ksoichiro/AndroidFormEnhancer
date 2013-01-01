@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Provides the validation functions.
@@ -67,6 +68,39 @@ public abstract class Validator {
      */
     public void setTarget(final Object target) {
         mTarget = target;
+    }
+
+    /**
+     * Gets the value of the field from the target object as String type.
+     * 
+     * @param field target field
+     * @return value as String type
+     */
+    protected String getValueAsString(final Field field) {
+        String value;
+        try {
+            value = (String) field.get(getTarget());
+            return value;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Gets the value of the field from the target object as List<String> type.
+     * 
+     * @param field target field
+     * @return value as List<String> type
+     */
+    @SuppressWarnings("unchecked")
+    protected List<String> getValueAsStringList(final Field field) {
+        List<String> value;
+        try {
+            value = (List<String>) field.get(getTarget());
+            return value;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     protected int getNameResourceId(final Field field) {
