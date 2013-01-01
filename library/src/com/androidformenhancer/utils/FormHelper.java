@@ -16,12 +16,8 @@
 
 package com.androidformenhancer.utils;
 
-import com.androidformenhancer.annotation.CheckBoxGroup;
-import com.androidformenhancer.annotation.CheckBoxValue;
-import com.androidformenhancer.annotation.Radio;
-import com.androidformenhancer.annotation.RadioValue;
-import com.androidformenhancer.annotation.Spinner;
-import com.androidformenhancer.annotation.Text;
+import com.androidformenhancer.annotation.Widget;
+import com.androidformenhancer.annotation.WidgetValue;
 
 import android.app.Activity;
 import android.content.Context;
@@ -75,55 +71,46 @@ public class FormHelper<T> {
             mForm = clazz.newInstance();
             final Field[] fields = clazz.getFields();
             for (Field field : fields) {
-                // Text box type
-                Text text = (Text) field.getAnnotation(Text.class);
-                if (text != null) {
-                    String value =
-                            ((EditText) rootView.findViewById(text.id())).getText().toString();
-                    field.set(mForm, value);
+                Widget widget = (Widget) field.getAnnotation(Widget.class);
+                if (widget == null) {
                     continue;
                 }
-
-                // Radio button type
-                Radio radio = (Radio) field.getAnnotation(Radio.class);
-                if (radio != null) {
-                    int groupId = radio.groupId();
-                    RadioGroup radioGroup = (RadioGroup) rootView.findViewById(groupId);
-                    int checkedId = radioGroup.getCheckedRadioButtonId();
-                    RadioValue[] values = radio.values();
-                    for (int i = 0; i < values.length; i++) {
-                        if (values[i].id() == checkedId) {
-                            field.set(mForm, values[i].value());
-                            break;
+                Widget.Type widgetType = widget.type();
+                switch (widgetType) {
+                    case TEXT:
+                        String value = ((EditText) rootView.findViewById(
+                                widget.id())).getText().toString();
+                        field.set(mForm, value);
+                        break;
+                    case RADIO:
+                        RadioGroup radioGroup = (RadioGroup) rootView.findViewById(widget.id());
+                        int checkedId = radioGroup.getCheckedRadioButtonId();
+                        WidgetValue[] values = widget.values();
+                        for (int i = 0; i < values.length; i++) {
+                            if (values[i].id() == checkedId) {
+                                field.set(mForm, values[i].value());
+                                break;
+                            }
                         }
-                    }
-                    continue;
-                }
-
-                // Multiple check boxes type
-                CheckBoxGroup checkBoxGroup = (CheckBoxGroup) field
-                        .getAnnotation(CheckBoxGroup.class);
-                if (checkBoxGroup != null) {
-                    int groupId = checkBoxGroup.groupId();
-                    ViewGroup group = (ViewGroup) rootView.findViewById(groupId);
-                    List<String> checkedValues = new ArrayList<String>();
-                    for (CheckBoxValue checkBoxValue : checkBoxGroup.values()) {
-                        CheckBox cb = (CheckBox) group.findViewById(checkBoxValue.id());
-                        if (cb != null && cb.isChecked()) {
-                            checkedValues.add(checkBoxValue.value());
+                        break;
+                    case CHECKBOX:
+                        ViewGroup group = (ViewGroup) rootView.findViewById(widget.id());
+                        List<String> checkedValues = new ArrayList<String>();
+                        for (WidgetValue checkBoxValue : widget.values()) {
+                            CheckBox cb = (CheckBox) group.findViewById(checkBoxValue.id());
+                            if (cb != null && cb.isChecked()) {
+                                checkedValues.add(checkBoxValue.value());
+                            }
                         }
-                    }
-                    field.set(mForm, checkedValues);
-                    continue;
-                }
-
-                // Spinner type
-                Spinner spinner = (Spinner) field.getAnnotation(Spinner.class);
-                if (spinner != null) {
-                    int index = ((android.widget.Spinner) rootView.findViewById(spinner.id()))
-                            .getSelectedItemPosition();
-                    field.set(mForm, Integer.toString(index));
-                    continue;
+                        field.set(mForm, checkedValues);
+                        break;
+                    case SPINNER:
+                        int index = ((android.widget.Spinner) rootView.findViewById(widget.id()))
+                                .getSelectedItemPosition();
+                        field.set(mForm, Integer.toString(index));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unknown widget type: " + widgetType);
                 }
             }
             return mForm;

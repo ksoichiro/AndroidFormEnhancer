@@ -19,12 +19,12 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 
         public class DefaultForm {
             @Required
-            @Text(R.id.textfield_name)
+            @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
             @Order(1)
             public String name;
 
             @IntType
-            @Text(R.id.textfield_age)
+            @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT)
             @Order(2)
             public String age;
         }
@@ -73,8 +73,8 @@ Formクラスはpublicなフィールドを持つだけの単なるPOJOクラス
 各フィールドは、`android.widget.EditText`のようなウィジェットと関連付ける必要がります。
 ウィジェットとの関連付けをするには、特別なアノテーションをフィールドに付与します。
 
-## @Text
-`<EditText>`タグを使う場合は、`@Text`をFormクラスのフィールドに付与します。
+## EditText
+`<EditText>`タグを使う場合は、`@Widget(type = Widget.Type.TEXT)`をFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
     <EditText
@@ -85,13 +85,13 @@ Formクラスはpublicなフィールドを持つだけの単なるPOJOクラス
 この場合、Formクラスの定義は次のようにします。
 
     public class DefaultForm {
-        @Text(id = R.id.textfield_name)
+        @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
         public String name;
     }
 
-## @Radioと@RadioValue
+## RadioGroupとRadioButton
 `<RadioGroup>`タグや`<RadioButton>`を使い、いずれかのラジオボタンが選択されていることを
-検証したい場合は、`@Radio`と`@RadioValue`のアノテーションをFormクラスのフィールドに付与します。
+検証したい場合は、`@Widget(type = Widget.Type.RADIO)`と`@WidgetValue`のアノテーションをFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
     <RadioGroup
@@ -113,19 +113,20 @@ Formクラスはpublicなフィールドを持つだけの単なるPOJOクラス
 この場合、Formクラスの定義は次のようにします。
 
     public class DefaultForm {
-        @Radio(id = R.id.rg_gender,
+        @Widget(id = R.id.rg_gender,
+            type = Widget.Type.RADIO,
             values = {
-                @RadioValue(id = R.id.rb_male, value = "M"),
-                @RadioValue(id = R.id.rb_female, value = "F"),
+                @WidgetValue(id = R.id.rb_male, value = "M"),
+                @WidgetValue(id = R.id.rb_female, value = "F"),
             })
         public String gender;
     }
 
 もし"男性"のラジオボタンを選択すれば、`DefaultForm#gender`の値は"M"になります。
 
-## @CheckBoxGroupと@CheckBoxValue
+## CheckBox
 `<CheckBox>`タグを使用し、少なくとも1つ以上のチェックボックスがチェックされている
-ことを検証したい場合は、`@CheckBoxGroup`と`@CheckBoxValue`アノテーションを
+ことを検証したい場合は、`@Widget(type = Widget.Type.CHECKBOX)`と`@WidgetValue`アノテーションを
 Formクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
@@ -154,24 +155,25 @@ Formクラスのフィールドに付与します。
 この場合、Formクラスの定義は次のようにします。
 
     public class DefaultForm {
-        @CheckBoxGroup(id = R.id.cbg_sns,
+        @Widget(id = R.id.cbg_sns,
+            type = Widget.Type.CHECKBOX,
             atLeast = 1,
             values = {
-                @CheckBoxValue(id = R.id.cb_facebook, value = "FB"),
-                @CheckBoxValue(id = R.id.cb_googleplus, value = "GP"),
-                @CheckBoxValue(id = R.id.cb_twitter, value = "TW")
+                @WidgetValue(id = R.id.cb_facebook, value = "FB"),
+                @WidgetValue(id = R.id.cb_googleplus, value = "GP"),
+                @WidgetValue(id = R.id.cb_twitter, value = "TW")
             })
         public List<String> sns;
     }
 
 もし"Facebook"と"Google+"のチェックボックスを選択したならば、
 `DefaultForm#sns`の値は"FB"と"GP"の2つの要素を持つ`List<String>`になります。
-`@CheckBoxGroup`は、単に同じ種類の`CheckBox`をグループ化するためだけに使用しています。
+`@Widget`は、単に同じ種類の`CheckBox`をグループ化するためだけに使用しています。
 この例にある`LinearLayout`だけでなく、他の`ViewGroup`のサブクラスである
-`RelativeLayout`なども`@CheckBoxGroup`と関連付けられることに注意してください。
+`RelativeLayout`なども`@Widget`と関連付けられることに注意してください。
 
-## @Spinner
-`<Spinner>`タグを使う場合は、`@Spinner`アノテーションをFormクラスのフィールドに付与します。
+## Spinner
+`<Spinner>`タグを使う場合は、`@Widget(type = Widget.Type.SPINNER)`アノテーションをFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
     <Spinner
@@ -182,12 +184,12 @@ Formクラスのフィールドに付与します。
 この場合、Formクラスの定義は次のようにします。
 
     public class DefaultForm {
-        @Spinner(id = R.id.spn_credit_card_type)
+        @Widget(id = R.id.spn_credit_card_type, Widget.Type.SPINNER)
         public String creditCardType;
     }
 
 もし、先頭の要素を"選択してください"のようなダミー文字列として使いたい場合は、
-`Spinner#headIsDummy`を`true`に設定し、`@Required`アノテーションをフィールドに追加します。
+`Widget#headIsDummy`を`true`に設定し、`@Required`アノテーションをフィールドに追加します。
 これにより、先頭の要素以外が選択されているかどうかを検証することができます。
 
 
@@ -278,12 +280,12 @@ Formクラスのフィールドに付与します。
 
     public class DefaultForm {
         @Required
-        @Text(R.id.textfield_name)
+        @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
         @Order(1)
         public String name;
 
         @IntType
-        @Text(R.id.textfield_age)
+        @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT)
         @Order(2)
         public String age;
     }

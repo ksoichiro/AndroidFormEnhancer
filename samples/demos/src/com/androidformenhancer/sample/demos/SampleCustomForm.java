@@ -18,8 +18,9 @@ package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.annotation.Order;
 import com.androidformenhancer.annotation.Required;
-import com.androidformenhancer.annotation.Text;
 import com.androidformenhancer.annotation.Validated;
+import com.androidformenhancer.annotation.Widget;
+import com.androidformenhancer.annotation.Widget.Type;
 
 /**
  * @author Soichiro Kashima
@@ -29,7 +30,7 @@ public class SampleCustomForm {
     @Validated(nameResId = R.string.form_sample_custom_sample)
     @Required
     @SampleAnnotation
-    @Text(id = R.id.textfield_sample)
+    @Widget(id = R.id.textfield_sample, type = Type.TEXT)
     @Order(1)
     public String sample;
 

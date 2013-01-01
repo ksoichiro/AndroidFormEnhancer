@@ -16,8 +16,6 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.annotation.CheckBoxGroup;
-import com.androidformenhancer.annotation.CheckBoxValue;
 import com.androidformenhancer.annotation.DatePattern;
 import com.androidformenhancer.annotation.Digits;
 import com.androidformenhancer.annotation.Hiragana;
@@ -29,12 +27,11 @@ import com.androidformenhancer.annotation.MinValue;
 import com.androidformenhancer.annotation.Multibyte;
 import com.androidformenhancer.annotation.Order;
 import com.androidformenhancer.annotation.PastDate;
-import com.androidformenhancer.annotation.Radio;
-import com.androidformenhancer.annotation.RadioValue;
 import com.androidformenhancer.annotation.Required;
-import com.androidformenhancer.annotation.Spinner;
-import com.androidformenhancer.annotation.Text;
 import com.androidformenhancer.annotation.Validated;
+import com.androidformenhancer.annotation.Widget;
+import com.androidformenhancer.annotation.Widget.Type;
+import com.androidformenhancer.annotation.WidgetValue;
 
 import java.util.List;
 
@@ -47,21 +44,21 @@ public class DefaultForm {
     @Required
     @Multibyte
     @MaxLength(20)
-    @Text(id = R.id.textfield_name)
+    @Widget(id = R.id.textfield_name, type = Type.TEXT)
     @Order(1)
     public String name;
 
     @Validated(nameResId = R.string.form_default_hiragana)
     @Hiragana
     @MaxLength(20)
-    @Text(id = R.id.textfield_hiragana)
+    @Widget(id = R.id.textfield_hiragana, type = Type.TEXT)
     @Order(2)
     public String hiragana;
 
     @Validated(nameResId = R.string.form_default_katakana)
     @Katakana
     @MaxLength(20)
-    @Text(id = R.id.textfield_katakana)
+    @Widget(id = R.id.textfield_katakana, type = Type.TEXT)
     @Order(3)
     public String katakana;
 
@@ -69,23 +66,24 @@ public class DefaultForm {
     @IntType
     @MinValue(20)
     @MaxValue(100)
-    @Text(id = R.id.textfield_age)
+    @Widget(id = R.id.textfield_age, type = Type.TEXT)
     @Order(4)
     public String age;
 
     @Validated(nameResId = R.string.form_default_gender)
     @Required
-    @Radio(groupId = R.id.rg_gender,
+    @Widget(id = R.id.rg_gender,
+            type = Type.RADIO,
             values = {
-                    @RadioValue(id = R.id.radio_gender_male, value = "0"),
-                    @RadioValue(id = R.id.radio_gender_female, value = "1")
+                    @WidgetValue(id = R.id.radio_gender_male, value = "0"),
+                    @WidgetValue(id = R.id.radio_gender_female, value = "1")
             })
     @Order(5)
     public String gender;
 
     @Validated(nameResId = R.string.form_default_phone)
     @Digits
-    @Text(id = R.id.textfield_phone)
+    @Widget(id = R.id.textfield_phone, type = Type.TEXT)
     @Order(6)
     public String phone;
 
@@ -93,25 +91,26 @@ public class DefaultForm {
     @Required
     @DatePattern
     @PastDate
-    @Text(id = R.id.textfield_birthday)
+    @Widget(id = R.id.textfield_birthday, type = Type.TEXT)
     @Order(7)
     public String birthday;
 
     @Validated(nameResId = R.string.form_default_credit_card_company)
     @Required
-    @Spinner(id = R.id.spn_credit_card_company, headIsDummy = true)
+    @Widget(id = R.id.spn_credit_card_company, type = Type.SPINNER, headIsDummy = true)
     @Order(8)
     public String creditCardCompany;
 
     @Validated(nameResId = R.string.form_default_got_to_know_by)
     @Required
-    @CheckBoxGroup(groupId = R.id.cbg_got_to_know_by,
+    @Widget(id = R.id.cbg_got_to_know_by,
+            type = Type.CHECKBOX,
             atLeast = 2,
             values = {
-                    @CheckBoxValue(id = R.id.cb_got_to_know_by_tv, value = "TV"),
-                    @CheckBoxValue(id = R.id.cb_got_to_know_by_internet, value = "IN"),
-                    @CheckBoxValue(id = R.id.cb_got_to_know_by_twitter, value = "TW"),
-                    @CheckBoxValue(id = R.id.cb_got_to_know_by_facebook, value = "FB"),
+                    @WidgetValue(id = R.id.cb_got_to_know_by_tv, value = "TV"),
+                    @WidgetValue(id = R.id.cb_got_to_know_by_internet, value = "IN"),
+                    @WidgetValue(id = R.id.cb_got_to_know_by_twitter, value = "TW"),
+                    @WidgetValue(id = R.id.cb_got_to_know_by_facebook, value = "FB"),
             })
     @Order(9)
     public List<String> gotToKnowBy;

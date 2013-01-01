@@ -17,11 +17,9 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.annotation.CheckBoxGroup;
-import com.androidformenhancer.annotation.Radio;
 import com.androidformenhancer.annotation.Required;
-import com.androidformenhancer.annotation.Spinner;
 import com.androidformenhancer.annotation.When;
+import com.androidformenhancer.annotation.Widget;
 
 import android.text.TextUtils;
 
@@ -73,9 +71,10 @@ public class RequiredValidator extends Validator {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
                 final String strValue = getValueAsString(field);
-                Spinner spinner = (Spinner) field.getAnnotation(Spinner.class);
+                Widget widget = (Widget) field.getAnnotation(Widget.class);
                 if (TextUtils.isEmpty(strValue)
-                        || (spinner != null && spinner.headIsDummy() && strValue.equals("0"))) {
+                        || (widget != null && widget.type() == Widget.Type.SPINNER
+                                && widget.headIsDummy() && strValue.equals("0"))) {
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);
                     if (nameResId > 0) {
@@ -89,8 +88,8 @@ public class RequiredValidator extends Validator {
                     Object[] messageParams = new Object[] {
                             name
                     };
-                    if (field.getAnnotation(Radio.class) != null
-                            || spinner != null) {
+                    if (widget != null && (widget.type() == Widget.Type.RADIO
+                            || widget.type() == Widget.Type.SPINNER)) {
                         return getMessage(R.styleable.ValidatorMessages_afeErrorRequiredSelection,
                                 R.string.afe__msg_validation_required_selection,
                                 messageParams);
@@ -102,8 +101,8 @@ public class RequiredValidator extends Validator {
                 }
             } else if (type.equals(List.class)) {
                 final List<String> list = getValueAsStringList(field);
-                CheckBoxGroup checkBoxGroup = (CheckBoxGroup) field
-                        .getAnnotation(CheckBoxGroup.class);
+                Widget checkBoxGroup = (Widget) field
+                        .getAnnotation(Widget.class);
                 if (checkBoxGroup != null
                         && (list == null || list.size() < checkBoxGroup.atLeast())) {
                     String name = field.getName();

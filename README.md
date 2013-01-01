@@ -19,12 +19,12 @@ Usage
 
         public class DefaultForm {
             @Required
-            @Text(R.id.textfield_name)
+            @Widget(id = R.id.textfield_name, type = Type.TEXT)
             @Order(1)
             public String name;
 
             @IntType
-            @Text(R.id.textfield_age)
+            @Widget(id = R.id.textfield_age, type = Type.TEXT)
             @Order(2)
             public String age;
         }
@@ -75,8 +75,8 @@ All the fields must be public and their types must be `String` or `java.util.Lis
 Each fields must be related to the widgets like `android.widget.EditText`.
 To create relationship with widgets, add special annotations to the fields.
 
-## @Text
-If you use `<EditText>`, then use `@Text` for the related field of the Form class.
+## EditText
+If you use `<EditText>`, then use `@Widget(type = Widget.Type.TEXT)` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
     <EditText
@@ -87,14 +87,14 @@ For example, if the part of your `res/layout/some_layout.xml` is like this:
 then you should define your Form class like this:
 
     public class DefaultForm {
-        @Text(id = R.id.textfield_name)
+        @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
         public String name;
     }
 
-## @Radio and @RadioValue
+## RadioGroup and RadioButton
 If you use `<RadioGroup>` and `<RadioButton>`, and you want to validate
 whether the one of the radio buttons is checked or not,
-then use `@Radio` and `@RadioValue` for the related field of the Form class.
+then use `@Widget(type = Widget.Type.RADIO)` and `@WidgetValue` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
     <RadioGroup
@@ -116,19 +116,20 @@ For example, if the part of your `res/layout/some_layout.xml` is like this:
 then you should define your Form class like this:
 
     public class DefaultForm {
-        @Radio(id = R.id.rg_gender,
+        @Widget(id = R.id.rg_gender,
+            type = Widget.Type.RADIO,
             values = {
-                @RadioValue(id = R.id.rb_male, value = "M"),
-                @RadioValue(id = R.id.rb_female, value = "F"),
+                @WidgetValue(id = R.id.rb_male, value = "M"),
+                @WidgetValue(id = R.id.rb_female, value = "F"),
             })
         public String gender;
     }
 
 If you choose radio button "Male", then the value of the `DefaultForm#gender` will be "M".
 
-## @CheckBoxGroup and @CheckBoxValue
+## CheckBox
 If you use `<CheckBox>` and you want to validate that at least one check box is checked,
-then use `@CheckBoxGroup` and `@CheckBoxValue` for the related field of the Form class.
+then use `@Widget(type = Widget.Type.CHECKBOX)` and `@WidgetValue` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
     <LinearLayout
@@ -156,24 +157,25 @@ For example, if the part of your `res/layout/some_layout.xml` is like this:
 then you should define your Form class like this:
 
     public class DefaultForm {
-        @CheckBoxGroup(id = R.id.cbg_sns,
+        @Widget(id = R.id.cbg_sns,
+            type = Widget.Type.CHECKBOX,
             atLeast = 1,
             values = {
-                @CheckBoxValue(id = R.id.cb_facebook, value = "FB"),
-                @CheckBoxValue(id = R.id.cb_googleplus, value = "GP"),
-                @CheckBoxValue(id = R.id.cb_twitter, value = "TW")
+                @WidgetValue(id = R.id.cb_facebook, value = "FB"),
+                @WidgetValue(id = R.id.cb_googleplus, value = "GP"),
+                @WidgetValue(id = R.id.cb_twitter, value = "TW")
             })
         public List<String> sns;
     }
 
 If you choose check boxes "Facebook" and "Google+", then the value of
 the `DefaultForm#sns` will be `List<String>` which has 2 items "FB" and "GP".
-Note that `@CheckBoxGroup` is used just for grouping same kind of `CheckBox`es,
-so the other `ViewGroup`'s subclasses than `LinearLayotu` like `RelativeLayout`
-can be related to `@CheckBoxGroup`.
+Note that `@Widget` is used just for grouping same kind of `CheckBox`es,
+so the other `ViewGroup`'s subclasses than `LinearLayout` like `RelativeLayout`
+can be related to `@Widget`.
 
-## @Spinner
-If you use `<Spinner>`, then use `@Spinner` for the related field of the Form class.
+## Spinner
+If you use `<Spinner>`, then use `@Widget(type = Widget.Type.SPINNER)` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
     <Spinner
@@ -184,12 +186,12 @@ For example, if the part of your `res/layout/some_layout.xml` is like this:
 then you should define your Form class like this:
 
     public class DefaultForm {
-        @Spinner(id = R.id.spn_credit_card_type)
+        @Widget(id = R.id.spn_credit_card_type, type = Widget.Type.SPINNER)
         public String creditCardType;
     }
 
 If you want to use the head item as a dummy text like "Please select",
-then set `Spinner#headIsDummy` to `true` and add `@Required` annotation.
+then set `Widget#headIsDummy` to `true` and add `@Required` annotation.
 Then you can check whether the user selected other than the head item or not.
 
 
@@ -285,12 +287,12 @@ Note that they are different from the orders in the screen.
 
     public class DefaultForm {
         @Required
-        @Text(R.id.textfield_name)
+        @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
         @Order(1)
         public String name;
 
         @IntType
-        @Text(R.id.textfield_age)
+        @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT)
         @Order(2)
         public String age;
     }
