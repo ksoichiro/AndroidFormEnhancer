@@ -18,7 +18,6 @@ package com.androidformenhancer.utils;
 
 import com.androidformenhancer.annotation.Widget;
 import com.androidformenhancer.annotation.WidgetValue;
-import com.androidformenhancer.validator.ValidationManager;
 
 import android.app.Activity;
 import android.content.Context;

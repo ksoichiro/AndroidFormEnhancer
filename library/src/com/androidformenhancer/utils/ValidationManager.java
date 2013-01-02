@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.validator;
+package com.androidformenhancer.utils;
 
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Widget;
-import com.androidformenhancer.utils.FormMetaData;
+import com.androidformenhancer.validator.ValidationException;
+import com.androidformenhancer.validator.Validator;
 
 import android.content.Context;
 import android.content.res.TypedArray;
