@@ -25,7 +25,6 @@ import com.androidformenhancer.annotation.MaxLength;
 import com.androidformenhancer.annotation.MaxValue;
 import com.androidformenhancer.annotation.MinValue;
 import com.androidformenhancer.annotation.Multibyte;
-import com.androidformenhancer.annotation.Order;
 import com.androidformenhancer.annotation.PastDate;
 import com.androidformenhancer.annotation.Required;
 import com.androidformenhancer.annotation.Widget;
@@ -43,61 +42,56 @@ public class DefaultForm {
     @Multibyte
     @MaxLength(20)
     @Widget(id = R.id.textfield_name, type = Type.TEXT, nameResId = R.string.form_default_name)
-    @Order(1)
     public String name;
 
     @Hiragana
     @MaxLength(20)
-    @Widget(id = R.id.textfield_hiragana, type = Type.TEXT, nameResId = R.string.form_default_hiragana)
-    @Order(2)
+    @Widget(id = R.id.textfield_hiragana, type = Type.TEXT, nameResId = R.string.form_default_hiragana, validateAfter = R.id.textfield_name)
     public String hiragana;
 
     @Katakana
     @MaxLength(20)
-    @Widget(id = R.id.textfield_katakana, type = Type.TEXT, nameResId = R.string.form_default_katakana)
-    @Order(3)
+    @Widget(id = R.id.textfield_katakana, type = Type.TEXT, nameResId = R.string.form_default_katakana, validateAfter = R.id.textfield_hiragana)
     public String katakana;
 
     @IntType
     @MinValue(20)
     @MaxValue(100)
-    @Widget(id = R.id.textfield_age, type = Type.TEXT, nameResId = R.string.form_default_age)
-    @Order(4)
+    @Widget(id = R.id.textfield_age, type = Type.TEXT, nameResId = R.string.form_default_age, validateAfter = R.id.textfield_katakana)
     public String age;
 
     @Required
     @Widget(id = R.id.rg_gender,
             type = Type.RADIO,
             nameResId = R.string.form_default_gender,
+            validateAfter = R.id.textfield_age,
             values = {
                     @WidgetValue(id = R.id.radio_gender_male, value = "0"),
                     @WidgetValue(id = R.id.radio_gender_female, value = "1")
             })
-    @Order(5)
     public String gender;
 
     @Digits
-    @Widget(id = R.id.textfield_phone, type = Type.TEXT, nameResId = R.string.form_default_phone)
-    @Order(6)
+    @Widget(id = R.id.textfield_phone, type = Type.TEXT, nameResId = R.string.form_default_phone, validateAfter = R.id.rg_gender)
     public String phone;
 
     @Required
     @DatePattern
     @PastDate
-    @Widget(id = R.id.textfield_birthday, type = Type.TEXT, nameResId = R.string.form_default_birthday)
-    @Order(7)
+    @Widget(id = R.id.textfield_birthday, type = Type.TEXT, nameResId = R.string.form_default_birthday, validateAfter = R.id.textfield_phone)
     public String birthday;
 
     @Required
     @Widget(id = R.id.spn_credit_card_company, type = Type.SPINNER,
-            nameResId = R.string.form_default_credit_card_company, headIsDummy = true)
-    @Order(8)
+            nameResId = R.string.form_default_credit_card_company, headIsDummy = true,
+            validateAfter = R.id.textfield_birthday)
     public String creditCardCompany;
 
     @Required
     @Widget(id = R.id.cbg_got_to_know_by,
             type = Type.CHECKBOX,
             nameResId = R.string.form_default_got_to_know_by,
+            validateAfter = R.id.spn_credit_card_company,
             atLeast = 2,
             values = {
                     @WidgetValue(id = R.id.cb_got_to_know_by_tv, value = "TV"),
@@ -105,6 +99,5 @@ public class DefaultForm {
                     @WidgetValue(id = R.id.cb_got_to_know_by_twitter, value = "TW"),
                     @WidgetValue(id = R.id.cb_got_to_know_by_facebook, value = "FB"),
             })
-    @Order(9)
     public List<String> gotToKnowBy;
 }

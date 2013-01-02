@@ -17,7 +17,6 @@
 package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.annotation.Email;
-import com.androidformenhancer.annotation.Order;
 import com.androidformenhancer.annotation.Required;
 import com.androidformenhancer.annotation.Widget;
 import com.androidformenhancer.annotation.Widget.Type;
@@ -30,7 +29,6 @@ public class CustomEmailPatternForm {
     @Required
     @Email
     @Widget(id = R.id.textfield_sample, type = Type.TEXT, nameResId = R.string.form_sample_custom_sample)
-    @Order(1)
     public String sample;
 
 }

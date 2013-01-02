@@ -17,15 +17,16 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.internal.FieldOrderComparator;
+import com.androidformenhancer.annotation.Widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
+import android.util.SparseArray;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -128,8 +129,8 @@ public final class ValidationManager {
 
         // Gets all the public fields and validate
         Field[] fields = target.getClass().getFields();
-        Arrays.sort(fields, new FieldOrderComparator());
-        validation: for (Field field : fields) {
+        Field[] sorted = sort(fields);
+        validation: for (Field field : sorted) {
             for (Validator validator : mValidators) {
                 String errorMessage = validator.validate(field);
                 if (!TextUtils.isEmpty(errorMessage)) {
@@ -145,5 +146,41 @@ public final class ValidationManager {
         }
 
         return errorMessages;
+    }
+
+    private Field[] sort(final Field[] fields) {
+        SparseArray<List<Field>> pool = new SparseArray<List<Field>>();
+        LinkedList<Field> unchecked = new LinkedList<Field>();
+        List<Field> result = new ArrayList<Field>();
+        for (Field field : fields) {
+            Widget widget = (Widget) field.getAnnotation(Widget.class);
+            if (widget == null) {
+                continue;
+            }
+            if (pool.indexOfKey(widget.validateAfter()) >= 0) {
+                pool.get(widget.validateAfter()).add(field);
+            } else {
+                List<Field> l = new ArrayList<Field>();
+                l.add(field);
+                pool.put(widget.validateAfter(), l);
+            }
+            if (widget.validateAfter() == 0) {
+                unchecked.add(field);
+            }
+        }
+        while (unchecked.size() > 0) {
+            Field field = unchecked.remove(0);
+            result.add(field);
+            Widget widget = (Widget) field.getAnnotation(Widget.class);
+            if (pool.indexOfKey(widget.id()) >= 0) {
+                List<Field> l = pool.get(widget.id());
+                pool.remove(widget.id());
+                int idx = 0;
+                for (Field f : l) {
+                    unchecked.add(idx++, f);
+                }
+            }
+        }
+        return result.toArray(new Field[] {});
     }
 }
