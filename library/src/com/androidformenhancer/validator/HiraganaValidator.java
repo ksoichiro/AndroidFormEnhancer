@@ -20,7 +20,6 @@ import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Hiragana;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 
