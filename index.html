@@ -56,14 +56,12 @@ Please import it into the Eclipse or other IDEs.</p>
 <p>Create POJO class of the input form, define public fields and add annotations to them.</p>
 
 <pre><code>public class DefaultForm {
+    @Widget(id = R.id.textfield_name)
     @Required
-    @Text(R.id.textfield_name)
-    @Order(1)
     public String name;
 
+    @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
     @IntType
-    @Text(R.id.textfield_age)
-    @Order(2)
     public String age;
 }
 </code></pre>
@@ -72,9 +70,8 @@ Please import it into the Eclipse or other IDEs.</p>
 <p>If you use types other than String, create an entity class which fields has the same names as
 the form class.</p>
 
-<pre><code>public class DefaultForm {
+<pre><code>public class DefaultEntity {
     public String name;
-
     public int age;
 }
 </code></pre>
@@ -83,23 +80,13 @@ the form class.</p>
 <p>Write the codes like following to the Activity or Fragment to extract data from the screen,
 validate them and convert types.</p>
 
-<pre><code>// Extract input data into the POJO class object
-FormHelper&lt;DefaultForm&gt; helper = new FormHelper&lt;DefaultForm&gt;();
-DefaultForm form = helper.extractFormFromView(this, DefaultForm.class);
-
-// Validate input data
-ValidationManager validationManager = new ValidationManager(this);
-ArrayList&lt;String&gt; errorMessages = validationManager.validate(form);
-
-if (errorMessages.size() &gt; 0) {
+<pre><code>ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
+if (result.hasError()) {
     // Show error messages
-    Toast.makeText(
-            this,
-            StringUtils.serialize(errorMessages),
-            Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
 } else {
     // This entity object has clean and converted data
-    DefaultEntity entity = helper.createEntityFromForm(DefaultEntity.class);
+    DefaultEntity entity = helper.create(DefaultEntity.class);
 }
 </code></pre>
 </li>
@@ -117,9 +104,9 @@ All the fields must be public and their types must be <code>String</code> or <co
 <p>Each fields must be related to the widgets like <code>android.widget.EditText</code>.
 To create relationship with widgets, add special annotations to the fields.</p>
 
-<h2><a href="https://github.com/Text" class="user-mention">@Text</a></h2>
+<h2>EditText</h2>
 
-<p>If you use <code>&lt;EditText&gt;</code>, then use <code>@Text</code> for the related field of the Form class.
+<p>If you use <code>&lt;EditText&gt;</code>, then just use <code>@Widget</code> for the related field of the Form class.
 For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
 
 <pre><code>&lt;EditText
@@ -131,17 +118,16 @@ For example, if the part of your <code>res/layout/some_layout.xml</code> is like
 <p>then you should define your Form class like this:</p>
 
 <pre><code>public class DefaultForm {
-    @Text(id = R.id.textfield_name)
+    @Widget(id = R.id.textfield_name)
     public String name;
 }
 </code></pre>
 
-<h2>
-<a href="https://github.com/Radio" class="user-mention">@Radio</a> and @RadioValue</h2>
+<h2>RadioGroup and RadioButton</h2>
 
 <p>If you use <code>&lt;RadioGroup&gt;</code> and <code>&lt;RadioButton&gt;</code>, and you want to validate
 whether the one of the radio buttons is checked or not,
-then use <code>@Radio</code> and <code>@RadioValue</code> for the related field of the Form class.
+then use <code>@Widget</code> and <code>@WidgetValue</code> for the related field of the Form class.
 For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
 
 <pre><code>&lt;RadioGroup
@@ -164,10 +150,10 @@ For example, if the part of your <code>res/layout/some_layout.xml</code> is like
 <p>then you should define your Form class like this:</p>
 
 <pre><code>public class DefaultForm {
-    @Radio(id = R.id.rg_gender,
+    @Widget(id = R.id.rg_gender,
         values = {
-            @RadioValue(id = R.id.rb_male, value = "M"),
-            @RadioValue(id = R.id.rb_female, value = "F"),
+            @WidgetValue(id = R.id.rb_male, value = "M"),
+            @WidgetValue(id = R.id.rb_female, value = "F"),
         })
     public String gender;
 }
@@ -175,10 +161,10 @@ For example, if the part of your <code>res/layout/some_layout.xml</code> is like
 
 <p>If you choose radio button "Male", then the value of the <code>DefaultForm#gender</code> will be "M".</p>
 
-<h2>@CheckBoxGroup and @CheckBoxValue</h2>
+<h2>CheckBox</h2>
 
 <p>If you use <code>&lt;CheckBox&gt;</code> and you want to validate that at least one check box is checked,
-then use <code>@CheckBoxGroup</code> and <code>@CheckBoxValue</code> for the related field of the Form class.
+then use <code>@Widget</code> and <code>@WidgetValue</code> for the related field of the Form class.
 For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
 
 <pre><code>&lt;LinearLayout
@@ -207,12 +193,12 @@ For example, if the part of your <code>res/layout/some_layout.xml</code> is like
 <p>then you should define your Form class like this:</p>
 
 <pre><code>public class DefaultForm {
-    @CheckBoxGroup(id = R.id.cbg_sns,
+    @Widget(id = R.id.cbg_sns,
         atLeast = 1,
         values = {
-            @CheckBoxValue(id = R.id.cb_facebook, value = "FB"),
-            @CheckBoxValue(id = R.id.cb_googleplus, value = "GP"),
-            @CheckBoxValue(id = R.id.cb_twitter, value = "TW")
+            @WidgetValue(id = R.id.cb_facebook, value = "FB"),
+            @WidgetValue(id = R.id.cb_googleplus, value = "GP"),
+            @WidgetValue(id = R.id.cb_twitter, value = "TW")
         })
     public List&lt;String&gt; sns;
 }
@@ -220,13 +206,13 @@ For example, if the part of your <code>res/layout/some_layout.xml</code> is like
 
 <p>If you choose check boxes "Facebook" and "Google+", then the value of
 the <code>DefaultForm#sns</code> will be <code>List&lt;String&gt;</code> which has 2 items "FB" and "GP".
-Note that <code>@CheckBoxGroup</code> is used just for grouping same kind of <code>CheckBox</code>es,
-so the other <code>ViewGroup</code>'s subclasses than <code>LinearLayotu</code> like <code>RelativeLayout</code>
-can be related to <code>@CheckBoxGroup</code>.</p>
+Note that <code>@Widget</code> is used just for grouping same kind of <code>CheckBox</code>es,
+so the other <code>ViewGroup</code>'s subclasses than <code>LinearLayout</code> like <code>RelativeLayout</code>
+can be related to <code>@Widget</code>.</p>
 
-<h2><a href="https://github.com/Spinner" class="user-mention">@Spinner</a></h2>
+<h2>Spinner</h2>
 
-<p>If you use <code>&lt;Spinner&gt;</code>, then use <code>@Spinner</code> for the related field of the Form class.
+<p>If you use <code>&lt;Spinner&gt;</code>, then just use <code>@Widget</code> for the related field of the Form class.
 For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
 
 <pre><code>&lt;Spinner
@@ -238,13 +224,13 @@ For example, if the part of your <code>res/layout/some_layout.xml</code> is like
 <p>then you should define your Form class like this:</p>
 
 <pre><code>public class DefaultForm {
-    @Spinner(id = R.id.spn_credit_card_type)
+    @Widget(id = R.id.spn_credit_card_type)
     public String creditCardType;
 }
 </code></pre>
 
 <p>If you want to use the head item as a dummy text like "Please select",
-then set <code>Spinner#headIsDummy</code> to <code>true</code> and add <code>@Required</code> annotation.
+then set <code>Widget#headIsDummy</code> to <code>true</code> and add <code>@Required</code> annotation.
 Then you can check whether the user selected other than the head item or not.</p>
 
 <h1>Validations</h1>
@@ -402,20 +388,18 @@ PastDateValidator uses <code>DatePattern#value()</code>.</li>
 </li>
 </ol><h1>Orders of the validation</h1>
 
-<p>Orders of the validation for each items are defined by <code>@Order</code> annotations.
+<p>Orders of the validation for each items are defined by <code>Widget#validateAfter</code>.
 For example, if you define form like following, the validators validate <code>name</code> at first,
 then validate <code>age</code>.
 Note that they are different from the orders in the screen.</p>
 
 <pre><code>public class DefaultForm {
+    @Widget(id = R.id.textfield_name)
     @Required
-    @Text(R.id.textfield_name)
-    @Order(1)
     public String name;
 
+    @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
     @IntType
-    @Text(R.id.textfield_age)
-    @Order(2)
     public String age;
 }
 </code></pre>
@@ -485,14 +469,23 @@ You should define your theme like this:</p>
 If you want to change name, use annotation's <code>nameResId</code> attribute.
 For example, if you define field like:</p>
 
-<pre><code>@Required
+<pre><code>@Widget(id = R.id.textfield_name)
+@Required
 public String firstName;
 </code></pre>
 
 <p>the error message will be "firstName is required".
 If you define Form like this:</p>
 
-<pre><code>@Required(nameResId = R.string.first_name)
+<pre><code>@Widget(id = R.id.textfield_name, nameResId = R.string.first_name)
+@Required
+public String firstName;
+</code></pre>
+
+<p>or</p>
+
+<pre><code>@Widget(id = R.id.textfield_name)
+@Required(nameResId = R.string.first_name)
 public String firstName;
 </code></pre>
 
@@ -516,7 +509,7 @@ public String firstName;
 </li>
 <li>
 <p>Keep class members (public fields) of the Forms and Entities.
-If you use FormHelper#createEntityFromForm(), this is required.</p>
+If you use <code>FormHelper#create()</code> or <code>@When</code>, this is required.</p>
 
 <pre><code>-keepclassmembers class com.androidformenhancer.sample.demos.DefaultForm {
   public *;
