@@ -17,39 +17,47 @@ Usage
 
 1.  Create POJO class of the input form, define public fields and add annotations to them.
 
-        public class DefaultForm {
-            @Widget(id = R.id.textfield_name)
-            @Required
-            public String name;
+    ```java
+    public class DefaultForm {
+        @Widget(id = R.id.textfield_name)
+        @Required
+        public String name;
 
-            @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
-            @IntType
-            public String age;
-        }
+        @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
+        @IntType
+        public String age;
+    }
+    ```
 
 1.  If you use types other than String, create an entity class which fields has the same names as
     the form class.
 
-        public class DefaultEntity {
-            public String name;
-            public int age;
-        }
+    ```java
+    public class DefaultEntity {
+        public String name;
+        public int age;
+    }
+    ```
 
 1.  Write the codes like following to the Activity or Fragment to extract data from the screen,
     validate them and convert types.
 
-        ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
-        if (result.hasError()) {
-            // Show error messages
-            Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
-        } else {
-            // This entity object has clean and converted data
-            DefaultEntity entity = helper.create(DefaultEntity.class);
-        }
+    ```java
+    ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
+    if (result.hasError()) {
+        // Show error messages
+        Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
+    } else {
+        // This entity object has clean and converted data
+        DefaultEntity entity = helper.create(DefaultEntity.class);
+    }
+    ```
 
 1.  If you want to validate as soon as the focus changed, just write these codes:
 
-        new FormHelper(DefaultForm.class).setOnFocusOutValidation(this);
+    ```java
+    new FormHelper(DefaultForm.class).setOnFocusOutValidation(this);
+    ```
 
     Note that this method affects only for the text fields.
 
@@ -61,9 +69,11 @@ To get input values from the layouts, create a Form class at first.
 Form class is just a POJO class, which has public fields.
 All the fields must be public and their types must be `String` or `java.util.List<String>`.
 
-    public class DefaultForm {
-        public String name;
-    }
+```java
+public class DefaultForm {
+    public String name;
+}
+```
 
 Each fields must be related to the widgets like `android.widget.EditText`.
 To create relationship with widgets, add special annotations to the fields.
@@ -72,17 +82,21 @@ To create relationship with widgets, add special annotations to the fields.
 If you use `<EditText>`, then just use `@Widget` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
-    <EditText
-        android:id="@+id/textfield_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+```xml
+<EditText
+    android:id="@+id/textfield_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+```
 
 then you should define your Form class like this:
 
-    public class DefaultForm {
-        @Widget(id = R.id.textfield_name)
-        public String name;
-    }
+```java
+public class DefaultForm {
+    @Widget(id = R.id.textfield_name)
+    public String name;
+}
+```
 
 ## RadioGroup and RadioButton
 If you use `<RadioGroup>` and `<RadioButton>`, and you want to validate
@@ -90,32 +104,36 @@ whether the one of the radio buttons is checked or not,
 then use `@Widget` and `@WidgetValue` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
-    <RadioGroup
-        android:id="@+id/rg_gender"
+```xml
+<RadioGroup
+    android:id="@+id/rg_gender"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RadioButton
+        android:id="@+id/rb_male"
+        android:text="Male"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/rb_male"
-            android:text="Male"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/rb_female"
-            android:text="Female"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
+        android:layout_height="wrap_content" />
+    <RadioButton
+        android:id="@+id/rb_female"
+        android:text="Female"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RadioGroup>
+```
 
 then you should define your Form class like this:
 
-    public class DefaultForm {
-        @Widget(id = R.id.rg_gender,
-            values = {
-                @WidgetValue(id = R.id.rb_male, value = "M"),
-                @WidgetValue(id = R.id.rb_female, value = "F"),
-            })
-        public String gender;
-    }
+```java
+public class DefaultForm {
+    @Widget(id = R.id.rg_gender,
+        values = {
+            @WidgetValue(id = R.id.rb_male, value = "M"),
+            @WidgetValue(id = R.id.rb_female, value = "F"),
+        })
+    public String gender;
+}
+```
 
 If you choose radio button "Male", then the value of the `DefaultForm#gender` will be "M".
 
@@ -124,40 +142,44 @@ If you use `<CheckBox>` and you want to validate that at least one check box is 
 then use `@Widget` and `@WidgetValue` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
-    <LinearLayout
-        android:id="@+id/cbg_sns"
+```xml
+<LinearLayout
+    android:id="@+id/cbg_sns"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <CheckBox
+        android:id="@+id/cb_facebook"
+        android:text="Facebook"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <CheckBox
-            android:id="@+id/cb_facebook"
-            android:text="Facebook"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/cb_googleplus"
-            android:text="Google+"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/cb_twitter"
-            android:text="Twitter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/cb_googleplus"
+        android:text="Google+"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/cb_twitter"
+        android:text="Twitter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+```
 
 then you should define your Form class like this:
 
-    public class DefaultForm {
-        @Widget(id = R.id.cbg_sns,
-            atLeast = 1,
-            values = {
-                @WidgetValue(id = R.id.cb_facebook, value = "FB"),
-                @WidgetValue(id = R.id.cb_googleplus, value = "GP"),
-                @WidgetValue(id = R.id.cb_twitter, value = "TW")
-            })
-        public List<String> sns;
-    }
+```java
+public class DefaultForm {
+    @Widget(id = R.id.cbg_sns,
+        atLeast = 1,
+        values = {
+            @WidgetValue(id = R.id.cb_facebook, value = "FB"),
+            @WidgetValue(id = R.id.cb_googleplus, value = "GP"),
+            @WidgetValue(id = R.id.cb_twitter, value = "TW")
+        })
+    public List<String> sns;
+}
+```
 
 If you choose check boxes "Facebook" and "Google+", then the value of
 the `DefaultForm#sns` will be `List<String>` which has 2 items "FB" and "GP".
@@ -169,17 +191,21 @@ can be related to `@Widget`.
 If you use `<Spinner>`, then just use `@Widget` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
-    <Spinner
-        android:id="@+id/spn_credit_card_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+```xml
+<Spinner
+    android:id="@+id/spn_credit_card_type"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+```
 
 then you should define your Form class like this:
 
-    public class DefaultForm {
-        @Widget(id = R.id.spn_credit_card_type)
-        public String creditCardType;
-    }
+```java
+public class DefaultForm {
+    @Widget(id = R.id.spn_credit_card_type)
+    public String creditCardType;
+}
+```
 
 If you want to use the head item as a dummy text like "Please select",
 then set `Widget#headIsDummy` to `true` and add `@Required` annotation.
@@ -276,15 +302,17 @@ For example, if you define form like following, the validators validate `name` a
 then validate `age`.
 Note that they are different from the orders in the screen.
 
-    public class DefaultForm {
-        @Widget(id = R.id.textfield_name)
-        @Required
-        public String name;
+```java
+public class DefaultForm {
+    @Widget(id = R.id.textfield_name)
+    @Required
+    public String name;
 
-        @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
-        @IntType
-        public String age;
-    }
+    @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
+    @IntType
+    public String age;
+}
+```
 
 
 Customizations
@@ -299,13 +327,15 @@ You can customize the behaviours and messages like following:
     For example, if you want to validate all the items and show all the errors,
     you should define your theme like this:
 
-        <style name="YourTheme">
-            <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
-        </style>
+    ```xml
+    <style name="YourTheme">
+        <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+    </style>
 
-        <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
-            <item name="afeStopPolicy">continueAll</item>
-        </style>
+    <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+        <item name="afeStopPolicy">continueAll</item>
+    </style>
+    ```
 
 1. Available validations
 
@@ -314,17 +344,19 @@ You can customize the behaviours and messages like following:
     For example, if you want to use only the RequiredValidator,
     you should define your theme like this:
 
-        <string-array name="your_standard_validators">
-            <item>com.androidformenhancer.validator.RequiredValidator</item>
-        </string>
+    ```xml
+    <string-array name="your_standard_validators">
+        <item>com.androidformenhancer.validator.RequiredValidator</item>
+    </string>
 
-        <style name="YourTheme">
-            <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
-        </style>
+    <style name="YourTheme">
+        <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+    </style>
 
-        <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
-            <item name="afeStandardValidators">@array/your_standard_validators</item>
-        </style>
+    <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+        <item name="afeStandardValidators">@array/your_standard_validators</item>
+    </style>
+    ```
 
 1. Validation error messages
 
@@ -332,40 +364,50 @@ You can customize the behaviours and messages like following:
     For example, if you want to override the error message for the RequiredValidator,
     You should define your theme like this:
 
-        <string name="custom_msg_validation_required">You MUST fill in %1$s!</string>
+    ```xml
+    <string name="custom_msg_validation_required">You MUST fill in %1$s!</string>
 
-        <style name="YourTheme">
-            <item name="afeValidatorMessages">@style/YourValidatorMessages</item>
-        </style>
+    <style name="YourTheme">
+        <item name="afeValidatorMessages">@style/YourValidatorMessages</item>
+    </style>
 
-        <style name="YourValidatorMessages">
-            <item name="afeErrorRequired">@string/custom_msg_validation_required</item>
-        </style>
+    <style name="YourValidatorMessages">
+        <item name="afeErrorRequired">@string/custom_msg_validation_required</item>
+    </style>
+    ```
 
     The name of the item used in the error message is the name of the field in Form class.
     If you want to change name, use annotation's `nameResId` attribute.
     For example, if you define field like:
 
-        @Widget(id = R.id.textfield_name)
-        @Required
-        public String firstName;
+    ```java
+    @Widget(id = R.id.textfield_name)
+    @Required
+    public String firstName;
+    ```
 
     the error message will be "firstName is required".
     If you define Form like this:
 
-        @Widget(id = R.id.textfield_name, nameResId = R.string.first_name)
-        @Required
-        public String firstName;
+    ```java
+    @Widget(id = R.id.textfield_name, nameResId = R.string.first_name)
+    @Required
+    public String firstName;
+    ```
 
     or
 
-        @Widget(id = R.id.textfield_name)
-        @Required(nameResId = R.string.first_name)
-        public String firstName;
+    ```java
+    @Widget(id = R.id.textfield_name)
+    @Required(nameResId = R.string.first_name)
+    public String firstName;
+    ```
 
     and define strings.xml like:
 
-        <string name="first_name">First name</string>
+    ```xml
+    <string name="first_name">First name</string>
+    ```
 
     then the result will be "First name is required".
 

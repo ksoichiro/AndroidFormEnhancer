@@ -17,37 +17,45 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 
 1.  入力フォーム用のPOJOクラスを作成し、アノテーションでフォームの仕様を定義します。
 
-        public class DefaultForm {
-            @Widget(id = R.id.textfield_name)
-            @Required
-            public String name;
+    ```java
+    public class DefaultForm {
+        @Widget(id = R.id.textfield_name)
+        @Required
+        public String name;
 
-            @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
-            @IntType
-            public String age;
-        }
+        @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
+        @IntType
+        public String age;
+    }
+    ```
 
 1.  入力値を文字列以外のエンティティとして使用したい場合は、同名のフィールドを持つエンティティクラスを用意します。
 
-        public class DefaultEntity {
-            public String name;
-            public int age;
-        }
+    ```java
+    public class DefaultEntity {
+        public String name;
+        public int age;
+    }
+    ```
 
 1.  ActivityやFragmentに下記のようなコードを書いて、画面から入力値を取り出すところから入力チェック、型変換を行ないます。
 
-        ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
-        if (result.hasError()) {
-            // エラーメッセージを表示します
-            Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
-        } else {
-            // entityは入力チェック・型変換の済んだオブジェクトです
-            DefaultEntity entity = helper.create(DefaultEntity.class);
-        }
+    ```java
+    ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
+    if (result.hasError()) {
+        // エラーメッセージを表示します
+        Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
+    } else {
+        // entityは入力チェック・型変換の済んだオブジェクトです
+        DefaultEntity entity = helper.create(DefaultEntity.class);
+    }
+    ```
 
 1.  もしフォーカスが外れたタイミングで入力チェックしたい場合は、次のように書くだけです。
 
-        new FormHelper(DefaultForm.class).setOnFocusOutValidation(this);
+    ```java
+    new FormHelper(DefaultForm.class).setOnFocusOutValidation(this);
+    ```
 
     ただし、これはテキストのフィールドだけに有効な方法です。
 
@@ -59,9 +67,11 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 Formクラスはpublicなフィールドを持つだけの単なるPOJOクラスです。
 全てのフィールドはpublicで、`String`か`java.util.List<String>`型である必要があります。
 
-    public class DefaultForm {
-        public String name;
-    }
+```java
+public class DefaultForm {
+    public String name;
+}
+```
 
 各フィールドは、`android.widget.EditText`のようなウィジェットと関連付ける必要がります。
 ウィジェットとの関連付けをするには、特別なアノテーションをフィールドに付与します。
@@ -70,49 +80,57 @@ Formクラスはpublicなフィールドを持つだけの単なるPOJOクラス
 `<EditText>`タグを使う場合は、`@Widget`をFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
-    <EditText
-        android:id="@+id/textfield_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+```xml
+<EditText
+    android:id="@+id/textfield_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+```
 
 この場合、Formクラスの定義は次のようにします。
 
-    public class DefaultForm {
-        @Widget(id = R.id.textfield_name)
-        public String name;
-    }
+```java
+public class DefaultForm {
+    @Widget(id = R.id.textfield_name)
+    public String name;
+}
+```
 
 ## RadioGroupとRadioButton
 `<RadioGroup>`タグや`<RadioButton>`を使い、いずれかのラジオボタンが選択されていることを
 検証したい場合は、`@Widget`と`@WidgetValue`のアノテーションをFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
-    <RadioGroup
-        android:id="@+id/rg_gender"
+```xml
+<RadioGroup
+    android:id="@+id/rg_gender"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RadioButton
+        android:id="@+id/rb_male"
+        android:text="男性"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/rb_male"
-            android:text="男性"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/rb_female"
-            android:text="女性"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
+        android:layout_height="wrap_content" />
+    <RadioButton
+        android:id="@+id/rb_female"
+        android:text="女性"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RadioGroup>
+```
 
 この場合、Formクラスの定義は次のようにします。
 
-    public class DefaultForm {
-        @Widget(id = R.id.rg_gender,
-            values = {
-                @WidgetValue(id = R.id.rb_male, value = "M"),
-                @WidgetValue(id = R.id.rb_female, value = "F"),
-            })
-        public String gender;
-    }
+```java
+public class DefaultForm {
+    @Widget(id = R.id.rg_gender,
+        values = {
+            @WidgetValue(id = R.id.rb_male, value = "M"),
+            @WidgetValue(id = R.id.rb_female, value = "F"),
+        })
+    public String gender;
+}
+```
 
 もし"男性"のラジオボタンを選択すれば、`DefaultForm#gender`の値は"M"になります。
 
@@ -122,40 +140,44 @@ Formクラスはpublicなフィールドを持つだけの単なるPOJOクラス
 Formクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
-    <LinearLayout
-        android:id="@+id/cbg_sns"
+```xml
+<LinearLayout
+    android:id="@+id/cbg_sns"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <CheckBox
+        android:id="@+id/cb_facebook"
+        android:text="Facebook"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <CheckBox
-            android:id="@+id/cb_facebook"
-            android:text="Facebook"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/cb_googleplus"
-            android:text="Google+"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/cb_twitter"
-            android:text="Twitter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/cb_googleplus"
+        android:text="Google+"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/cb_twitter"
+        android:text="Twitter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+```
 
 この場合、Formクラスの定義は次のようにします。
 
-    public class DefaultForm {
-        @Widget(id = R.id.cbg_sns,
-            atLeast = 1,
-            values = {
-                @WidgetValue(id = R.id.cb_facebook, value = "FB"),
-                @WidgetValue(id = R.id.cb_googleplus, value = "GP"),
-                @WidgetValue(id = R.id.cb_twitter, value = "TW")
-            })
-        public List<String> sns;
-    }
+```java
+public class DefaultForm {
+    @Widget(id = R.id.cbg_sns,
+        atLeast = 1,
+        values = {
+            @WidgetValue(id = R.id.cb_facebook, value = "FB"),
+            @WidgetValue(id = R.id.cb_googleplus, value = "GP"),
+            @WidgetValue(id = R.id.cb_twitter, value = "TW")
+        })
+    public List<String> sns;
+}
+```
 
 もし"Facebook"と"Google+"のチェックボックスを選択したならば、
 `DefaultForm#sns`の値は"FB"と"GP"の2つの要素を持つ`List<String>`になります。
@@ -167,17 +189,21 @@ Formクラスのフィールドに付与します。
 `<Spinner>`タグを使う場合は、`@Widget`アノテーションをFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
-    <Spinner
-        android:id="@+id/spn_credit_card_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+```xml
+<Spinner
+    android:id="@+id/spn_credit_card_type"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+```
 
 この場合、Formクラスの定義は次のようにします。
 
-    public class DefaultForm {
-        @Widget(id = R.id.spn_credit_card_type, Widget.Type.SPINNER)
-        public String creditCardType;
-    }
+```java
+public class DefaultForm {
+    @Widget(id = R.id.spn_credit_card_type, Widget.Type.SPINNER)
+    public String creditCardType;
+}
+```
 
 もし、先頭の要素を"選択してください"のようなダミー文字列として使いたい場合は、
 `Widget#headIsDummy`を`true`に設定し、`@Required`アノテーションをフィールドに追加します。
@@ -269,15 +295,17 @@ Formクラスのフィールドに付与します。
 例えば、以下のように定義した場合は、`name`、`age`の順番に検証されます。
 画面の表示順とは異なることに注意してください。
 
-    public class DefaultForm {
-        @Widget(id = R.id.textfield_name)
-        @Required
-        public String name;
+```java
+public class DefaultForm {
+    @Widget(id = R.id.textfield_name)
+    @Required
+    public String name;
 
-        @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
-        @IntType
-        public String age;
-    }
+    @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
+    @IntType
+    public String age;
+}
+```
 
 
 カスタマイズ
@@ -291,13 +319,15 @@ Formクラスのフィールドに付与します。
     例えば、エラーを検出しても全項目を検証し、全てのエラーを表示したい場合は
     以下のようにテーマを定義します。
 
-        <style name="YourTheme">
-            <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
-        </style>
+    ```xml
+    <style name="YourTheme">
+        <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+    </style>
 
-        <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
-            <item name="afeStopPolicy">continueAll</item>
-        </style>
+    <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+        <item name="afeStopPolicy">continueAll</item>
+    </style>
+    ```
 
 1. 利用可能な検証クラス
 
@@ -305,17 +335,19 @@ Formクラスのフィールドに付与します。
     独自の検証クラスを追加することもできます。
     例えば、RequiredValidatorだけを有効にしたい場合は、以下のようにテーマを定義します。
 
-        <string-array name="your_standard_validators">
-            <item>com.androidformenhancer.validator.RequiredValidator</item>
-        </string>
+    ```xml
+    <string-array name="your_standard_validators">
+        <item>com.androidformenhancer.validator.RequiredValidator</item>
+    </string>
 
-        <style name="YourTheme">
-            <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
-        </style>
+    <style name="YourTheme">
+        <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+    </style>
 
-        <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
-            <item name="afeStandardValidators">@array/your_standard_validators</item>
-        </style>
+    <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+        <item name="afeStandardValidators">@array/your_standard_validators</item>
+    </style>
+    ```
 
 1. 検証エラーメッセージ
 
@@ -323,44 +355,52 @@ Formクラスのフィールドに付与します。
     例えば、RequiredValidatorのエラーメッセージを上書きしたい場合は
     以下のようにテーマを定義します。
 
-        <string name="custom_msg_validation_required">%1$sは絶対に入力してください！</string>
+    ```xml
+    <string name="custom_msg_validation_required">%1$sは絶対に入力してください！</string>
 
-        <style name="YourTheme">
-            <item name="afeValidatorMessages">@style/YourValidatorMessages</item>
-        </style>
+    <style name="YourTheme">
+        <item name="afeValidatorMessages">@style/YourValidatorMessages</item>
+    </style>
 
-        <style name="YourValidatorMessages">
-            <item name="afeErrorRequired">@string/custom_msg_validation_required</item>
-        </style>
+    <style name="YourValidatorMessages">
+        <item name="afeErrorRequired">@string/custom_msg_validation_required</item>
+    </style>
+    ```
 
     エラーメッセージに含める項目名は、デフォルトではFormクラスに定義するフィールド名が使用されます。
     この項目名を変更したい場合は、アノテーションの`nameResId`属性を使用してください。
     例えば、以下のようにフィールドを定義します。
 
-        @Widget(id = R.id.textfield_name)
-        @Required
-        public String firstName;
+    ```java
+    @Widget(id = R.id.textfield_name)
+    @Required
+    public String firstName;
+    ```
 
     この場合、エラーメッセージは「firstNameは必ず入力してください」となります。
     項目名をカスタマイズする場合、Formは以下のように定義します。
 
-        @Widget(id = R.id.textfield_name, nameResId = R.string.first_name)
-        @Required
-        public String firstName;
-
+    ```java
+    @Widget(id = R.id.textfield_name, nameResId = R.string.first_name)
+    @Required
+    public String firstName;
+    ```
 
     もしくは下記の形式です。
 
-        @Widget(id = R.id.textfield_name)
-        @Required(nameResId = R.string.first_name)
-        public String firstName;
+    ```java
+    @Widget(id = R.id.textfield_name)
+    @Required(nameResId = R.string.first_name)
+    public String firstName;
+    ```
 
     strings.xmlを次のように記述した場合
 
-        <string name="first_name">お名前(名)</string>
+    ```xml
+    <string name="first_name">お名前(名)</string>
+    ```
 
     エラーメッセージは「お名前(名)は必ず入力してください」となります。
-
 
 
 ProGuard
