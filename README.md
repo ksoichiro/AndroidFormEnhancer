@@ -47,6 +47,12 @@ Usage
             DefaultEntity entity = helper.create(DefaultEntity.class);
         }
 
+1.  If you want to validate as soon as the focus changed, just write these codes:
+
+        new FormHelper(DefaultForm.class).setOnFocusOutValidation(this);
+
+    Note that this method affects only for the text fields.
+
 
 Get input values
 ===

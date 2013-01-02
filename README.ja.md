@@ -45,6 +45,12 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
             DefaultEntity entity = helper.create(DefaultEntity.class);
         }
 
+1.  もしフォーカスが外れたタイミングで入力チェックしたい場合は、次のように書くだけです。
+
+        new FormHelper(DefaultForm.class).setOnFocusOutValidation(this);
+
+    ただし、これはテキストのフィールドだけに有効な方法です。
+
 
 入力値の取得
 ===

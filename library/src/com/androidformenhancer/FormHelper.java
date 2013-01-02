@@ -16,7 +16,6 @@
 
 package com.androidformenhancer;
 
-import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Widget;
 import com.androidformenhancer.annotation.WidgetValue;
 import com.androidformenhancer.internal.FormMetaData;
@@ -130,6 +129,18 @@ public class FormHelper {
     public void setOnFocusOutValidation(final Fragment fragment) {
         setOnFocusOutValidation(fragment.getActivity(),
                 fragment.getView().findViewById(android.R.id.content));
+    }
+
+    public void validateText(final Activity activity, final int textViewId) {
+        validateText(activity,
+                activity.getWindow().getDecorView().findViewById(android.R.id.content),
+                textViewId);
+    }
+
+    public void validateText(final Fragment fragment, final int textViewId) {
+        validateText(fragment.getActivity(),
+                fragment.getView().findViewById(android.R.id.content),
+                textViewId);
     }
 
     /**
@@ -297,7 +308,36 @@ public class FormHelper {
                 }
             });
         }
+    }
 
+    private void validateText(final Context context, final View rootView, final int textViewId) {
+        extractFormFromView(context, rootView);
+        final ValidationManager validationManager = new ValidationManager(context);
+        final Field[] fields = mFormClass.getFields();
+        Field field = null;
+        for (final Field f : fields) {
+            Widget widget = f.getAnnotation(Widget.class);
+            if (widget == null) {
+                continue;
+            }
+            if (widget.id() == textViewId) {
+                field = f;
+                break;
+            }
+        }
+        if (field == null) {
+            throw new IllegalArgumentException("Specified TextView not found!");
+        }
+        ValidationResult result =
+                validationManager.validate(mForm, field, mFormMetaDataMap);
+        TextView v = (TextView) rootView.findViewById(textViewId);
+        if (result.hasError()) {
+            v.setError(StringUtils.serialize(result.getAllErrors()),
+                    getErrorIcon(context));
+            v.setCompoundDrawables(null, null, getErrorIcon(context), null);
+        } else {
+            v.setCompoundDrawables(null, null, getOkIcon(context), null);
+        }
     }
 
     private Drawable getOkIcon(final Context context) {
