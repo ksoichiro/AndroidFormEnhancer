@@ -55,40 +55,48 @@ Please import it into the Eclipse or other IDEs.</p>
 <li>
 <p>Create POJO class of the input form, define public fields and add annotations to them.</p>
 
-<pre><code>public class DefaultForm {
-    @Widget(id = R.id.textfield_name)
-    @Required
-    public String name;
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultForm</span> <span class="o">{</span>
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_name</span><span class="o">)</span>
+    <span class="nd">@Required</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
 
-    @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
-    @IntType
-    public String age;
-}
-</code></pre>
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_age</span><span class="o">,</span> <span class="n">validateAfter</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_name</span><span class="o">)</span>
+    <span class="nd">@IntType</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">age</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
 </li>
 <li>
 <p>If you use types other than String, create an entity class which fields has the same names as
 the form class.</p>
 
-<pre><code>public class DefaultEntity {
-    public String name;
-    public int age;
-}
-</code></pre>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultEntity</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
 </li>
 <li>
 <p>Write the codes like following to the Activity or Fragment to extract data from the screen,
 validate them and convert types.</p>
 
-<pre><code>ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
-if (result.hasError()) {
-    // Show error messages
-    Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
-} else {
-    // This entity object has clean and converted data
-    DefaultEntity entity = helper.create(DefaultEntity.class);
-}
-</code></pre>
+<div class="highlight"><pre><span class="n">ValidationResult</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FormHelper</span><span class="o">(</span><span class="n">DefaultForm</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">validate</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">hasError</span><span class="o">())</span> <span class="o">{</span>
+    <span class="c1">// Show error messages</span>
+    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">result</span><span class="o">.</span><span class="na">getAllSerializedErrors</span><span class="o">(),</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="c1">// This entity object has clean and converted data</span>
+    <span class="n">DefaultEntity</span> <span class="n">entity</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">DefaultEntity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>
+<p>If you want to validate as soon as the focus changed, just write these codes:</p>
+
+<div class="highlight"><pre><span class="k">new</span> <span class="nf">FormHelper</span><span class="o">(</span><span class="n">DefaultForm</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">setOnFocusOutValidation</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</pre></div>
+
+<p>Note that this method affects only for the text fields.</p>
 </li>
 </ol><h1>Get input values</h1>
 
@@ -96,10 +104,10 @@ if (result.hasError()) {
 Form class is just a POJO class, which has public fields.
 All the fields must be public and their types must be <code>String</code> or <code>java.util.List&lt;String&gt;</code>.</p>
 
-<pre><code>public class DefaultForm {
-    public String name;
-}
-</code></pre>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultForm</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
 
 <p>Each fields must be related to the widgets like <code>android.widget.EditText</code>.
 To create relationship with widgets, add special annotations to the fields.</p>
@@ -109,19 +117,19 @@ To create relationship with widgets, add special annotations to the fields.</p>
 <p>If you use <code>&lt;EditText&gt;</code>, then just use <code>@Widget</code> for the related field of the Form class.
 For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
 
-<pre><code>&lt;EditText
-    android:id="@+id/textfield_name"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" /&gt;
-</code></pre>
+<div class="highlight"><pre><span class="nt">&lt;EditText</span>
+    <span class="na">android:id=</span><span class="s">"@+id/textfield_name"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+</pre></div>
 
 <p>then you should define your Form class like this:</p>
 
-<pre><code>public class DefaultForm {
-    @Widget(id = R.id.textfield_name)
-    public String name;
-}
-</code></pre>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultForm</span> <span class="o">{</span>
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_name</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
 
 <h2>RadioGroup and RadioButton</h2>
 
@@ -130,34 +138,34 @@ whether the one of the radio buttons is checked or not,
 then use <code>@Widget</code> and <code>@WidgetValue</code> for the related field of the Form class.
 For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
 
-<pre><code>&lt;RadioGroup
-    android:id="@+id/rg_gender"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"&gt;
-    &lt;RadioButton
-        android:id="@+id/rb_male"
-        android:text="Male"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" /&gt;
-    &lt;RadioButton
-        android:id="@+id/rb_female"
-        android:text="Female"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" /&gt;
-&lt;/RadioGroup&gt;
-</code></pre>
+<div class="highlight"><pre><span class="nt">&lt;RadioGroup</span>
+    <span class="na">android:id=</span><span class="s">"@+id/rg_gender"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;RadioButton</span>
+        <span class="na">android:id=</span><span class="s">"@+id/rb_male"</span>
+        <span class="na">android:text=</span><span class="s">"Male"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;RadioButton</span>
+        <span class="na">android:id=</span><span class="s">"@+id/rb_female"</span>
+        <span class="na">android:text=</span><span class="s">"Female"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/RadioGroup&gt;</span>
+</pre></div>
 
 <p>then you should define your Form class like this:</p>
 
-<pre><code>public class DefaultForm {
-    @Widget(id = R.id.rg_gender,
-        values = {
-            @WidgetValue(id = R.id.rb_male, value = "M"),
-            @WidgetValue(id = R.id.rb_female, value = "F"),
-        })
-    public String gender;
-}
-</code></pre>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultForm</span> <span class="o">{</span>
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">rg_gender</span><span class="o">,</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="o">{</span>
+            <span class="nd">@WidgetValue</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">rb_male</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">"M"</span><span class="o">),</span>
+            <span class="nd">@WidgetValue</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">rb_female</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">"F"</span><span class="o">),</span>
+        <span class="o">})</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">gender</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
 
 <p>If you choose radio button "Male", then the value of the <code>DefaultForm#gender</code> will be "M".</p>
 
@@ -167,42 +175,42 @@ For example, if the part of your <code>res/layout/some_layout.xml</code> is like
 then use <code>@Widget</code> and <code>@WidgetValue</code> for the related field of the Form class.
 For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
 
-<pre><code>&lt;LinearLayout
-    android:id="@+id/cbg_sns"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"&gt;
-    &lt;CheckBox
-        android:id="@+id/cb_facebook"
-        android:text="Facebook"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" /&gt;
-    &lt;CheckBox
-        android:id="@+id/cb_googleplus"
-        android:text="Google+"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" /&gt;
-    &lt;CheckBox
-        android:id="@+id/cb_twitter"
-        android:text="Twitter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" /&gt;
-&lt;/LinearLayout&gt;
-</code></pre>
+<div class="highlight"><pre><span class="nt">&lt;LinearLayout</span>
+    <span class="na">android:id=</span><span class="s">"@+id/cbg_sns"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;CheckBox</span>
+        <span class="na">android:id=</span><span class="s">"@+id/cb_facebook"</span>
+        <span class="na">android:text=</span><span class="s">"Facebook"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;CheckBox</span>
+        <span class="na">android:id=</span><span class="s">"@+id/cb_googleplus"</span>
+        <span class="na">android:text=</span><span class="s">"Google+"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;CheckBox</span>
+        <span class="na">android:id=</span><span class="s">"@+id/cb_twitter"</span>
+        <span class="na">android:text=</span><span class="s">"Twitter"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</pre></div>
 
 <p>then you should define your Form class like this:</p>
 
-<pre><code>public class DefaultForm {
-    @Widget(id = R.id.cbg_sns,
-        atLeast = 1,
-        values = {
-            @WidgetValue(id = R.id.cb_facebook, value = "FB"),
-            @WidgetValue(id = R.id.cb_googleplus, value = "GP"),
-            @WidgetValue(id = R.id.cb_twitter, value = "TW")
-        })
-    public List&lt;String&gt; sns;
-}
-</code></pre>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultForm</span> <span class="o">{</span>
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">cbg_sns</span><span class="o">,</span>
+        <span class="n">atLeast</span> <span class="o">=</span> <span class="mi">1</span><span class="o">,</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="o">{</span>
+            <span class="nd">@WidgetValue</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">cb_facebook</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">"FB"</span><span class="o">),</span>
+            <span class="nd">@WidgetValue</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">cb_googleplus</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">"GP"</span><span class="o">),</span>
+            <span class="nd">@WidgetValue</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">cb_twitter</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">"TW"</span><span class="o">)</span>
+        <span class="o">})</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">sns</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
 
 <p>If you choose check boxes "Facebook" and "Google+", then the value of
 the <code>DefaultForm#sns</code> will be <code>List&lt;String&gt;</code> which has 2 items "FB" and "GP".
@@ -215,19 +223,19 @@ can be related to <code>@Widget</code>.</p>
 <p>If you use <code>&lt;Spinner&gt;</code>, then just use <code>@Widget</code> for the related field of the Form class.
 For example, if the part of your <code>res/layout/some_layout.xml</code> is like this:</p>
 
-<pre><code>&lt;Spinner
-    android:id="@+id/spn_credit_card_type"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" /&gt;
-</code></pre>
+<div class="highlight"><pre><span class="nt">&lt;Spinner</span>
+    <span class="na">android:id=</span><span class="s">"@+id/spn_credit_card_type"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+</pre></div>
 
 <p>then you should define your Form class like this:</p>
 
-<pre><code>public class DefaultForm {
-    @Widget(id = R.id.spn_credit_card_type)
-    public String creditCardType;
-}
-</code></pre>
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultForm</span> <span class="o">{</span>
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">spn_credit_card_type</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">creditCardType</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
 
 <p>If you want to use the head item as a dummy text like "Please select",
 then set <code>Widget#headIsDummy</code> to <code>true</code> and add <code>@Required</code> annotation.
@@ -393,16 +401,16 @@ For example, if you define form like following, the validators validate <code>na
 then validate <code>age</code>.
 Note that they are different from the orders in the screen.</p>
 
-<pre><code>public class DefaultForm {
-    @Widget(id = R.id.textfield_name)
-    @Required
-    public String name;
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultForm</span> <span class="o">{</span>
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_name</span><span class="o">)</span>
+    <span class="nd">@Required</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
 
-    @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
-    @IntType
-    public String age;
-}
-</code></pre>
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_age</span><span class="o">,</span> <span class="n">validateAfter</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_name</span><span class="o">)</span>
+    <span class="nd">@IntType</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">age</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
 
 <h1>Customizations</h1>
 
@@ -417,14 +425,14 @@ when they detected errors.
 For example, if you want to validate all the items and show all the errors,
 you should define your theme like this:</p>
 
-<pre><code>&lt;style name="YourTheme"&gt;
-    &lt;item name="afeValidatorDefinitions"&gt;@style/YourValidatorDefinitions&lt;/item&gt;
-&lt;/style&gt;
+<div class="highlight"><pre><span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"YourTheme"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"afeValidatorDefinitions"</span><span class="nt">&gt;</span>@style/YourValidatorDefinitions<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
 
-&lt;style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators"&gt;
-    &lt;item name="afeStopPolicy"&gt;continueAll&lt;/item&gt;
-&lt;/style&gt;
-</code></pre>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"YourValidatorDefinitions"</span> <span class="na">parent=</span><span class="s">"@style/AfeDefaultValidators"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"afeStopPolicy"</span><span class="nt">&gt;</span>continueAll<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+</pre></div>
 </li>
 <li>
 <p>Available validations</p>
@@ -434,18 +442,18 @@ You can also add your own validator.
 For example, if you want to use only the RequiredValidator,
 you should define your theme like this:</p>
 
-<pre><code>&lt;string-array name="your_standard_validators"&gt;
-    &lt;item&gt;com.androidformenhancer.validator.RequiredValidator&lt;/item&gt;
-&lt;/string&gt;
+<div class="highlight"><pre><span class="nt">&lt;string-array</span> <span class="na">name=</span><span class="s">"your_standard_validators"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item&gt;</span>com.androidformenhancer.validator.RequiredValidator<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/string&gt;</span>
 
-&lt;style name="YourTheme"&gt;
-    &lt;item name="afeValidatorDefinitions"&gt;@style/YourValidatorDefinitions&lt;/item&gt;
-&lt;/style&gt;
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"YourTheme"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"afeValidatorDefinitions"</span><span class="nt">&gt;</span>@style/YourValidatorDefinitions<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
 
-&lt;style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators"&gt;
-    &lt;item name="afeStandardValidators"&gt;@array/your_standard_validators&lt;/item&gt;
-&lt;/style&gt;
-</code></pre>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"YourValidatorDefinitions"</span> <span class="na">parent=</span><span class="s">"@style/AfeDefaultValidators"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"afeStandardValidators"</span><span class="nt">&gt;</span>@array/your_standard_validators<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+</pre></div>
 </li>
 <li>
 <p>Validation error messages</p>
@@ -454,45 +462,45 @@ you should define your theme like this:</p>
 For example, if you want to override the error message for the RequiredValidator,
 You should define your theme like this:</p>
 
-<pre><code>&lt;string name="custom_msg_validation_required"&gt;You MUST fill in %1$s!&lt;/string&gt;
+<div class="highlight"><pre><span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"custom_msg_validation_required"</span><span class="nt">&gt;</span>You MUST fill in %1$s!<span class="nt">&lt;/string&gt;</span>
 
-&lt;style name="YourTheme"&gt;
-    &lt;item name="afeValidatorMessages"&gt;@style/YourValidatorMessages&lt;/item&gt;
-&lt;/style&gt;
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"YourTheme"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"afeValidatorMessages"</span><span class="nt">&gt;</span>@style/YourValidatorMessages<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
 
-&lt;style name="YourValidatorMessages"&gt;
-    &lt;item name="afeErrorRequired"&gt;@string/custom_msg_validation_required&lt;/item&gt;
-&lt;/style&gt;
-</code></pre>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"YourValidatorMessages"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"afeErrorRequired"</span><span class="nt">&gt;</span>@string/custom_msg_validation_required<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+</pre></div>
 
 <p>The name of the item used in the error message is the name of the field in Form class.
 If you want to change name, use annotation's <code>nameResId</code> attribute.
 For example, if you define field like:</p>
 
-<pre><code>@Widget(id = R.id.textfield_name)
-@Required
-public String firstName;
-</code></pre>
+<div class="highlight"><pre><span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_name</span><span class="o">)</span>
+<span class="nd">@Required</span>
+<span class="kd">public</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+</pre></div>
 
 <p>the error message will be "firstName is required".
 If you define Form like this:</p>
 
-<pre><code>@Widget(id = R.id.textfield_name, nameResId = R.string.first_name)
-@Required
-public String firstName;
-</code></pre>
+<div class="highlight"><pre><span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_name</span><span class="o">,</span> <span class="n">nameResId</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">first_name</span><span class="o">)</span>
+<span class="nd">@Required</span>
+<span class="kd">public</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+</pre></div>
 
 <p>or</p>
 
-<pre><code>@Widget(id = R.id.textfield_name)
-@Required(nameResId = R.string.first_name)
-public String firstName;
-</code></pre>
+<div class="highlight"><pre><span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_name</span><span class="o">)</span>
+<span class="nd">@Required</span><span class="o">(</span><span class="n">nameResId</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">first_name</span><span class="o">)</span>
+<span class="kd">public</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+</pre></div>
 
 <p>and define strings.xml like:</p>
 
-<pre><code>&lt;string name="first_name"&gt;First name&lt;/string&gt;
-</code></pre>
+<div class="highlight"><pre><span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"first_name"</span><span class="nt">&gt;</span>First name<span class="nt">&lt;/string&gt;</span>
+</pre></div>
 
 <p>then the result will be "First name is required".</p>
 </li>
