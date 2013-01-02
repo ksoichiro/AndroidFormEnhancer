@@ -117,14 +117,14 @@ public final class ValidationManager {
      * {@link android.androsuit.entity.annotation.Order}. If this annotation is
      * not specified, the order is determined by field names(asc). The fields
      * with the annotations are prior to the others.
-     * 
-     * @param context context to access the message resources
      * @param target target object to be validated (the form)
+     * @param context context to access the message resources
+     * 
      * @return list to save the error messages
      */
-    public ArrayList<String> validate(final Object target,
+    public ValidationResult validate(final Object target, final Field field,
             final HashMap<String, FormMetaData> formMetaDataMap) {
-        ArrayList<String> errorMessages = new ArrayList<String>();
+        ValidationResult validationResult = new ValidationResult();
 
         // Set validation target
         for (Validator validator : mValidators) {
@@ -133,13 +133,20 @@ public final class ValidationManager {
         }
 
         // Gets all the public fields and validate
-        Field[] fields = target.getClass().getFields();
+        Field[] fields = (field == null) ? target.getClass().getFields() : new Field[] {
+                field,
+        };
         Field[] sorted = sort(fields);
-        validation: for (Field field : sorted) {
+        validation: for (Field f : sorted) {
+            Widget widget = (Widget) f.getAnnotation(Widget.class);
+            if (widget == null) {
+                continue;
+            }
+            validationResult.addValidatedId(widget.id());
             for (Validator validator : mValidators) {
-                String errorMessage = validator.validate(field);
+                String errorMessage = validator.validate(f);
                 if (!TextUtils.isEmpty(errorMessage)) {
-                    errorMessages.add(errorMessage);
+                    validationResult.addError(widget.id(), errorMessage);
                     if (mStopPolicy == STOP_POLICY_STOP_ALL_IF_ANY) {
                         break validation;
                     }
@@ -150,29 +157,7 @@ public final class ValidationManager {
             }
         }
 
-        return errorMessages;
-    }
-
-    public ArrayList<String> validate(final Field field, final Object target,
-            final HashMap<String, FormMetaData> formMetaDataMap) {
-        ArrayList<String> errorMessages = new ArrayList<String>();
-
-        // Set validation target
-        for (Validator validator : mValidators) {
-            validator.setTarget(target);
-            validator.setFormMetaDataMap(formMetaDataMap);
-        }
-
-        for (Validator validator : mValidators) {
-            String errorMessage = validator.validate(field);
-            if (!TextUtils.isEmpty(errorMessage)) {
-                errorMessages.add(errorMessage);
-                if (mStopPolicy == STOP_POLICY_STOP_AND_RESUME_NEXT) {
-                    break;
-                }
-            }
-        }
-        return errorMessages;
+        return validationResult;
     }
 
     private Field[] sort(final Field[] fields) {

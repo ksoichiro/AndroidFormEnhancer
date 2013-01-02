@@ -17,14 +17,12 @@
 package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.utils.FormHelper;
-import com.androidformenhancer.utils.StringUtils;
+import com.androidformenhancer.utils.ValidationResult;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 /**
  * @author Soichiro Kashima
@@ -38,14 +36,9 @@ public class CustomValidatorActivity extends Activity {
     }
 
     public void onSubmit(View v) {
-        FormHelper<SampleCustomForm> helper = new FormHelper<SampleCustomForm>();
-        ArrayList<String> errorMessages = helper.validate(this, SampleCustomForm.class);
-        if (errorMessages.size() > 0) {
-            // Error
-            Toast.makeText(
-                    this,
-                    StringUtils.serialize(errorMessages),
-                    Toast.LENGTH_SHORT).show();
+        ValidationResult result = new FormHelper(SampleCustomForm.class).validate(this);
+        if (result.hasError()) {
+            Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "OK!", Toast.LENGTH_SHORT).show();
         }

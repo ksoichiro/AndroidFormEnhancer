@@ -17,14 +17,12 @@
 package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.utils.FormHelper;
-import com.androidformenhancer.utils.StringUtils;
+import com.androidformenhancer.utils.ValidationResult;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 /**
  * @author Soichiro Kashima
@@ -38,18 +36,14 @@ public class DefaultActivity extends Activity {
     }
 
     public void onSubmit(View v) {
-        FormHelper<DefaultForm> helper = new FormHelper<DefaultForm>();
-        ArrayList<String> errorMessages = helper.validate(this, DefaultForm.class);
-        if (errorMessages.size() > 0) {
-            // Error
-            Toast.makeText(
-                    this,
-                    StringUtils.serialize(errorMessages),
-                    Toast.LENGTH_SHORT).show();
+        FormHelper helper = new FormHelper(DefaultForm.class);
+        ValidationResult result = helper.validate(this);
+        if (result.hasError()) {
+            Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
         } else {
             // Create entity and do what you want
             // e.g. insert into database, send to server by HTTP
-            DefaultEntity entity = helper.createEntityFromForm(DefaultEntity.class);
+            DefaultEntity entity = helper.create(DefaultEntity.class);
             Toast.makeText(this, "OK!", Toast.LENGTH_SHORT).show();
         }
     }

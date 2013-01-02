@@ -31,6 +31,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -42,12 +43,17 @@ import java.util.List;
  * 
  * @author Soichiro Kashima
  */
-public class FormHelper<T> {
+public class FormHelper {
 
     private static final String TAG = "FormHelper";
 
-    private T mForm;
+    private Class<?> mFormClass;
+    private Object mForm;
     private HashMap<String, FormMetaData> mFormMetaDataMap;
+
+    public FormHelper(Class<?> clazz) {
+        mFormClass = clazz;
+    }
 
     /**
      * Validates the input values.
@@ -61,28 +67,35 @@ public class FormHelper<T> {
      * @param target target object to be validated (the form)
      * @return list to save the error messages
      */
-    public ArrayList<String> validate(final Activity activity, Class<T> clazz) {
-        T form = extractFormFromView(activity, clazz);
+    public ValidationResult validate(final Activity activity) {
+        extractFormFromView(activity);
         ValidationManager validationManager = new ValidationManager(activity);
-        return validationManager.validate(form, mFormMetaDataMap);
+        ValidationResult validationResult = validationManager
+                .validate(mForm, null, mFormMetaDataMap);
+        for (int id : validationResult.getValidatedIds()) {
+            View v = activity.findViewById(id);
+            if (!(v instanceof TextView)) {
+                continue;
+            }
+            TextView tv = (TextView) v;
+            if (validationResult.hasErrorFor(id)) {
+                tv.setError(StringUtils.serialize(validationResult.getErrorsFor(id)));
+                tv.setCompoundDrawables(null, null, getErrorIcon(activity), null);
+            } else {
+                tv.setError(null);
+                tv.setCompoundDrawables(null, null, getOkIcon(activity), null);
+            }
+        }
+        return validationResult;
     }
 
-    public ArrayList<String> validate(final Fragment fragment, Class<T> clazz) {
-        T form = extractFormFromView(fragment, clazz);
-        ValidationManager validationManager = new ValidationManager(fragment.getActivity());
-        return validationManager.validate(form, mFormMetaDataMap);
+    public ValidationResult validate(final Fragment fragment) {
+        return validate(fragment.getActivity());
     }
 
-    public T extractFormFromView(final Activity activity, Class<T> clazz) {
-        return extractFormFromView(activity,
-                activity.getWindow().getDecorView().findViewById(android.R.id.content),
-                clazz);
-    }
-
-    public T extractFormFromView(final Fragment fragment, Class<T> clazz) {
-        return extractFormFromView(fragment.getActivity(),
-                fragment.getView().findViewById(android.R.id.content),
-                clazz);
+    private void extractFormFromView(final Activity activity) {
+        extractFormFromView(activity,
+                activity.getWindow().getDecorView().findViewById(android.R.id.content));
     }
 
     /**
@@ -93,15 +106,15 @@ public class FormHelper<T> {
      * @param dstFormClass the destination form class
      * @return created object
      */
-    public T extractFormFromView(final Context context, final View rootView, Class<T> clazz) {
-        ensureFormFieldsTypes(clazz);
+    private void extractFormFromView(final Context context, final View rootView) {
+        ensureFormFieldsTypes();
 
         try {
-            mForm = clazz.newInstance();
+            mForm = mFormClass.newInstance();
             mFormMetaDataMap = new HashMap<String, FormMetaData>();
-            final Field[] fields = clazz.getFields();
+            final Field[] fields = mFormClass.getFields();
             for (Field field : fields) {
-                Widget widget = (Widget) field.getAnnotation(Widget.class);
+                Widget widget = field.getAnnotation(Widget.class);
                 if (widget == null) {
                     continue;
                 }
@@ -145,7 +158,6 @@ public class FormHelper<T> {
                     continue;
                 }
             }
-            return mForm;
         } catch (Exception e) {
             mForm = null;
             Log.v(TAG, e.getMessage(), e);
@@ -153,24 +165,21 @@ public class FormHelper<T> {
         }
     }
 
-    public void setOnFocusOutValidation(final Fragment fragment, final Class<T> clazz) {
+    public void setOnFocusOutValidation(final Fragment fragment) {
         setOnFocusOutValidation(fragment.getActivity(),
-                fragment.getView().findViewById(android.R.id.content),
-                clazz);
+                fragment.getView().findViewById(android.R.id.content));
     }
 
-    public void setOnFocusOutValidation(final Activity activity, final Class<T> clazz) {
+    public void setOnFocusOutValidation(final Activity activity) {
         setOnFocusOutValidation(activity,
-                activity.getWindow().getDecorView().findViewById(android.R.id.content),
-                clazz);
+                activity.getWindow().getDecorView().findViewById(android.R.id.content));
     }
 
-    public void setOnFocusOutValidation(final Context context, final View rootView,
-            final Class<T> clazz) {
-        extractFormFromView(context, rootView, clazz);
+    private void setOnFocusOutValidation(final Context context, final View rootView) {
+        extractFormFromView(context, rootView);
         final ValidationManager validationManager = new ValidationManager(context);
 
-        final Field[] fields = clazz.getFields();
+        final Field[] fields = mFormClass.getFields();
         for (final Field field : fields) {
             if (!mFormMetaDataMap.containsKey(field.getName())) {
                 continue;
@@ -179,7 +188,7 @@ public class FormHelper<T> {
             if (widgetType != WidgetType.TEXT) {
                 continue;
             }
-            final Widget widget = (Widget) field.getAnnotation(Widget.class);
+            final Widget widget = field.getAnnotation(Widget.class);
             if (widget == null) {
                 continue;
             }
@@ -188,20 +197,15 @@ public class FormHelper<T> {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (!hasFocus) {
-                        final T form = extractFormFromView(context, rootView, clazz);
-                        ArrayList<String> errorMessages = validationManager.validate(field,
-                                form, mFormMetaDataMap);
-                        if (errorMessages.size() == 0) {
-                            final Drawable d = context.getResources().getDrawable(
-                                    R.drawable.ic_textfield_ok);
-                            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-                            e.setCompoundDrawables(null, null, d, null);
+                        extractFormFromView(context, rootView);
+                        ValidationResult result =
+                                validationManager.validate(mForm, field, mFormMetaDataMap);
+                        if (result.hasError()) {
+                            e.setError(StringUtils.serialize(result.getAllErrors()),
+                                    getErrorIcon(context));
+                            e.setCompoundDrawables(null, null, getErrorIcon(context), null);
                         } else {
-                            final Drawable d = context.getResources().getDrawable(
-                                    R.drawable.ic_textfield_error);
-                            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-                            e.setCompoundDrawables(null, null, d, null);
-                            e.setError(StringUtils.serialize(errorMessages), d);
+                            e.setCompoundDrawables(null, null, getOkIcon(context), null);
                         }
                     }
                 }
@@ -217,7 +221,7 @@ public class FormHelper<T> {
      * @param dstClass destination object's class
      * @return copied object
      */
-    public <E> E createEntityFromForm(final Class<E> clazz) {
+    public <E> E create(final Class<E> clazz) {
         Field[] srcFields = mForm.getClass().getFields();
 
         try {
@@ -270,8 +274,26 @@ public class FormHelper<T> {
         }
     }
 
-    private void ensureFormFieldsTypes(Class<T> clazz) {
-        final Field[] fields = clazz.getFields();
+    private Drawable getOkIcon(final Context context) {
+        if (context == null) {
+            throw new IllegalArgumentException("Context must not be null!");
+        }
+        final Drawable d = context.getResources().getDrawable(R.drawable.ic_textfield_ok);
+        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        return d;
+    }
+
+    private Drawable getErrorIcon(final Context context) {
+        if (context == null) {
+            throw new IllegalArgumentException("Context must not be null!");
+        }
+        final Drawable d = context.getResources().getDrawable(R.drawable.ic_textfield_error);
+        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        return d;
+    }
+
+    private void ensureFormFieldsTypes() {
+        final Field[] fields = mFormClass.getFields();
         for (Field field : fields) {
             // Ensure the field types in form class are all String or
             // List<String>.
