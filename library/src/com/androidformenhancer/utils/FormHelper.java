@@ -16,11 +16,13 @@
 
 package com.androidformenhancer.utils;
 
+import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Widget;
 import com.androidformenhancer.annotation.WidgetValue;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -149,6 +151,63 @@ public class FormHelper<T> {
             Log.v(TAG, e.getMessage(), e);
             throw new RuntimeException("Failed to create form instance or retrive data.", e);
         }
+    }
+
+    public void setOnFocusOutValidation(final Fragment fragment, final Class<T> clazz) {
+        setOnFocusOutValidation(fragment.getActivity(),
+                fragment.getView().findViewById(android.R.id.content),
+                clazz);
+    }
+
+    public void setOnFocusOutValidation(final Activity activity, final Class<T> clazz) {
+        setOnFocusOutValidation(activity,
+                activity.getWindow().getDecorView().findViewById(android.R.id.content),
+                clazz);
+    }
+
+    public void setOnFocusOutValidation(final Context context, final View rootView,
+            final Class<T> clazz) {
+        extractFormFromView(context, rootView, clazz);
+        final ValidationManager validationManager = new ValidationManager(context);
+
+        final Field[] fields = clazz.getFields();
+        for (final Field field : fields) {
+            if (!mFormMetaDataMap.containsKey(field.getName())) {
+                continue;
+            }
+            WidgetType widgetType = mFormMetaDataMap.get(field.getName()).getWidgetType();
+            if (widgetType != WidgetType.TEXT) {
+                continue;
+            }
+            final Widget widget = (Widget) field.getAnnotation(Widget.class);
+            if (widget == null) {
+                continue;
+            }
+            final EditText e = (EditText) rootView.findViewById(widget.id());
+            e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        final T form = extractFormFromView(context, rootView, clazz);
+                        ArrayList<String> errorMessages = validationManager.validate(field,
+                                form, mFormMetaDataMap);
+                        if (errorMessages.size() == 0) {
+                            final Drawable d = context.getResources().getDrawable(
+                                    R.drawable.ic_textfield_ok);
+                            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+                            e.setCompoundDrawables(null, null, d, null);
+                        } else {
+                            final Drawable d = context.getResources().getDrawable(
+                                    R.drawable.ic_textfield_error);
+                            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+                            e.setCompoundDrawables(null, null, d, null);
+                            e.setError(StringUtils.serialize(errorMessages), d);
+                        }
+                    }
+                }
+            });
+        }
+
     }
 
     /**

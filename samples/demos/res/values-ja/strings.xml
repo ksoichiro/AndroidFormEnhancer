@@ -24,6 +24,7 @@
     <string name="title_activity_custom_messages">カスタムメッセージ</string>
     <string name="title_activity_custom_validator">カスタム検証クラス</string>
     <string name="title_activity_custom_email_pattern">カスタムEメールアドレスパターン</string>
+    <string name="title_activity_focus_out_validation">フォーカスアウト時に検証</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_hiragana">お名前(ひらがな)</string>
     <string name="form_default_katakana">お名前(カタカナ)</string>

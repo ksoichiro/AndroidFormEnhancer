@@ -122,7 +122,8 @@ public final class ValidationManager {
      * @param target target object to be validated (the form)
      * @return list to save the error messages
      */
-    public ArrayList<String> validate(final Object target, final HashMap<String, FormMetaData> formMetaDataMap) {
+    public ArrayList<String> validate(final Object target,
+            final HashMap<String, FormMetaData> formMetaDataMap) {
         ArrayList<String> errorMessages = new ArrayList<String>();
 
         // Set validation target
@@ -149,6 +150,28 @@ public final class ValidationManager {
             }
         }
 
+        return errorMessages;
+    }
+
+    public ArrayList<String> validate(final Field field, final Object target,
+            final HashMap<String, FormMetaData> formMetaDataMap) {
+        ArrayList<String> errorMessages = new ArrayList<String>();
+
+        // Set validation target
+        for (Validator validator : mValidators) {
+            validator.setTarget(target);
+            validator.setFormMetaDataMap(formMetaDataMap);
+        }
+
+        for (Validator validator : mValidators) {
+            String errorMessage = validator.validate(field);
+            if (!TextUtils.isEmpty(errorMessage)) {
+                errorMessages.add(errorMessage);
+                if (mStopPolicy == STOP_POLICY_STOP_AND_RESUME_NEXT) {
+                    break;
+                }
+            }
+        }
         return errorMessages;
     }
 
