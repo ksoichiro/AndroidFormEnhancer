@@ -17,10 +17,10 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Required;
 import com.androidformenhancer.annotation.When;
 import com.androidformenhancer.annotation.Widget;
-import com.androidformenhancer.utils.WidgetType;
 
 import android.text.TextUtils;
 

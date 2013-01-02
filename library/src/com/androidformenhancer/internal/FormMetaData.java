@@ -1,5 +1,7 @@
 
-package com.androidformenhancer.utils;
+package com.androidformenhancer.internal;
+
+import com.androidformenhancer.WidgetType;
 
 public class FormMetaData {
 

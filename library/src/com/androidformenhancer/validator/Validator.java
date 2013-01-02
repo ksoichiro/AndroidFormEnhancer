@@ -17,9 +17,9 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Widget;
-import com.androidformenhancer.utils.FormMetaData;
-import com.androidformenhancer.utils.WidgetType;
+import com.androidformenhancer.internal.FormMetaData;
 
 import android.content.Context;
 import android.content.res.TypedArray;

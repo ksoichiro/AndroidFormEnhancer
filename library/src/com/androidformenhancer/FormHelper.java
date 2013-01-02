@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.utils;
+package com.androidformenhancer;
 
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Widget;
 import com.androidformenhancer.annotation.WidgetValue;
+import com.androidformenhancer.internal.FormMetaData;
+import com.androidformenhancer.internal.ValidationManager;
+import com.androidformenhancer.utils.StringUtils;
 
 import android.app.Activity;
 import android.content.Context;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.utils;
+package com.androidformenhancer;
 
 /**
  * @author Soichiro Kashima

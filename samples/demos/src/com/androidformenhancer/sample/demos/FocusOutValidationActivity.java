@@ -16,7 +16,7 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.utils.FormHelper;
+import com.androidformenhancer.FormHelper;
 
 import android.os.Bundle;
 

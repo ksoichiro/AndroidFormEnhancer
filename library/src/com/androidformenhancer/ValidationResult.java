@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.utils;
+package com.androidformenhancer;
+
+import com.androidformenhancer.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -29,6 +31,7 @@ public final class ValidationResult {
     private LinkedHashMap<Integer, ArrayList<String>> mErrorMessages;
 
     public ValidationResult() {
+        mValidatedIds = new ArrayList<Integer>();
         mErrorMessages = new LinkedHashMap<Integer, ArrayList<String>>();
     }
 

@@ -17,6 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
+import com.androidformenhancer.ValidationException;
 import com.androidformenhancer.annotation.Multibyte;
 
 import android.content.Context;

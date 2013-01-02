@@ -1,5 +1,5 @@
 
-package com.androidformenhancer.validator;
+package com.androidformenhancer;
 
 public class ValidationException extends RuntimeException {
 
