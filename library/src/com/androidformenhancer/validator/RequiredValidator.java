@@ -20,6 +20,7 @@ import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Required;
 import com.androidformenhancer.annotation.When;
 import com.androidformenhancer.annotation.Widget;
+import com.androidformenhancer.utils.WidgetType;
 
 import android.text.TextUtils;
 
@@ -73,7 +74,7 @@ public class RequiredValidator extends Validator {
                 final String strValue = getValueAsString(field);
                 Widget widget = (Widget) field.getAnnotation(Widget.class);
                 if (TextUtils.isEmpty(strValue)
-                        || (widget != null && widget.type() == Widget.Type.SPINNER
+                        || (widget != null && getWidgetType(field) == WidgetType.SPINNER
                                 && widget.headIsDummy() && strValue.equals("0"))) {
                     String name = field.getName();
                     int nameResId = getNameResourceId(field);
@@ -88,8 +89,8 @@ public class RequiredValidator extends Validator {
                     Object[] messageParams = new Object[] {
                             name
                     };
-                    if (widget != null && (widget.type() == Widget.Type.RADIO
-                            || widget.type() == Widget.Type.SPINNER)) {
+                    if (widget != null && (getWidgetType(field) == WidgetType.RADIO
+                            || getWidgetType(field) == WidgetType.SPINNER)) {
                         return getMessage(R.styleable.ValidatorMessages_afeErrorRequiredSelection,
                                 R.string.afe__msg_validation_required_selection,
                                 messageParams);

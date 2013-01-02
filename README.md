@@ -19,11 +19,11 @@ Usage
 
         public class DefaultForm {
             @Required
-            @Widget(id = R.id.textfield_name, type = Type.TEXT)
+            @Widget(id = R.id.textfield_name)
             public String name;
 
             @IntType
-            @Widget(id = R.id.textfield_age, type = Type.TEXT, validateAfter = R.id.textfield_name)
+            @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
             public String age;
         }
 
@@ -39,13 +39,9 @@ Usage
 1.  Write the codes like following to the Activity or Fragment to extract data from the screen,
     validate them and convert types.
 
-        // Extract input data into the POJO class object
         FormHelper<DefaultForm> helper = new FormHelper<DefaultForm>();
-        DefaultForm form = helper.extractFormFromView(this, DefaultForm.class);
 
-        // Validate input data
-        ValidationManager validationManager = new ValidationManager(this);
-        ArrayList<String> errorMessages = validationManager.validate(form);
+        ArrayList<String> errorMessages = helper.validate(this, DefaultForm.class);
 
         if (errorMessages.size() > 0) {
             // Show error messages
@@ -74,7 +70,7 @@ Each fields must be related to the widgets like `android.widget.EditText`.
 To create relationship with widgets, add special annotations to the fields.
 
 ## EditText
-If you use `<EditText>`, then use `@Widget(type = Widget.Type.TEXT)` for the related field of the Form class.
+If you use `<EditText>`, then just use `@Widget` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
     <EditText
@@ -85,14 +81,14 @@ For example, if the part of your `res/layout/some_layout.xml` is like this:
 then you should define your Form class like this:
 
     public class DefaultForm {
-        @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
+        @Widget(id = R.id.textfield_name)
         public String name;
     }
 
 ## RadioGroup and RadioButton
 If you use `<RadioGroup>` and `<RadioButton>`, and you want to validate
 whether the one of the radio buttons is checked or not,
-then use `@Widget(type = Widget.Type.RADIO)` and `@WidgetValue` for the related field of the Form class.
+then use `@Widget` and `@WidgetValue` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
     <RadioGroup
@@ -115,7 +111,6 @@ then you should define your Form class like this:
 
     public class DefaultForm {
         @Widget(id = R.id.rg_gender,
-            type = Widget.Type.RADIO,
             values = {
                 @WidgetValue(id = R.id.rb_male, value = "M"),
                 @WidgetValue(id = R.id.rb_female, value = "F"),
@@ -127,7 +122,7 @@ If you choose radio button "Male", then the value of the `DefaultForm#gender` wi
 
 ## CheckBox
 If you use `<CheckBox>` and you want to validate that at least one check box is checked,
-then use `@Widget(type = Widget.Type.CHECKBOX)` and `@WidgetValue` for the related field of the Form class.
+then use `@Widget` and `@WidgetValue` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
     <LinearLayout
@@ -156,7 +151,6 @@ then you should define your Form class like this:
 
     public class DefaultForm {
         @Widget(id = R.id.cbg_sns,
-            type = Widget.Type.CHECKBOX,
             atLeast = 1,
             values = {
                 @WidgetValue(id = R.id.cb_facebook, value = "FB"),
@@ -173,7 +167,7 @@ so the other `ViewGroup`'s subclasses than `LinearLayout` like `RelativeLayout`
 can be related to `@Widget`.
 
 ## Spinner
-If you use `<Spinner>`, then use `@Widget(type = Widget.Type.SPINNER)` for the related field of the Form class.
+If you use `<Spinner>`, then just use `@Widget` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
     <Spinner
@@ -184,7 +178,7 @@ For example, if the part of your `res/layout/some_layout.xml` is like this:
 then you should define your Form class like this:
 
     public class DefaultForm {
-        @Widget(id = R.id.spn_credit_card_type, type = Widget.Type.SPINNER)
+        @Widget(id = R.id.spn_credit_card_type)
         public String creditCardType;
     }
 
@@ -285,11 +279,11 @@ Note that they are different from the orders in the screen.
 
     public class DefaultForm {
         @Required
-        @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
+        @Widget(id = R.id.textfield_name)
         public String name;
 
         @IntType
-        @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT, validateAfter = R.id.textfield_name)
+        @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
         public String age;
     }
 

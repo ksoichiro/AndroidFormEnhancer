@@ -19,11 +19,11 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 
         public class DefaultForm {
             @Required
-            @Widget(id = R.id.textfield_name, type = Type.TEXT)
+            @Widget(id = R.id.textfield_name)
             public String name;
 
             @IntType
-            @Widget(id = R.id.textfield_age, type = Type.TEXT, validateAfter = R.id.textfield_name)
+            @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
             public String age;
         }
 
@@ -37,13 +37,9 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 
 1.  ActivityやFragmentに下記のようなコードを書いて、画面から入力値を取り出すところから入力チェック、型変換を行ないます。
 
-        // フォーム用のPOJOクラスオブジェクトへ入力内容を抽出します
         FormHelper<DefaultForm> helper = new FormHelper<DefaultForm>();
-        DefaultForm form = helper.extractFormFromView(this, DefaultForm.class);
 
-        // 入力チェックします
-        ValidationManager validationManager = new ValidationManager(this);
-        ArrayList<String> errorMessages = validationManager.validate(form);
+        ArrayList<String> errorMessages = helper.validate(this, DefaultForm.class);
 
         if (errorMessages.size() > 0) {
             // エラーメッセージを表示します
@@ -72,7 +68,7 @@ Formクラスはpublicなフィールドを持つだけの単なるPOJOクラス
 ウィジェットとの関連付けをするには、特別なアノテーションをフィールドに付与します。
 
 ## EditText
-`<EditText>`タグを使う場合は、`@Widget(type = Widget.Type.TEXT)`をFormクラスのフィールドに付与します。
+`<EditText>`タグを使う場合は、`@Widget`をFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
     <EditText
@@ -83,13 +79,13 @@ Formクラスはpublicなフィールドを持つだけの単なるPOJOクラス
 この場合、Formクラスの定義は次のようにします。
 
     public class DefaultForm {
-        @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
+        @Widget(id = R.id.textfield_name)
         public String name;
     }
 
 ## RadioGroupとRadioButton
 `<RadioGroup>`タグや`<RadioButton>`を使い、いずれかのラジオボタンが選択されていることを
-検証したい場合は、`@Widget(type = Widget.Type.RADIO)`と`@WidgetValue`のアノテーションをFormクラスのフィールドに付与します。
+検証したい場合は、`@Widget`と`@WidgetValue`のアノテーションをFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
     <RadioGroup
@@ -112,7 +108,6 @@ Formクラスはpublicなフィールドを持つだけの単なるPOJOクラス
 
     public class DefaultForm {
         @Widget(id = R.id.rg_gender,
-            type = Widget.Type.RADIO,
             values = {
                 @WidgetValue(id = R.id.rb_male, value = "M"),
                 @WidgetValue(id = R.id.rb_female, value = "F"),
@@ -124,7 +119,7 @@ Formクラスはpublicなフィールドを持つだけの単なるPOJOクラス
 
 ## CheckBox
 `<CheckBox>`タグを使用し、少なくとも1つ以上のチェックボックスがチェックされている
-ことを検証したい場合は、`@Widget(type = Widget.Type.CHECKBOX)`と`@WidgetValue`アノテーションを
+ことを検証したい場合は、`@Widget`と`@WidgetValue`アノテーションを
 Formクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
@@ -154,7 +149,6 @@ Formクラスのフィールドに付与します。
 
     public class DefaultForm {
         @Widget(id = R.id.cbg_sns,
-            type = Widget.Type.CHECKBOX,
             atLeast = 1,
             values = {
                 @WidgetValue(id = R.id.cb_facebook, value = "FB"),
@@ -171,7 +165,7 @@ Formクラスのフィールドに付与します。
 `RelativeLayout`なども`@Widget`と関連付けられることに注意してください。
 
 ## Spinner
-`<Spinner>`タグを使う場合は、`@Widget(type = Widget.Type.SPINNER)`アノテーションをFormクラスのフィールドに付与します。
+`<Spinner>`タグを使う場合は、`@Widget`アノテーションをFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
     <Spinner
@@ -278,11 +272,11 @@ Formクラスのフィールドに付与します。
 
     public class DefaultForm {
         @Required
-        @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
+        @Widget(id = R.id.textfield_name)
         public String name;
 
         @IntType
-        @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT, validateAfter = R.id.textfield_name)
+        @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
         public String age;
     }
 

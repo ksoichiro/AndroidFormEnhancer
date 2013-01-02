@@ -18,7 +18,6 @@ package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.utils.FormHelper;
 import com.androidformenhancer.utils.StringUtils;
-import com.androidformenhancer.validator.ValidationManager;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -40,12 +39,7 @@ public class CustomValidatorActivity extends Activity {
 
     public void onSubmit(View v) {
         FormHelper<SampleCustomForm> helper = new FormHelper<SampleCustomForm>();
-
-        SampleCustomForm form = helper.extractFormFromView(this, SampleCustomForm.class);
-
-        // Validation
-        ValidationManager validationManager = new ValidationManager(this);
-        ArrayList<String> errorMessages = validationManager.validate(form);
+        ArrayList<String> errorMessages = helper.validate(this, SampleCustomForm.class);
         if (errorMessages.size() > 0) {
             // Error
             Toast.makeText(

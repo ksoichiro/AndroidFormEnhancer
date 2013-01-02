@@ -18,6 +18,7 @@ package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Widget;
+import com.androidformenhancer.utils.FormMetaData;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -26,6 +27,7 @@ import android.util.SparseArray;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -119,12 +121,13 @@ public final class ValidationManager {
      * @param target target object to be validated (the form)
      * @return list to save the error messages
      */
-    public ArrayList<String> validate(final Object target) {
+    public ArrayList<String> validate(final Object target, final HashMap<String, FormMetaData> formMetaDataMap) {
         ArrayList<String> errorMessages = new ArrayList<String>();
 
         // Set validation target
         for (Validator validator : mValidators) {
             validator.setTarget(target);
+            validator.setFormMetaDataMap(formMetaDataMap);
         }
 
         // Gets all the public fields and validate

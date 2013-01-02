@@ -18,7 +18,6 @@ package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.utils.FormHelper;
 import com.androidformenhancer.utils.StringUtils;
-import com.androidformenhancer.validator.ValidationManager;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -40,13 +39,7 @@ public class CustomEmailPatternActivity extends Activity {
 
     public void onSubmit(View v) {
         FormHelper<CustomEmailPatternForm> helper = new FormHelper<CustomEmailPatternForm>();
-
-        CustomEmailPatternForm form =
-                helper.extractFormFromView(this, CustomEmailPatternForm.class);
-
-        // Validation
-        ValidationManager validationManager = new ValidationManager(this);
-        ArrayList<String> errorMessages = validationManager.validate(form);
+        ArrayList<String> errorMessages = helper.validate(this, CustomEmailPatternForm.class);
         if (errorMessages.size() > 0) {
             // Error
             Toast.makeText(

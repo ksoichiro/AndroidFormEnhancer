@@ -18,6 +18,7 @@ package com.androidformenhancer.utils;
 
 import com.androidformenhancer.annotation.Widget;
 import com.androidformenhancer.annotation.WidgetValue;
+import com.androidformenhancer.validator.ValidationManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,9 +29,11 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,6 +46,31 @@ public class FormHelper<T> {
     private static final String TAG = "FormHelper";
 
     private T mForm;
+    private HashMap<String, FormMetaData> mFormMetaDataMap;
+
+    /**
+     * Validates the input values.
+     * <p>
+     * Validations are executed in the orders specified by the
+     * {@link android.androsuit.entity.annotation.Order}. If this annotation is
+     * not specified, the order is determined by field names(asc). The fields
+     * with the annotations are prior to the others.
+     * 
+     * @param context context to access the message resources
+     * @param target target object to be validated (the form)
+     * @return list to save the error messages
+     */
+    public ArrayList<String> validate(final Activity activity, Class<T> clazz) {
+        T form = extractFormFromView(activity, clazz);
+        ValidationManager validationManager = new ValidationManager(activity);
+        return validationManager.validate(form, mFormMetaDataMap);
+    }
+
+    public ArrayList<String> validate(final Fragment fragment, Class<T> clazz) {
+        T form = extractFormFromView(fragment, clazz);
+        ValidationManager validationManager = new ValidationManager(fragment.getActivity());
+        return validationManager.validate(form, mFormMetaDataMap);
+    }
 
     public T extractFormFromView(final Activity activity, Class<T> clazz) {
         return extractFormFromView(activity,
@@ -69,48 +97,51 @@ public class FormHelper<T> {
 
         try {
             mForm = clazz.newInstance();
+            mFormMetaDataMap = new HashMap<String, FormMetaData>();
             final Field[] fields = clazz.getFields();
             for (Field field : fields) {
                 Widget widget = (Widget) field.getAnnotation(Widget.class);
                 if (widget == null) {
                     continue;
                 }
-                Widget.Type widgetType = widget.type();
-                switch (widgetType) {
-                    case TEXT:
-                        String value = ((EditText) rootView.findViewById(
-                                widget.id())).getText().toString();
-                        field.set(mForm, value);
-                        break;
-                    case RADIO:
-                        RadioGroup radioGroup = (RadioGroup) rootView.findViewById(widget.id());
-                        int checkedId = radioGroup.getCheckedRadioButtonId();
-                        WidgetValue[] values = widget.values();
-                        for (int i = 0; i < values.length; i++) {
-                            if (values[i].id() == checkedId) {
-                                field.set(mForm, values[i].value());
-                                break;
-                            }
+                View view = rootView.findViewById(widget.id());
+                if (view instanceof EditText) {
+                    addFormMetaData(field, WidgetType.TEXT);
+                    String value = ((EditText) view).getText().toString();
+                    field.set(mForm, value);
+                    continue;
+                }
+                if (view instanceof RadioGroup) {
+                    addFormMetaData(field, WidgetType.RADIO);
+                    RadioGroup radioGroup = (RadioGroup) view;
+                    int checkedId = radioGroup.getCheckedRadioButtonId();
+                    WidgetValue[] values = widget.values();
+                    for (int i = 0; i < values.length; i++) {
+                        if (values[i].id() == checkedId) {
+                            field.set(mForm, values[i].value());
+                            break;
                         }
-                        break;
-                    case CHECKBOX:
-                        ViewGroup group = (ViewGroup) rootView.findViewById(widget.id());
-                        List<String> checkedValues = new ArrayList<String>();
-                        for (WidgetValue checkBoxValue : widget.values()) {
-                            CheckBox cb = (CheckBox) group.findViewById(checkBoxValue.id());
-                            if (cb != null && cb.isChecked()) {
-                                checkedValues.add(checkBoxValue.value());
-                            }
+                    }
+                    continue;
+                }
+                if (view instanceof Spinner) {
+                    addFormMetaData(field, WidgetType.SPINNER);
+                    int index = ((Spinner) view).getSelectedItemPosition();
+                    field.set(mForm, Integer.toString(index));
+                    continue;
+                }
+                if (view instanceof ViewGroup) {
+                    addFormMetaData(field, WidgetType.CHECKBOX);
+                    ViewGroup group = (ViewGroup) view;
+                    List<String> checkedValues = new ArrayList<String>();
+                    for (WidgetValue checkBoxValue : widget.values()) {
+                        CheckBox cb = (CheckBox) group.findViewById(checkBoxValue.id());
+                        if (cb != null && cb.isChecked()) {
+                            checkedValues.add(checkBoxValue.value());
                         }
-                        field.set(mForm, checkedValues);
-                        break;
-                    case SPINNER:
-                        int index = ((android.widget.Spinner) rootView.findViewById(widget.id()))
-                                .getSelectedItemPosition();
-                        field.set(mForm, Integer.toString(index));
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Unknown widget type: " + widgetType);
+                    }
+                    field.set(mForm, checkedValues);
+                    continue;
                 }
             }
             return mForm;
@@ -198,5 +229,11 @@ public class FormHelper<T> {
                         + type);
             }
         }
+    }
+
+    private void addFormMetaData(final Field field, WidgetType type) {
+        FormMetaData data = new FormMetaData();
+        data.setWidgetType(type);
+        mFormMetaDataMap.put(field.getName(), data);
     }
 }

@@ -18,12 +18,15 @@ package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Widget;
+import com.androidformenhancer.utils.FormMetaData;
+import com.androidformenhancer.utils.WidgetType;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the validation functions.
@@ -39,6 +42,8 @@ public abstract class Validator {
 
     /** Target object to validate. */
     private Object mTarget;
+
+    private Map<String, FormMetaData> mFormMetaDataMap;
 
     /**
      * Validates the object, and returns whether it has any errors or not.
@@ -68,6 +73,17 @@ public abstract class Validator {
      */
     public void setTarget(final Object target) {
         mTarget = target;
+    }
+
+    public void setFormMetaDataMap(final Map<String, FormMetaData> formMetaDataMap) {
+        mFormMetaDataMap = formMetaDataMap;
+    }
+
+    protected WidgetType getWidgetType(final Field field) {
+        if (mFormMetaDataMap == null || field == null) {
+            return null;
+        }
+        return mFormMetaDataMap.get(field.getName()).getWidgetType();
     }
 
     /**

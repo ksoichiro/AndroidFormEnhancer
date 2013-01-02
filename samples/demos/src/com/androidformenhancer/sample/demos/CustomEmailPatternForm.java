@@ -19,7 +19,6 @@ package com.androidformenhancer.sample.demos;
 import com.androidformenhancer.annotation.Email;
 import com.androidformenhancer.annotation.Required;
 import com.androidformenhancer.annotation.Widget;
-import com.androidformenhancer.annotation.Widget.Type;
 
 /**
  * @author Soichiro Kashima
@@ -28,7 +27,7 @@ public class CustomEmailPatternForm {
 
     @Required
     @Email
-    @Widget(id = R.id.textfield_sample, type = Type.TEXT, nameResId = R.string.form_sample_custom_sample)
+    @Widget(id = R.id.textfield_sample, nameResId = R.string.form_sample_custom_sample)
     public String sample;
 
 }
