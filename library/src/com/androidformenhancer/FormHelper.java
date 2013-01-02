@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Utility about the form operations.
+ * Helper class to use this library's functions.
  * 
  * @author Soichiro Kashima
  */
@@ -54,7 +54,13 @@ public class FormHelper {
     private Object mForm;
     private HashMap<String, FormMetaData> mFormMetaDataMap;
 
-    public FormHelper(Class<?> clazz) {
+    /**
+     * Constructor. You must specify the Form class representing widget details
+     * and validation specifications.
+     * 
+     * @param clazz class of the form
+     */
+    public FormHelper(final Class<?> clazz) {
         mFormClass = clazz;
     }
 
@@ -62,13 +68,11 @@ public class FormHelper {
      * Validates the input values.
      * <p>
      * Validations are executed in the orders specified by the
-     * {@link android.androsuit.entity.annotation.Order}. If this annotation is
-     * not specified, the order is determined by field names(asc). The fields
-     * with the annotations are prior to the others.
+     * {@linkplain Widget#validateAfter()}. If this annotation is not specified,
+     * the order is undefined.
      * 
-     * @param context context to access the message resources
-     * @param target target object to be validated (the form)
-     * @return list to save the error messages
+     * @param activity activity which has the form
+     * @return result of the validation
      */
     public ValidationResult validate(final Activity activity) {
         extractFormFromView(activity);
@@ -92,8 +96,99 @@ public class FormHelper {
         return validationResult;
     }
 
+    /**
+     * Validates the input values.
+     * <p>
+     * Validations are executed in the orders specified by the
+     * {@linkplain Widget#validateAfter()}. If this annotation is not specified,
+     * the order is undefined.
+     * 
+     * @param fragment fragment which has the form
+     * @return result of the validation
+     */
     public ValidationResult validate(final Fragment fragment) {
         return validate(fragment.getActivity());
+    }
+
+    /**
+     * Sets the {@linkplain android.view.View.OnFocusChangedListener} to
+     * validate on focus out.
+     * 
+     * @param activity activity which has the form
+     */
+    public void setOnFocusOutValidation(final Activity activity) {
+        setOnFocusOutValidation(activity,
+                activity.getWindow().getDecorView().findViewById(android.R.id.content));
+    }
+
+    /**
+     * Sets the {@linkplain android.view.View.OnFocusChangedListener} to
+     * validate on focus out.
+     * 
+     * @param fragment fragment which has the form
+     */
+    public void setOnFocusOutValidation(final Fragment fragment) {
+        setOnFocusOutValidation(fragment.getActivity(),
+                fragment.getView().findViewById(android.R.id.content));
+    }
+
+    /**
+     * Copies an object fields which have same names as the form class.<br>
+     * 
+     * @param clazz the entity class to create
+     * @return created entity object
+     */
+    public <E> E create(final Class<E> clazz) {
+        Field[] srcFields = mForm.getClass().getFields();
+
+        try {
+            E dst = clazz.newInstance();
+            for (Field srcField : srcFields) {
+                Object value = srcField.get(mForm);
+                if (value == null) {
+                    continue;
+                }
+                String name = srcField.getName();
+                Field dstField = clazz.getField(name);
+                Class<?> dstType = dstField.getType();
+                if (dstType.equals(List.class)) {
+                    @SuppressWarnings("unchecked")
+                    List<String> srcList = (List<String>) value;
+                    List<String> dstList = new ArrayList<String>();
+                    for (String srcValue : srcList) {
+                        dstList.add(srcValue);
+                    }
+                    dstField.set(dst, dstList);
+                } else {
+                    String valueString = (String) value;
+                    if (dstType.equals(String.class)) {
+                        dstField.set(dst, valueString);
+                    } else if (dstType.equals(int.class)) {
+                        dstField.setInt(dst, Integer.parseInt(valueString));
+                    } else if (dstType.equals(float.class)) {
+                        dstField.setFloat(dst, Float.parseFloat(valueString));
+                    } else if (dstType.equals(double.class)) {
+                        dstField.setDouble(dst, Double.parseDouble(valueString));
+                    } else if (dstType.equals(boolean.class)) {
+                        dstField.setBoolean(dst, Boolean.parseBoolean(valueString));
+                    } else if (dstType.equals(long.class)) {
+                        dstField.setLong(dst, Long.parseLong(valueString));
+                    } else if (dstType.equals(short.class)) {
+                        dstField.setShort(dst, Short.parseShort(valueString));
+                    } else if (dstType.equals(char.class)) {
+                        dstField.setChar(dst, valueString.charAt(0));
+                    } else {
+                        throw new IllegalArgumentException(
+                                "Entity field types must be primitive types or String or List<String>: "
+                                        + dstType.getCanonicalName());
+                    }
+                }
+            }
+            return dst;
+        } catch (Exception e) {
+            Log.v(TAG, e.getMessage(), e);
+            throw new RuntimeException("Failed to instantiate entity.", e);
+        }
     }
 
     private void extractFormFromView(final Activity activity) {
@@ -102,12 +197,10 @@ public class FormHelper {
     }
 
     /**
-     * Reads the form information from the activity, and creates a new object.
+     * Reads the form information from the form, and creates a new object.
      * 
      * @param context target context
      * @param rootView root view of the form
-     * @param dstFormClass the destination form class
-     * @return created object
      */
     private void extractFormFromView(final Context context, final View rootView) {
         ensureFormFieldsTypes();
@@ -168,16 +261,6 @@ public class FormHelper {
         }
     }
 
-    public void setOnFocusOutValidation(final Fragment fragment) {
-        setOnFocusOutValidation(fragment.getActivity(),
-                fragment.getView().findViewById(android.R.id.content));
-    }
-
-    public void setOnFocusOutValidation(final Activity activity) {
-        setOnFocusOutValidation(activity,
-                activity.getWindow().getDecorView().findViewById(android.R.id.content));
-    }
-
     private void setOnFocusOutValidation(final Context context, final View rootView) {
         extractFormFromView(context, rootView);
         final ValidationManager validationManager = new ValidationManager(context);
@@ -215,66 +298,6 @@ public class FormHelper {
             });
         }
 
-    }
-
-    /**
-     * Copies an object fields which have same names to the other object.<br>
-     * 
-     * @param src source object
-     * @param dstClass destination object's class
-     * @return copied object
-     */
-    public <E> E create(final Class<E> clazz) {
-        Field[] srcFields = mForm.getClass().getFields();
-
-        try {
-            E dst = clazz.newInstance();
-            for (Field srcField : srcFields) {
-                Object value = srcField.get(mForm);
-                if (value == null) {
-                    continue;
-                }
-                String name = srcField.getName();
-                Field dstField = clazz.getField(name);
-                Class<?> dstType = dstField.getType();
-                if (dstType.equals(List.class)) {
-                    @SuppressWarnings("unchecked")
-                    List<String> srcList = (List<String>) value;
-                    List<String> dstList = new ArrayList<String>();
-                    for (String srcValue : srcList) {
-                        dstList.add(srcValue);
-                    }
-                    dstField.set(dst, dstList);
-                } else {
-                    String valueString = (String) value;
-                    if (dstType.equals(String.class)) {
-                        dstField.set(dst, valueString);
-                    } else if (dstType.equals(int.class)) {
-                        dstField.setInt(dst, Integer.parseInt(valueString));
-                    } else if (dstType.equals(float.class)) {
-                        dstField.setFloat(dst, Float.parseFloat(valueString));
-                    } else if (dstType.equals(double.class)) {
-                        dstField.setDouble(dst, Double.parseDouble(valueString));
-                    } else if (dstType.equals(boolean.class)) {
-                        dstField.setBoolean(dst, Boolean.parseBoolean(valueString));
-                    } else if (dstType.equals(long.class)) {
-                        dstField.setLong(dst, Long.parseLong(valueString));
-                    } else if (dstType.equals(short.class)) {
-                        dstField.setShort(dst, Short.parseShort(valueString));
-                    } else if (dstType.equals(char.class)) {
-                        dstField.setChar(dst, valueString.charAt(0));
-                    } else {
-                        throw new IllegalArgumentException(
-                                "Entity field types must be primitive types or String or List<String>: "
-                                        + dstType.getCanonicalName());
-                    }
-                }
-            }
-            return dst;
-        } catch (Exception e) {
-            Log.v(TAG, e.getMessage(), e);
-            throw new RuntimeException("Failed to instantiate entity.", e);
-        }
     }
 
     private Drawable getOkIcon(final Context context) {

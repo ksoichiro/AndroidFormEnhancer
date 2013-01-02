@@ -18,38 +18,31 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 1.  入力フォーム用のPOJOクラスを作成し、アノテーションでフォームの仕様を定義します。
 
         public class DefaultForm {
-            @Required
             @Widget(id = R.id.textfield_name)
+            @Required
             public String name;
 
-            @IntType
             @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
+            @IntType
             public String age;
         }
 
 1.  入力値を文字列以外のエンティティとして使用したい場合は、同名のフィールドを持つエンティティクラスを用意します。
 
-        public class DefaultForm {
+        public class DefaultEntity {
             public String name;
-
             public int age;
         }
 
 1.  ActivityやFragmentに下記のようなコードを書いて、画面から入力値を取り出すところから入力チェック、型変換を行ないます。
 
-        FormHelper<DefaultForm> helper = new FormHelper<DefaultForm>();
-
-        ArrayList<String> errorMessages = helper.validate(this, DefaultForm.class);
-
-        if (errorMessages.size() > 0) {
+        ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
+        if (result.hasError()) {
             // エラーメッセージを表示します
-            Toast.makeText(
-                    this,
-                    StringUtils.serialize(errorMessages),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
         } else {
             // entityは入力チェック・型変換の済んだオブジェクトです
-            DefaultEntity entity = helper.createEntityFromForm(DefaultEntity.class);
+            DefaultEntity entity = helper.create(DefaultEntity.class);
         }
 
 
@@ -271,12 +264,12 @@ Formクラスのフィールドに付与します。
 画面の表示順とは異なることに注意してください。
 
     public class DefaultForm {
-        @Required
         @Widget(id = R.id.textfield_name)
+        @Required
         public String name;
 
-        @IntType
         @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
+        @IntType
         public String age;
     }
 
@@ -338,12 +331,21 @@ Formクラスのフィールドに付与します。
     この項目名を変更したい場合は、アノテーションの`nameResId`属性を使用してください。
     例えば、以下のようにフィールドを定義します。
 
+        @Widget(id = R.id.textfield_name)
         @Required
         public String firstName;
 
     この場合、エラーメッセージは「firstNameは必ず入力してください」となります。
-    以下のように定義し、
+    項目名をカスタマイズする場合、Formは以下のように定義します。
 
+        @Widget(id = R.id.textfield_name, nameResId = R.string.first_name)
+        @Required
+        public String firstName;
+
+
+    もしくは下記の形式です。
+
+        @Widget(id = R.id.textfield_name)
         @Required(nameResId = R.string.first_name)
         public String firstName;
 
@@ -365,7 +367,7 @@ ProGuardを使用する場合は、以下のようにproguard-project.txtを編�
         -keep class com.androidformenhancer.validator.* { <init>(...); }
 
 1. FormクラスとEntityクラスのメンバー(publicなフィールド)名を維持します。
-   FormHelper#createEntityFromForm()を使用する場合は必須です。
+   `FormHelper#create()`や`@When`を使用する場合は必須です。
 
         -keepclassmembers class com.androidformenhancer.sample.demos.DefaultForm {
           public *;

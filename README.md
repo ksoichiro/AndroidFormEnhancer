@@ -18,40 +18,33 @@ Usage
 1.  Create POJO class of the input form, define public fields and add annotations to them.
 
         public class DefaultForm {
-            @Required
             @Widget(id = R.id.textfield_name)
+            @Required
             public String name;
 
-            @IntType
             @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
+            @IntType
             public String age;
         }
 
 1.  If you use types other than String, create an entity class which fields has the same names as
     the form class.
 
-        public class DefaultForm {
+        public class DefaultEntity {
             public String name;
-
             public int age;
         }
 
 1.  Write the codes like following to the Activity or Fragment to extract data from the screen,
     validate them and convert types.
 
-        FormHelper<DefaultForm> helper = new FormHelper<DefaultForm>();
-
-        ArrayList<String> errorMessages = helper.validate(this, DefaultForm.class);
-
-        if (errorMessages.size() > 0) {
+        ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
+        if (result.hasError()) {
             // Show error messages
-            Toast.makeText(
-                    this,
-                    StringUtils.serialize(errorMessages),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
         } else {
             // This entity object has clean and converted data
-            DefaultEntity entity = helper.createEntityFromForm(DefaultEntity.class);
+            DefaultEntity entity = helper.create(DefaultEntity.class);
         }
 
 
@@ -278,12 +271,12 @@ then validate `age`.
 Note that they are different from the orders in the screen.
 
     public class DefaultForm {
-        @Required
         @Widget(id = R.id.textfield_name)
+        @Required
         public String name;
 
-        @IntType
         @Widget(id = R.id.textfield_age, validateAfter = R.id.textfield_name)
+        @IntType
         public String age;
     }
 
@@ -347,12 +340,20 @@ You can customize the behaviours and messages like following:
     If you want to change name, use annotation's `nameResId` attribute.
     For example, if you define field like:
 
+        @Widget(id = R.id.textfield_name)
         @Required
         public String firstName;
 
     the error message will be "firstName is required".
     If you define Form like this:
 
+        @Widget(id = R.id.textfield_name, nameResId = R.string.first_name)
+        @Required
+        public String firstName;
+
+    or
+
+        @Widget(id = R.id.textfield_name)
         @Required(nameResId = R.string.first_name)
         public String firstName;
 
@@ -372,7 +373,7 @@ If you want to use ProGuard, edit proguard-project.txt.
         -keep class com.androidformenhancer.validator.* { <init>(...); }
 
 1. Keep class members (public fields) of the Forms and Entities.
-   If you use FormHelper#createEntityFromForm(), this is required.
+   If you use `FormHelper#create()` or `@When`, this is required.
 
         -keepclassmembers class com.androidformenhancer.sample.demos.DefaultForm {
           public *;
