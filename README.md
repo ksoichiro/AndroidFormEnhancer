@@ -20,12 +20,10 @@ Usage
         public class DefaultForm {
             @Required
             @Widget(id = R.id.textfield_name, type = Type.TEXT)
-            @Order(1)
             public String name;
 
             @IntType
-            @Widget(id = R.id.textfield_age, type = Type.TEXT)
-            @Order(2)
+            @Widget(id = R.id.textfield_age, type = Type.TEXT, validateAfter = R.id.textfield_name)
             public String age;
         }
 
@@ -280,7 +278,7 @@ Following validation classes are available:
 Orders of the validation
 ===
 
-Orders of the validation for each items are defined by `@Order` annotations.
+Orders of the validation for each items are defined by `Widget#validateAfter`.
 For example, if you define form like following, the validators validate `name` at first,
 then validate `age`.
 Note that they are different from the orders in the screen.
@@ -288,12 +286,10 @@ Note that they are different from the orders in the screen.
     public class DefaultForm {
         @Required
         @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
-        @Order(1)
         public String name;
 
         @IntType
-        @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT)
-        @Order(2)
+        @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT, validateAfter = R.id.textfield_name)
         public String age;
     }
 

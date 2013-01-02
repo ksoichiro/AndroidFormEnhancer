@@ -19,13 +19,11 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 
         public class DefaultForm {
             @Required
-            @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
-            @Order(1)
+            @Widget(id = R.id.textfield_name, type = Type.TEXT)
             public String name;
 
             @IntType
-            @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT)
-            @Order(2)
+            @Widget(id = R.id.textfield_age, type = Type.TEXT, validateAfter = R.id.textfield_name)
             public String age;
         }
 
@@ -274,19 +272,17 @@ Formクラスのフィールドに付与します。
 検証の順序
 ===
 
-各項目の検証順序は、`@Order`アノテーションを使用して定義します。
+各項目の検証順序は、`Widget#validateAfter`を使用して定義します。
 例えば、以下のように定義した場合は、`name`、`age`の順番に検証されます。
 画面の表示順とは異なることに注意してください。
 
     public class DefaultForm {
         @Required
         @Widget(id = R.id.textfield_name, type = Widget.Type.TEXT)
-        @Order(1)
         public String name;
 
         @IntType
-        @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT)
-        @Order(2)
+        @Widget(id = R.id.textfield_age, type = Widget.Type.TEXT, validateAfter = R.id.textfield_name)
         public String age;
     }
 
