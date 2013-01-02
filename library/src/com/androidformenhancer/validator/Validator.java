@@ -17,7 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.annotation.Validated;
+import com.androidformenhancer.annotation.Widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -104,8 +104,8 @@ public abstract class Validator {
     }
 
     protected int getNameResourceId(final Field field) {
-        Validated validated = (Validated) field.getAnnotation(Validated.class);
-        return validated == null ? 0 : validated.nameResId();
+        Widget widget = (Widget) field.getAnnotation(Widget.class);
+        return widget == null ? 0 : widget.nameResId();
     }
 
     protected String getMessage(final int index, final int defaultId, final Object[] messageParams) {
