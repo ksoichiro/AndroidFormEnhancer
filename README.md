@@ -243,6 +243,9 @@ Following validation classes are available:
 1. IntTypeValidator
     * Validates the EditText's value whether it is a valid integer format.
     * The target fields must have field in Form class with `@IntType`.
+1. FloatTypeValidator
+    * Validates the EditText's value whether it is a valid float format.
+    * The target fields must have field in Form class with `@FloatType`.
 1. MaxValueValidator
     * Validates the EditText's value whether it is less than or equals to
       the specified value.

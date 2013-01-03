@@ -62,6 +62,7 @@ public class ValidatorTestRunner extends InstrumentationTestRunner {
         testSuite.addTestSuite(AlphaNumValidatorTest.class);
         testSuite.addTestSuite(SinglebyteValidatorTest.class);
         testSuite.addTestSuite(IntTypeValidatorTest.class);
+        testSuite.addTestSuite(FloatTypeValidatorTest.class);
         testSuite.addTestSuite(RequiredValidatorTest.class);
         testSuite.addTestSuite(RegexValidatorTest.class);
         testSuite.addTestSuite(EmailValidatorTest.class);

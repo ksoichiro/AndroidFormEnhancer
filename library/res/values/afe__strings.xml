@@ -20,6 +20,7 @@
     <string name="afe__msg_validation_required_selection">%1$s must be selected</string>
     <string name="afe__msg_validation_required_multiple_selection">%1$s must be selected at least %2$d</string>
     <string name="afe__msg_validation_int_type">%1$s must be an integer</string>
+    <string name="afe__msg_validation_float_type">%1$s must be a floating point number</string>
     <string name="afe__msg_validation_digits">%1$s must be digits</string>
     <string name="afe__msg_validation_min_value">%1$s must be more than or equal to %2$d</string>
     <string name="afe__msg_validation_max_value">%1$s must be less than or equal to %2$d</string>
@@ -40,6 +41,7 @@
     <string name="afe__msg_validation_alphanum">%1$s must be alphabet or number characters</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
     <string name="afe__validator_int_type">com.androidformenhancer.validator.IntTypeValidator</string>
+    <string name="afe__validator_float_type">com.androidformenhancer.validator.FloatTypeValidator</string>
     <string name="afe__validator_digits">com.androidformenhancer.validator.DigitsValidator</string>
     <string name="afe__validator_min_value">com.androidformenhancer.validator.MinValueValidator</string>
     <string name="afe__validator_max_value">com.androidformenhancer.validator.MaxValueValidator</string>

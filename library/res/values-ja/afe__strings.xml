@@ -20,6 +20,7 @@
     <string name="afe__msg_validation_required_selection">%1$sは必ず選択してください</string>
     <string name="afe__msg_validation_required_multiple_selection">%1$sは少なくとも%2$d個選択してください</string>
     <string name="afe__msg_validation_int_type">%1$sは数字で入力してください</string>
+    <string name="afe__msg_validation_float_type">%1$sは小数点数で入力してください</string>
     <string name="afe__msg_validation_digits">%1$sは半角数字で入力してください</string>
     <string name="afe__msg_validation_min_value">%1$sは%2$d以上で入力してください</string>
     <string name="afe__msg_validation_max_value">%1$sは%2$d以下で入力してください</string>
@@ -39,10 +40,12 @@
     <string name="afe__msg_validation_alphabet">%1$sは半角英字で入力してください</string>
     <string name="afe__msg_validation_alphanum">%1$sは半角英数字で入力してください</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
-    <string name="afe__validator_number">com.androidformenhancer.validator.NumberValidator</string>
+    <string name="afe__validator_int_type">com.androidformenhancer.validator.IntTypeValidator</string>
+    <string name="afe__validator_float_type">com.androidformenhancer.validator.FloatTypeValidator</string>
     <string name="afe__validator_digits">com.androidformenhancer.validator.DigitsValidator</string>
     <string name="afe__validator_min_value">com.androidformenhancer.validator.MinValueValidator</string>
     <string name="afe__validator_max_value">com.androidformenhancer.validator.MaxValueValidator</string>
+    <string name="afe__validator_int_range">com.androidformenhancer.validator.IntRangeValidator</string>
     <string name="afe__validator_multibyte">com.androidformenhancer.validator.MultibyteValidator</string>
     <string name="afe__validator_singlebyte">com.androidformenhancer.validator.SinglebyteValidator</string>
     <string name="afe__validator_length">com.androidformenhancer.validator.LengthValidator</string>
@@ -55,5 +58,7 @@
     <string name="afe__validator_past_date">com.androidformenhancer.validator.PastDateValidator</string>
     <string name="afe__validator_hiragana">com.androidformenhancer.validator.HiraganaValidator</string>
     <string name="afe__validator_katakana">com.androidformenhancer.validator.KatakanaValidator</string>
+    <string name="afe__validator_alphabet">com.androidformenhancer.validator.AlphabetValidator</string>
+    <string name="afe__validator_alphanum">com.androidformenhancer.validator.AlphaNumValidator</string>
 
 </resources>

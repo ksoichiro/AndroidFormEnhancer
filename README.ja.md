@@ -238,8 +238,11 @@ public class DefaultForm {
       ユーザが`R.id.textfield_reason_other`のテキストフィールドに入力しなかった場合、
       この検証クラスはエラーとみなします。
 1. IntTypeValidator
-    * EditTextの値が整数値の形式であることを検証します。
+    * EditTextの値が整数値(Integer)の形式であることを検証します。
     * 対象フィールドは、Formクラスに定義され`@IntType`アノテーションを付与されている必要があります。
+1. FloatTypeValidator
+    * EditTextの値が浮動小数点数(Float)の形式であることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@FloatType`アノテーションを付与されている必要があります。
 1. MaxValueValidator
     * EditTextの値が指定の値以下であることを検証します。
     * 対象フィールドは、Formクラスに定義され`@MaxValue`アノテーションを付与されている必要があります。
