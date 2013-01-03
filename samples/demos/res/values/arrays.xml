@@ -23,6 +23,11 @@
         <item>MasterCard</item>
         <item>AMEX</item>
     </string-array>
+    <string-array name="form_entries_reason">
+        <item>Reason1</item>
+        <item>Reason2</item>
+        <item>Other</item>
+    </string-array>
     <string-array name="custom_validators">
         <item>com.androidformenhancer.sample.demos.SampleValidator</item>
     </string-array>

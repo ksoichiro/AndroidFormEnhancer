@@ -46,12 +46,10 @@ public class RequiredValidator extends Validator {
             } else {
                 validateEnabled = false;
                 for (When when : whenList) {
-                    String name = when.name();
                     boolean isNotEmpty = when.isNotEmpty();
                     String equalsTo = when.equalsTo();
                     try {
-                        Field whenField = getTarget().getClass().getField(name);
-                        String whenValue = (String) whenField.get(getTarget());
+                        String whenValue = (String) getValueById(when.id());
                         if (isNotEmpty) {
                             if (!TextUtils.isEmpty(whenValue)) {
                                 validateEnabled = true;

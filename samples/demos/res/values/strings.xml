@@ -27,6 +27,7 @@
     <string name="title_activity_focus_out_validation">Focus out validation</string>
     <string name="title_activity_sample_fragment">Using fragment</string>
     <string name="title_activity_custom_error_icon">Custom error icon</string>
+    <string name="title_activity_custom_required_when">Required when</string>
     <string name="form_default_name">Name</string>
     <string name="form_default_hiragana">Name(Hiragana)</string>
     <string name="form_default_katakana">Name(Katakana)</string>
@@ -43,6 +44,8 @@
     <string name="form_checkbox_got_to_know_by_twitter">Twitter</string>
     <string name="form_checkbox_got_to_know_by_facebook">Facebook</string>
     <string name="form_sample_custom_sample">Sample</string>
+    <string name="form_custom_required_when_reason">Reason</string>
+    <string name="form_custom_required_when_reason_other">Other</string>
     <string name="btn_submit">Submit</string>
     <string name="custom_msg_validation_required">[%1$s] is required.</string>
     <string name="custom_msg_validation_required_selection">[%1$s] must be selected.</string>

@@ -136,4 +136,12 @@ public abstract class Validator {
         return getContext().getResources().getString(messageResId, messageParams);
     }
 
+    protected Object getValueById(int id) {
+        for (FormMetaData data : mFormMetaDataMap.values()) {
+            if (data.getId() == id) {
+                return data.getValue();
+            }
+        }
+        return null;
+    }
 }

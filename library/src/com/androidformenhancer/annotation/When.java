@@ -30,8 +30,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface When {
-    /** Name of the condition field. */
-    String name();
+    /** Resource ID of the condition field. */
+    int id();
 
     /**
      * If true, validates the value when the value is not null and the length is

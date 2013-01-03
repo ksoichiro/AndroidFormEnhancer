@@ -391,32 +391,31 @@ public class FormHelper {
                 }
                 View view = mRootView.findViewById(widget.id());
                 if (view instanceof EditText) {
-                    addFormMetaData(field, WidgetType.TEXT);
                     String value = ((EditText) view).getText().toString();
                     field.set(mForm, value);
+                    addFormMetaData(field, WidgetType.TEXT, value);
                     continue;
                 }
                 if (view instanceof RadioGroup) {
-                    addFormMetaData(field, WidgetType.RADIO);
                     RadioGroup radioGroup = (RadioGroup) view;
                     int checkedId = radioGroup.getCheckedRadioButtonId();
                     WidgetValue[] values = widget.values();
                     for (int i = 0; i < values.length; i++) {
                         if (values[i].id() == checkedId) {
                             field.set(mForm, values[i].value());
+                            addFormMetaData(field, WidgetType.RADIO, values[i].value());
                             break;
                         }
                     }
                     continue;
                 }
                 if (view instanceof Spinner) {
-                    addFormMetaData(field, WidgetType.SPINNER);
                     int index = ((Spinner) view).getSelectedItemPosition();
                     field.set(mForm, Integer.toString(index));
+                    addFormMetaData(field, WidgetType.SPINNER, Integer.toString(index));
                     continue;
                 }
                 if (view instanceof ViewGroup) {
-                    addFormMetaData(field, WidgetType.CHECKBOX);
                     ViewGroup group = (ViewGroup) view;
                     List<String> checkedValues = new ArrayList<String>();
                     for (WidgetValue checkBoxValue : widget.values()) {
@@ -426,6 +425,7 @@ public class FormHelper {
                         }
                     }
                     field.set(mForm, checkedValues);
+                    addFormMetaData(field, WidgetType.CHECKBOX, checkedValues);
                     continue;
                 }
             }
@@ -455,9 +455,14 @@ public class FormHelper {
         }
     }
 
-    private void addFormMetaData(final Field field, WidgetType type) {
+    private void addFormMetaData(final Field field, WidgetType type, Object value) {
         FormMetaData data = new FormMetaData();
+        Widget widget = (Widget) field.getAnnotation(Widget.class);
+        if (widget != null) {
+            data.setId(widget.id());
+        }
         data.setWidgetType(type);
+        data.setValue(value);
         mFormMetaDataMap.put(field.getName(), data);
     }
 

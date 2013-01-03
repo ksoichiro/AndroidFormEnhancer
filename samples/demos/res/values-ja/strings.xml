@@ -27,6 +27,7 @@
     <string name="title_activity_focus_out_validation">フォーカスアウト時に検証</string>
     <string name="title_activity_custom_error_icon">カスタムエラーアイコン</string>
     <string name="title_activity_sample_fragment">Fragment使用</string>
+    <string name="title_activity_custom_required_when">条件付き必須</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_hiragana">お名前(ひらがな)</string>
     <string name="form_default_katakana">お名前(カタカナ)</string>
@@ -43,6 +44,8 @@
     <string name="form_checkbox_got_to_know_by_twitter">ツイッター</string>
     <string name="form_checkbox_got_to_know_by_facebook">Facebook</string>
     <string name="form_sample_custom_sample">サンプル</string>
+    <string name="form_custom_required_when_reason">理由</string>
+    <string name="form_custom_required_when_reason_other">その他の内容</string>
     <string name="btn_submit">送信</string>
     <string name="custom_msg_validation_required">[%1$s]は必ず入力してください。</string>
     <string name="custom_msg_validation_required_selection">[%1$s]は必ず選択してください。</string>
