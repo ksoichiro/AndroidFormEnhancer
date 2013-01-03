@@ -40,6 +40,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/attention_background"
+                android:text="@string/desc_custom_required_when" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/form_custom_required_when_reason" />
 
             <Spinner

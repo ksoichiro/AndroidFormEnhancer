@@ -16,9 +16,17 @@
 
 package com.androidformenhancer.sample.demos;
 
+import android.os.Bundle;
+
 /**
  * @author Soichiro Kashima
  */
 public class CustomErrorIconActivity extends DefaultActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_custom_error_icon);
+    }
 
 }

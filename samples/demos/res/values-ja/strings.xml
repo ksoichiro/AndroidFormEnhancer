@@ -48,6 +48,8 @@
     <string name="form_custom_required_when_reason">理由</string>
     <string name="form_custom_required_when_reason_other">その他の内容</string>
     <string name="desc_custom_email_pattern">有効なパターン:\n^\\w+@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</string>
+    <string name="desc_custom_error_icon">EditTextに表示されるエラーアイコンがスタイルで変更されています。</string>
+    <string name="desc_custom_required_when">\"理由\"の3番目の選択肢を選んだ場合は、\"その他の内容\"は入力必須です。</string>
     <string name="btn_submit">送信</string>
     <string name="custom_msg_validation_required">[%1$s]は必ず入力してください。</string>
     <string name="custom_msg_validation_required_selection">[%1$s]は必ず選択してください。</string>
