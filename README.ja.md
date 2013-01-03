@@ -5,6 +5,8 @@ AndroidFormEnhancerは、Androidアプリケーションで入力フォームを
 アノテーションを利用して、入力フォームに関する定義を簡潔に記述することができ、
 ActivityやFragmentの中に含まれる画面との値のやり取りや入力チェックのコードを削減することができます。
 
+![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/screenshot.png "Screenshots")
+
 
 インストール
 ===

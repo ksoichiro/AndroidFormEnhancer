@@ -5,6 +5,9 @@ AndroidFormEnhancer is a library for implementing input forms easily in the Andr
 You can use annotations to describe the definitions of the input form briefly,
 reduce codes that handle data of the screens in the Activities and Fragments.
 
+![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/screenshot.png "Screenshots")
+
+
 Install
 ===
 
