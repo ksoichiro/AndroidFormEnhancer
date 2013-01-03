@@ -47,8 +47,8 @@ public class AlphaNumValidator extends Validator {
                 }
                 String regex = alphaNum.allowSpace() ? REGEX_WITH_SPACE : REGEX;
                 if (!value.matches(regex)) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorAlphabet,
-                            R.string.afe__msg_validation_alphabet,
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorAlphaNum,
+                            R.string.afe__msg_validation_alphanum,
                             getName(field, alphaNum.nameResId()));
                 }
             }

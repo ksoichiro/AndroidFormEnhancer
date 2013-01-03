@@ -262,6 +262,10 @@ Following validation classes are available:
     * Validates the EditText's value whether it consists only of ASCII alphabet characters.
     * The target fields must have field in Form class with `@Alphabet`.
     * If you want to allow space character, set `Alphabet#allowSpace()` to `true`.
+1. AlphaNumValidator
+    * Validates the EditText's value whether it consists only of ASCII alphabet characters.
+    * The target fields must have field in Form class with `@AlphaNum`.
+    * If you want to allow space character, set `AlphaNum#allowSpace()` to `true`.
 1. HiraganaValidator
     * Validates the EditText's value whether it consists only of Japanese Hiragana.
     * The target fields must have field in Form class with `@Hiragana`.

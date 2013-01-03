@@ -37,6 +37,7 @@
     <string name="afe__msg_validation_hiragana">%1$sはひらがなで入力してください</string>
     <string name="afe__msg_validation_katakana">%1$sはカタカナで入力してください</string>
     <string name="afe__msg_validation_alphabet">%1$sは半角英字で入力してください</string>
+    <string name="afe__msg_validation_alphanum">%1$sは半角英数字で入力してください</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
     <string name="afe__validator_number">com.androidformenhancer.validator.NumberValidator</string>
     <string name="afe__validator_digits">com.androidformenhancer.validator.DigitsValidator</string>

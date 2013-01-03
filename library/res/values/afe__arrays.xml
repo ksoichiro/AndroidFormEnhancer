@@ -27,6 +27,7 @@
         <item>@string/afe__validator_hiragana</item>
         <item>@string/afe__validator_katakana</item>
         <item>@string/afe__validator_alphabet</item>
+        <item>@string/afe__validator_alphanum</item>
         <item>@string/afe__validator_length</item>
         <item>@string/afe__validator_max_length</item>
         <item>@string/afe__validator_regex</item>

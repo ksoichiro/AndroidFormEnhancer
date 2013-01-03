@@ -63,6 +63,7 @@
     <attr name="afeErrorHiragana" format="reference" />
     <attr name="afeErrorKatakana" format="reference" />
     <attr name="afeErrorAlphabet" format="reference" />
+    <attr name="afeErrorAlphaNum" format="reference" />
 
     <declare-styleable name="ValidatorMessages">
         <attr name="afeErrorDatePattern" />
@@ -86,6 +87,7 @@
         <attr name="afeErrorHiragana" />
         <attr name="afeErrorKatakana" />
         <attr name="afeErrorAlphabet" />
+        <attr name="afeErrorAlphaNum" />
     </declare-styleable>
 
 </resources>

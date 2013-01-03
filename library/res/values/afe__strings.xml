@@ -37,6 +37,7 @@
     <string name="afe__msg_validation_hiragana">%1$s must be hiragana characters</string>
     <string name="afe__msg_validation_katakana">%1$s must be katakana characters</string>
     <string name="afe__msg_validation_alphabet">%1$s must be alphabet characters</string>
+    <string name="afe__msg_validation_alphanum">%1$s must be alphabet or number characters</string>
     <string name="afe__validator_required">com.androidformenhancer.validator.RequiredValidator</string>
     <string name="afe__validator_int_type">com.androidformenhancer.validator.IntTypeValidator</string>
     <string name="afe__validator_digits">com.androidformenhancer.validator.DigitsValidator</string>
@@ -56,5 +57,6 @@
     <string name="afe__validator_hiragana">com.androidformenhancer.validator.HiraganaValidator</string>
     <string name="afe__validator_katakana">com.androidformenhancer.validator.KatakanaValidator</string>
     <string name="afe__validator_alphabet">com.androidformenhancer.validator.AlphabetValidator</string>
+    <string name="afe__validator_alphanum">com.androidformenhancer.validator.AlphaNumValidator</string>
 
 </resources>
