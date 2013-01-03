@@ -120,6 +120,16 @@
                 <category android:name="com.androidformenhancer.sample.demos" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CustomErrorIconActivity"
+            android:label="@string/title_activity_custom_error_icon"
+            android:theme="@style/AppTheme.CustomErrorIcon" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.androidformenhancer.sample.demos" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

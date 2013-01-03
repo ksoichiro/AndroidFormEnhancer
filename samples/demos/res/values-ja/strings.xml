@@ -25,6 +25,7 @@
     <string name="title_activity_custom_validator">カスタム検証クラス</string>
     <string name="title_activity_custom_email_pattern">カスタムEメールアドレスパターン</string>
     <string name="title_activity_focus_out_validation">フォーカスアウト時に検証</string>
+    <string name="title_activity_custom_error_icon">カスタムエラーアイコン</string>
     <string name="title_activity_sample_fragment">Fragment使用</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_hiragana">お名前(ひらがな)</string>

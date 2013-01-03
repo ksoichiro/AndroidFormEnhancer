@@ -97,4 +97,13 @@
         <item name="afeCustomEmailPattern">@string/custom_email_pattern</item>
     </style>
 
+    <style name="AppTheme.CustomErrorIcon">
+        <item name="afeValidatorDefinitions">@style/ValidatorDefinitions.CustomErrorIcon</item>
+    </style>
+
+    <style name="ValidatorDefinitions.CustomErrorIcon">
+        <item name="afeValidationIconError">@drawable/ic_textfield_error2</item>
+        <item name="afeValidationIconOk">@drawable/ic_textfield_ok2</item>
+    </style>
+
 </resources>

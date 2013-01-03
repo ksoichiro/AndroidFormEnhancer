@@ -68,7 +68,7 @@ public class FormHelper {
      */
     public FormHelper(final Class<?> clazz, final Activity activity) {
         mFormClass = clazz;
-        mContext = activity.getBaseContext();
+        mContext = activity;
         mRootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
         init();
     }
@@ -345,30 +345,30 @@ public class FormHelper {
                 R.styleable.ValidatorDefinitions,
                 R.attr.afeValidatorDefinitions, 0);
 
-        if (a.hasValue(R.styleable.ValidatorDefinitions_afeValidationErrorIconEnabled)) {
-            mValidationErrorIconEnabled = a.getBoolean(
-                    R.styleable.ValidatorDefinitions_afeValidationErrorIconEnabled, true);
-        } else {
-            mValidationErrorIconEnabled = true;
-        }
+        mValidationErrorIconEnabled = a.getBoolean(
+                R.styleable.ValidatorDefinitions_afeValidationErrorIconEnabled, true);
 
-        if (a.hasValue(R.styleable.ValidatorDefinitions_afeValidationIconError)) {
-            mIconError = a.getDrawable(R.styleable.ValidatorDefinitions_afeValidationIconError);
-            setDrawableIntrinsicBounds(mIconError);
-        } else {
-            mIconError = mContext.getResources().getDrawable(R.drawable.ic_textfield_error);
-            setDrawableIntrinsicBounds(mIconError);
-        }
+        mIconError = getIconFromStyle(a,
+                R.styleable.ValidatorDefinitions_afeValidationIconError,
+                R.drawable.ic_textfield_error);
 
-        if (a.hasValue(R.styleable.ValidatorDefinitions_afeValidationIconOk)) {
-            mIconOk = a.getDrawable(R.styleable.ValidatorDefinitions_afeValidationIconOk);
-            setDrawableIntrinsicBounds(mIconOk);
-        } else {
-            mIconOk = mContext.getResources().getDrawable(R.drawable.ic_textfield_ok);
-            setDrawableIntrinsicBounds(mIconOk);
-        }
+        mIconOk = getIconFromStyle(a,
+                R.styleable.ValidatorDefinitions_afeValidationIconOk,
+                R.drawable.ic_textfield_ok);
 
         a.recycle();
+    }
+
+    private Drawable getIconFromStyle(TypedArray a, int index, int defaultResId) {
+        int id = a.getResourceId(index, 0);
+        Drawable d;
+        if (id > 0) {
+            d = mContext.getResources().getDrawable(id);
+        } else {
+            d = mContext.getResources().getDrawable(defaultResId);
+        }
+        setDrawableIntrinsicBounds(d);
+        return d;
     }
 
     /**
