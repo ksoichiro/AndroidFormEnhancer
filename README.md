@@ -220,47 +220,29 @@ Validations
 
 Following validation classes are available:
 
-1. DatePatternValidator
-    * Validates the EditText's value with date format.
-    * The target fields must have field in Form class with `@DatePattern`.
-    * Date format used in validation is `java.text.DateFormat.SHORT`, which will change with locale.
-    * If you want to use custom format, use `DatePattern#value()`.
-1. DigitsValidator
-    * Validates the EditText's value whether it consists only of digits (which means 0 through 9).
-    * The target fields must have field in Form class with `@Digits`.
-1. EmailValidator
-    * Validates the EditText's value whether it is e-mail format.
-    * The target fields must have field in Form class with `@Email`.
-    * Pattern to be used in validation is this: `^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$`
-    * If you want to use custom format, define your format in your style
-      using `afeValidatorDefinitions` and `afeCustomEmailPattern`.
-1. HiraganaValidator
-    * Validates the EditText's value whether it consists only of Japanese Hiragana.
-    * The target fields must have field in Form class with `@Hiragana`.
-1. IntRangeValidator
-    * Validates the EditText's value whether it is in the specified range:
-      the minimum value is `IntRange#min()` and the maximum value is `IntRange#max()`.
-    * The target fields must have field in Form class with `@IntRange`.
+1. RequiredValidator
+    * Validates the EditText's value is not `null` nor empty string.
+    * The target fields must have field in Form class with `@Required`.
+    * If you need value with some conditions, use `@When` as follows:
+        ```java
+        public class CustomRequiredWhenForm {
+            @Widget(id = R.id.spn_reason, nameResId = R.string.form_custom_required_when_reason)
+            public String reason;
+
+            @Widget(id = R.id.textfield_reason_other, nameResId = R.string.form_custom_required_when_reason_other,
+                    validateAfter = R.id.spn_reason)
+            @Required(when = {
+                @When(id = R.id.spn_reason, equalsTo = "2")
+            })
+            public String reasonOther;
+        }
+        ```
+      If the user select the 3rd option from the spinner `R.id.spn_reason` and
+      the user does not input text field `R.id.textfield_reason_other`, then this validator
+      assume it is an error.
 1. IntTypeValidator
     * Validates the EditText's value whether it is a valid integer format.
     * The target fields must have field in Form class with `@IntType`.
-1. KatakanaValidator
-    * Validates the EditText's value whether it consists only of Japanese Katakana.
-    * The target fields must have field in Form class with `@Katakana`.
-1. LengthValidator
-    * Validates the EditText's value whether it has the specified length.
-    * The target fields must have field in Form class with `@Length`.
-1. MaxLengthValidator
-    * Validates the EditText's value whether its length is less than or equals to
-      the specified length.
-    * The target fields must have field in Form class with `@MaxLength`.
-1. MaxNumOfDigitsValidator
-    * Validates the EditText's value whether its length is less than or equals to
-      the specified length.
-    * The target fields must have field in Form class with `@MaxNumOfDigits`.
-    * This validator resembles to the MaxLengthValidator, but this validator
-      does not treat as an error if the value includes non-digit character even
-      though its length exceeds `MaxNumOfDigits#value()`.
 1. MaxValueValidator
     * Validates the EditText's value whether it is less than or equals to
       the specified value.
@@ -269,15 +251,50 @@ Following validation classes are available:
     * Validates the EditText's value whether it is more than or equals to
       the specified value.
     * The target fields must have field in Form class with `@MinValue`.
+1. IntRangeValidator
+    * Validates the EditText's value whether it is in the specified range:
+      the minimum value is `IntRange#min()` and the maximum value is `IntRange#max()`.
+    * The target fields must have field in Form class with `@IntRange`.
+1. DigitsValidator
+    * Validates the EditText's value whether it consists only of digits (which means 0 through 9).
+    * The target fields must have field in Form class with `@Digits`.
+1. HiraganaValidator
+    * Validates the EditText's value whether it consists only of Japanese Hiragana.
+    * The target fields must have field in Form class with `@Hiragana`.
+1. KatakanaValidator
+    * Validates the EditText's value whether it consists only of Japanese Katakana.
+    * The target fields must have field in Form class with `@Katakana`.
+1. SinglebyteValidator
+    * Validates the EditText's value whether it consists only of single-byte characters.
+    * The target fields must have field in Form class with `@Singlebyte`.
 1. MultibyteValidator
     * Validates the EditText's value whether it consists only of multi-byte characters.
     * The target fields must have field in Form class with `@Multibyte`.
+1. LengthValidator
+    * Validates the EditText's value whether it has the specified length.
+    * The target fields must have field in Form class with `@Length`.
+1. MaxLengthValidator
+    * Validates the EditText's value whether its length is less than or equals to
+      the specified length.
+    * The target fields must have field in Form class with `@MaxLength`.
 1. NumOfDigitsValidator
     * Validates the EditText's value whether its length is the specified length.
     * The target fields must have field in Form class with `@NumOfDigits`.
     * This validator resembles to the LengthValidator, but this validator
       does not treat as an error if the value includes non-digit character even
       though its length does not match `NumOfDigits#value()`.
+1. MaxNumOfDigitsValidator
+    * Validates the EditText's value whether its length is less than or equals to
+      the specified length.
+    * The target fields must have field in Form class with `@MaxNumOfDigits`.
+    * This validator resembles to the MaxLengthValidator, but this validator
+      does not treat as an error if the value includes non-digit character even
+      though its length exceeds `MaxNumOfDigits#value()`.
+1. DatePatternValidator
+    * Validates the EditText's value with date format.
+    * The target fields must have field in Form class with `@DatePattern`.
+    * Date format used in validation is `java.text.DateFormat.SHORT`, which will change with locale.
+    * If you want to use custom format, use `DatePattern#value()`.
 1. PastDateValidator
     * Validates the EditText's value is valid date format and past date.
     * The target fields must have field in Form class with `@PastDate`.
@@ -285,16 +302,16 @@ Following validation classes are available:
     * If you want to use custom format, use `@DatePattern` annotation together.
       PastDateValidator uses `DatePattern#value()`.
     * If you do not want to assume today as an error, set `PastDate#allowToday` to `true`.
+1. EmailValidator
+    * Validates the EditText's value whether it is e-mail format.
+    * The target fields must have field in Form class with `@Email`.
+    * Pattern to be used in validation is this: `^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$`
+    * If you want to use custom format, define your format in your style
+      using `afeValidatorDefinitions` and `afeCustomEmailPattern`.
 1. RegexValidator
     * Validates the EditText's value whether it matches the specified regular expression.
     * The target fields must have field in Form class with `@Regex`.
     * Regular expression must be specified by `Regex#value()`.
-1. RequiredValidator
-    * Validates the EditText's value is not `null` nor empty string.
-    * The target fields must have field in Form class with `@Required`.
-1. SinglebyteValidator
-    * Validates the EditText's value whether it consists only of single-byte characters.
-    * The target fields must have field in Form class with `@Singlebyte`.
 
 
 Orders of the validation

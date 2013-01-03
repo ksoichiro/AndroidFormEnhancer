@@ -217,60 +217,77 @@ public class DefaultForm {
 
 以下の検証クラスが利用できます。
 
-1. DatePatternValidator
-    * EditTextの値が日付形式であることを検証します。
-    * 対象フィールドは、Formクラスに定義され`@DatePattern`アノテーションを付与されている必要があります。
-    * 日付形式には`java.text.DateFormat.SHORT`が使用されます。これはロケールにより変化します。
-    * 検証に使用する日付形式をカスタマイズする場合は、`DatePattern#value()`を使用してください。
-1. DigitsValidator
-    * EditTextの値が半角数字のみで構成されていることを検証します。
-    * 対象フィールドは、Formクラスに定義され`@Digits`アノテーションを付与されている必要があります。
-1. EmailValidator
-    * EditTextの値がEメールアドレスの形式であることを検証します。
-    * 対象フィールドは、Formクラスに定義され`@Email`アノテーションを付与されている必要があります。
-    * 検証に使用されるEメールアドレスの形式(正規表現)は次の通りです: `^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$`
-    * 検証に使用するEメールアドレスの形式をカスタマイズする場合は、
-      `afeValidatorDefinitions`と`afeCustomEmailPattern`を使用してstyleに形式を定義してください。
-1. HiraganaValidator
-    * EditTextの値が全角ひらがなのみで構成されていることを検証します。
-    * 対象フィールドは、Formクラスに定義され`@Hiragana`アノテーションを付与されている必要があります。
-1. IntRangeValidator
-    * EditTextの値が指定の範囲にあることを検証します。
-      最小値は`IntRange#min()`、最大値は`IntRange#max()`で指定します。
-    * 対象フィールドは、Formクラスに定義され`@IntRange`アノテーションを付与されている必要があります。
+1. RequiredValidator
+    * EditTextの値が`null`や空文字列でないことを検証します。
+    * 対象フィールドは、Formクラスに定義され`@Required`アノテーションを付与されている必要があります。
+    * 条件付きでチェックした場合は、次のように`@When`を併せて使います。
+        ```java
+        public class CustomRequiredWhenForm {
+            @Widget(id = R.id.spn_reason, nameResId = R.string.form_custom_required_when_reason)
+            public String reason;
+
+            @Widget(id = R.id.textfield_reason_other, nameResId = R.string.form_custom_required_when_reason_other,
+                    validateAfter = R.id.spn_reason)
+            @Required(when = {
+                @When(id = R.id.spn_reason, equalsTo = "2")
+            })
+            public String reasonOther;
+        }
+        ```
+      もしユーザが`R.id.spn_reason`のSpinnerから3番目の選択肢を選び、
+      ユーザが`R.id.textfield_reason_other`のテキストフィールドに入力しなかった場合、
+      この検証クラスはエラーとみなします。
 1. IntTypeValidator
     * EditTextの値が整数値の形式であることを検証します。
     * 対象フィールドは、Formクラスに定義され`@IntType`アノテーションを付与されている必要があります。
-1. KatakanaValidator
-    * EditTextの値が全角カタカナのみで構成されていることを検証します。
-    * 対象フィールドは、Formクラスに定義され`@Katakana`アノテーションを付与されている必要があります。
-1. LengthValidator
-    * EditTextの値が指定の文字数であることを検証します。
-    * 対象フィールドは、Formクラスに定義され`@Length`アノテーションを付与されている必要があります。
-1. MaxLengthValidator
-    * EditTextの値が指定の値以下であることを検証します。
-    * 対象フィールドは、Formクラスに定義され`@MaxLength`アノテーションを付与されている必要があります。
-1. MaxNumOfDigitsValidator
-    * EditTextの値が指定の桁数以下であることを検証します。
-    * 対象フィールドは、Formクラスに定義され`@MaxNumOfDigits`アノテーションを付与されている必要があります。
-    * この検証クラスはMaxLengthValidatorと似ていますが、この検証クラスでは
-      `MaxNumOfDigits#value()`で指定する桁数(文字数)を超えていても、
-      半角数字以外の文字が含まれていた場合にはエラーとして扱いません。
 1. MaxValueValidator
     * EditTextの値が指定の値以下であることを検証します。
     * 対象フィールドは、Formクラスに定義され`@MaxValue`アノテーションを付与されている必要があります。
 1. MinValueValidator
     * EditTextの値が指定の値以上であることを検証します。
     * 対象フィールドは、Formクラスに定義され`@MinValue`アノテーションを付与されている必要があります。
+1. IntRangeValidator
+    * EditTextの値が指定の範囲にあることを検証します。
+      最小値は`IntRange#min()`、最大値は`IntRange#max()`で指定します。
+    * 対象フィールドは、Formクラスに定義され`@IntRange`アノテーションを付与されている必要があります。
+1. DigitsValidator
+    * EditTextの値が半角数字のみで構成されていることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@Digits`アノテーションを付与されている必要があります。
+1. HiraganaValidator
+    * EditTextの値が全角ひらがなのみで構成されていることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@Hiragana`アノテーションを付与されている必要があります。
+1. KatakanaValidator
+    * EditTextの値が全角カタカナのみで構成されていることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@Katakana`アノテーションを付与されている必要があります。
+1. SinglebyteValidator
+    * EditTextの値がシングルバイト文字のみで構成されていることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@Singlebyte`アノテーションを付与されている必要があります。
 1. MultibyteValidator
     * EditTextの値がマルチバイト文字列であることを検証します。
     * 対象フィールドは、Formクラスに定義され`@Multibyte`アノテーションを付与されている必要があります。
+1. LengthValidator
+    * EditTextの値が指定の文字数であることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@Length`アノテーションを付与されている必要があります。
+1. MaxLengthValidator
+    * EditTextの値が指定の値以下であることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@MaxLength`アノテーションを付与されている必要があります。
 1. NumOfDigitsValidator
     * EditTextの値が指定の桁数であることを検証します。
     * 対象フィールドは、Formクラスに定義され`@NumOfDigits`アノテーションを付与されている必要があります。
     * この検証クラスはLengthValidatorと似ていますが、この検証クラスでは
       `NumOfDigits#value()`で指定する桁数(文字数)と一致していなくても、
       半角数字以外の文字が含まれていた場合にはエラーとして扱いません。
+1. MaxNumOfDigitsValidator
+    * EditTextの値が指定の桁数以下であることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@MaxNumOfDigits`アノテーションを付与されている必要があります。
+    * この検証クラスはMaxLengthValidatorと似ていますが、この検証クラスでは
+      `MaxNumOfDigits#value()`で指定する桁数(文字数)を超えていても、
+      半角数字以外の文字が含まれていた場合にはエラーとして扱いません。
+1. DatePatternValidator
+    * EditTextの値が日付形式であることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@DatePattern`アノテーションを付与されている必要があります。
+    * 日付形式には`java.text.DateFormat.SHORT`が使用されます。これはロケールにより変化します。
+    * 検証に使用する日付形式をカスタマイズする場合は、`DatePattern#value()`を使用してください。
 1. PastDateValidator
     * EditTextの値が正しい日付形式であり、過去の日付であることを検証します。
     * 対象フィールドは、Formクラスに定義され`@PastDate`アノテーションを付与されている必要があります。
@@ -278,16 +295,16 @@ public class DefaultForm {
     * 検証に使用する日付形式をカスタマイズする場合は、`@DatePattern`アノテーションを併せて使用してください。
       PastDateValidatorは`DatePattern#value()`を日付形式として使用します。
     * 今日の日付をエラーとみなしたくない場合は、`PastDate#allowToday`を`true`に設定してください。
+1. EmailValidator
+    * EditTextの値がEメールアドレスの形式であることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@Email`アノテーションを付与されている必要があります。
+    * 検証に使用されるEメールアドレスの形式(正規表現)は次の通りです: `^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$`
+    * 検証に使用するEメールアドレスの形式をカスタマイズする場合は、
+      `afeValidatorDefinitions`と`afeCustomEmailPattern`を使用してstyleに形式を定義してください。
 1. RegexValidator
     * EditTextの値が指定の正規表現にマッチすることを検証します。
     * 対象フィールドは、Formクラスに`@Regex`アノテーションを付与されている必要があります。
     * 検証に使用する正規表現は`Regex#value()`で指定します。
-1. RequiredValidator
-    * EditTextの値が`null`や空文字列でないことを検証します。
-    * 対象フィールドは、Formクラスに定義され`@Required`アノテーションを付与されている必要があります。
-1. SinglebyteValidator
-    * EditTextの値がシングルバイト文字のみで構成されていることを検証します。
-    * 対象フィールドは、Formクラスに定義され`@Singlebyte`アノテーションを付与されている必要があります。
 
 
 検証の順序
