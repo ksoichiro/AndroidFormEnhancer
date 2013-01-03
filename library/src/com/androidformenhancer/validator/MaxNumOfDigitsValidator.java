@@ -43,21 +43,10 @@ public class MaxNumOfDigitsValidator extends Validator {
                     return null;
                 }
                 if (maxNumOfDigitsValue.value() < value.length()) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = maxNumOfDigitsValue.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name, maxNumOfDigitsValue.value()
-                    };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorMaxNumOfDigits,
                             R.string.afe__msg_validation_max_num_of_digits,
-                            messageParams);
+                            getName(field, maxNumOfDigitsValue.nameResId()),
+                            maxNumOfDigitsValue.value());
                 }
             }
         }

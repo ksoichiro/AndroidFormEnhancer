@@ -49,21 +49,9 @@ public class MinValueValidator extends Validator {
                     hasError = true;
                 }
                 if (hasError || nValue < minValue.value()) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = minValue.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name, minValue.value()
-                    };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorMinValue,
                             R.string.afe__msg_validation_min_value,
-                            messageParams);
+                            getName(field, minValue.nameResId()), minValue.value());
                 }
             }
         }

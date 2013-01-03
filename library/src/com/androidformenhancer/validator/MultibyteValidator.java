@@ -72,21 +72,9 @@ public class MultibyteValidator extends Validator {
                     throw new ValidationException("Unsupported encoding used: " + mEncoding, e);
                 }
                 if (hasError) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = multibyte.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name
-                    };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorMultibyte,
                             R.string.afe__msg_validation_multibyte,
-                            messageParams);
+                            getName(field, multibyte.nameResId()));
                 }
             }
         }

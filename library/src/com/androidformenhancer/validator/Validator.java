@@ -119,12 +119,24 @@ public abstract class Validator {
         }
     }
 
+    protected String getName(final Field field, final int overrideId) {
+        String name = field.getName();
+        int nameResId = getNameResourceId(field);
+        if (nameResId > 0) {
+            name = getContext().getResources().getString(nameResId);
+        }
+        if (overrideId > 0) {
+            name = getContext().getResources().getString(overrideId);
+        }
+        return name;
+    }
+
     protected int getNameResourceId(final Field field) {
         Widget widget = (Widget) field.getAnnotation(Widget.class);
         return widget == null ? 0 : widget.nameResId();
     }
 
-    protected String getMessage(final int index, final int defaultId, final Object[] messageParams) {
+    protected String getMessage(final int index, final int defaultId, final Object... messageParams) {
         TypedArray a = getContext().getTheme().obtainStyledAttributes(null,
                 R.styleable.ValidatorMessages,
                 R.attr.afeValidatorMessages, 0);

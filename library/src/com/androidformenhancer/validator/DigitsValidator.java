@@ -42,21 +42,9 @@ public class DigitsValidator extends Validator {
                     return null;
                 }
                 if (!value.matches("^[0-9]+$")) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = digits.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name
-                    };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorDigits,
                             R.string.afe__msg_validation_digits,
-                            messageParams);
+                            getName(field, digits.nameResId()));
                 }
             }
         }

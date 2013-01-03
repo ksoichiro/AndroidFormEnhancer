@@ -400,13 +400,15 @@ public class FormHelper {
                     RadioGroup radioGroup = (RadioGroup) view;
                     int checkedId = radioGroup.getCheckedRadioButtonId();
                     WidgetValue[] values = widget.values();
+                    String value = null;
                     for (int i = 0; i < values.length; i++) {
                         if (values[i].id() == checkedId) {
                             field.set(mForm, values[i].value());
-                            addFormMetaData(field, WidgetType.RADIO, values[i].value());
+                            value = values[i].value();
                             break;
                         }
                     }
+                    addFormMetaData(field, WidgetType.RADIO, value);
                     continue;
                 }
                 if (view instanceof Spinner) {

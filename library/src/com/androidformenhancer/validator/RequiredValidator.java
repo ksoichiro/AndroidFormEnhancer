@@ -74,28 +74,15 @@ public class RequiredValidator extends Validator {
                 if (TextUtils.isEmpty(strValue)
                         || (widget != null && getWidgetType(field) == WidgetType.SPINNER
                                 && widget.headIsDummy() && strValue.equals("0"))) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = required.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    // Select message according to the type of the field
-                    Object[] messageParams = new Object[] {
-                            name
-                    };
                     if (widget != null && (getWidgetType(field) == WidgetType.RADIO
                             || getWidgetType(field) == WidgetType.SPINNER)) {
                         return getMessage(R.styleable.ValidatorMessages_afeErrorRequiredSelection,
                                 R.string.afe__msg_validation_required_selection,
-                                messageParams);
+                                getName(field, required.nameResId()));
                     } else {
                         return getMessage(R.styleable.ValidatorMessages_afeErrorRequired,
                                 R.string.afe__msg_validation_required,
-                                messageParams);
+                                getName(field, required.nameResId()));
                     }
                 }
             } else if (type.equals(List.class)) {
@@ -104,22 +91,10 @@ public class RequiredValidator extends Validator {
                         .getAnnotation(Widget.class);
                 if (checkBoxGroup != null
                         && (list == null || list.size() < checkBoxGroup.atLeast())) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = required.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name, checkBoxGroup.atLeast()
-                    };
                     return getMessage(
                             R.styleable.ValidatorMessages_afeErrorRequiredMultipleSelection,
                             R.string.afe__msg_validation_required_multiple_selection,
-                            messageParams);
+                            getName(field, required.nameResId()), checkBoxGroup.atLeast());
                 }
             }
         }

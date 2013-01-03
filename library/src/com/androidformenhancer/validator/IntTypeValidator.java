@@ -44,21 +44,9 @@ public class IntTypeValidator extends Validator {
                 try {
                     Integer.parseInt(value);
                 } catch (NumberFormatException e) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = intValue.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name
-                    };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorIntType,
                             R.string.afe__msg_validation_int_type,
-                            messageParams);
+                            getName(field, intValue.nameResId()));
                 }
             }
         }

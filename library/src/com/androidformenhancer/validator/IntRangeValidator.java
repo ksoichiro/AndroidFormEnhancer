@@ -50,21 +50,10 @@ public class IntRangeValidator extends Validator {
                 }
                 if (hasError || nValue < intRangeValue.min()
                         || intRangeValue.max() < nValue) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = intRangeValue.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name, intRangeValue.min(), intRangeValue.max()
-                    };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorIntRange,
                             R.string.afe__msg_validation_int_range,
-                            messageParams);
+                            getName(field, intRangeValue.nameResId()),
+                            intRangeValue.min(), intRangeValue.max());
                 }
             }
         }

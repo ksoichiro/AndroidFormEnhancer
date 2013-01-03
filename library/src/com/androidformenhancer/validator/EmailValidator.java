@@ -62,21 +62,9 @@ public class EmailValidator extends Validator {
                     return null;
                 }
                 if (!value.matches(mRegex)) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = emailValue.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name
-                    };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorEmail,
                             R.string.afe__msg_validation_email,
-                            messageParams);
+                            getName(field, emailValue.nameResId()));
                 }
             }
         }

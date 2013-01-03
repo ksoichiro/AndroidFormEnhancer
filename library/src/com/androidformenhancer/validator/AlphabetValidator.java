@@ -47,21 +47,9 @@ public class AlphabetValidator extends Validator {
                 }
                 String regex = alphabet.allowSpace() ? REGEX_WITH_SPACE : REGEX;
                 if (!value.matches(regex)) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = alphabet.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name
-                    };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorAlphabet,
                             R.string.afe__msg_validation_alphabet,
-                            messageParams);
+                            getName(field, alphabet.nameResId()));
                 }
             }
         }

@@ -76,21 +76,9 @@ public class PastDateValidator extends Validator {
                     }
                 } catch (ParseException e) {
                 }
-                String name = field.getName();
-                int nameResId = getNameResourceId(field);
-                if (nameResId > 0) {
-                    name = getContext().getResources().getString(nameResId);
-                }
-                nameResId = pastDateValue.nameResId();
-                if (nameResId > 0) {
-                    name = getContext().getResources().getString(nameResId);
-                }
-                Object[] messageParams = new Object[] {
-                        name
-                };
                 return getMessage(R.styleable.ValidatorMessages_afeErrorPastDate,
                         R.string.afe__msg_validation_past_date,
-                        messageParams);
+                        getName(field, pastDateValue.nameResId()));
             }
         }
 

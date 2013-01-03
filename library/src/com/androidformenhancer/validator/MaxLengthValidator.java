@@ -43,21 +43,9 @@ public class MaxLengthValidator extends Validator {
                     return null;
                 }
                 if (maxLengthValue.value() < value.length()) {
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = maxLengthValue.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name, maxLengthValue.value()
-                    };
                     return getMessage(R.styleable.ValidatorMessages_afeErrorMaxLength,
                             R.string.afe__msg_validation_max_length,
-                            messageParams);
+                            getName(field, maxLengthValue.nameResId()), maxLengthValue.value());
                 }
             }
         }
