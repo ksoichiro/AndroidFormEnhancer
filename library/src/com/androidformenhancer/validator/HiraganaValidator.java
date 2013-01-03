@@ -19,40 +19,39 @@ package com.androidformenhancer.validator;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Hiragana;
 
-import android.text.TextUtils;
-
-import java.lang.reflect.Field;
-
 /**
  * Validates that the value of the field consists of Japanese hiragana
  * characters or not.
  * 
  * @author Soichiro Kashima
  */
-public class HiraganaValidator extends Validator {
+public class HiraganaValidator extends AbstractRegexValidator<Hiragana> {
 
     private static final String REGEX = "^[あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゃゅょっぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽゔー、。]+$";
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    protected Class<Hiragana> getValidationAnnotationClass() {
+        return Hiragana.class;
+    }
 
-        Hiragana hiragana = field.getAnnotation(Hiragana.class);
-        if (hiragana != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                if (!value.matches(REGEX)) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorHiragana,
-                            R.string.afe__msg_validation_hiragana,
-                            getName(field, hiragana.nameResId()));
-                }
-            }
-        }
+    @Override
+    protected String getRegex(final Hiragana annotation) {
+        return REGEX;
+    }
 
-        return null;
+    @Override
+    protected int getOverrideNameResourceId(final Hiragana annotation) {
+        return annotation.nameResId();
+    }
+
+    @Override
+    protected int getErrorMessageResourceId() {
+        return R.string.afe__msg_validation_hiragana;
+    }
+
+    @Override
+    protected int getNameStyleIndex() {
+        return R.styleable.ValidatorMessages_afeErrorHiragana;
     }
 
 }

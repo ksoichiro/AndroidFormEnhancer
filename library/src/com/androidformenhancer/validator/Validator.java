@@ -137,11 +137,14 @@ public abstract class Validator {
     }
 
     protected String getMessage(final int index, final int defaultId, final Object... messageParams) {
-        TypedArray a = getContext().getTheme().obtainStyledAttributes(null,
-                R.styleable.ValidatorMessages,
-                R.attr.afeValidatorMessages, 0);
-        int messageResId = a.getResourceId(index, 0);
-        a.recycle();
+        int messageResId = 0;
+        if (index > 0) {
+            TypedArray a = getContext().getTheme().obtainStyledAttributes(null,
+                    R.styleable.ValidatorMessages,
+                    R.attr.afeValidatorMessages, 0);
+            messageResId = a.getResourceId(index, 0);
+            a.recycle();
+        }
         if (messageResId == 0) {
             messageResId = defaultId;
         }

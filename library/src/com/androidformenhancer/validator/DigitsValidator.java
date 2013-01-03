@@ -19,37 +19,36 @@ package com.androidformenhancer.validator;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Digits;
 
-import android.text.TextUtils;
-
-import java.lang.reflect.Field;
-
 /**
  * This validator provides the digital character field validation.
  * 
  * @author Soichiro Kashima
  */
-public class DigitsValidator extends Validator {
+public class DigitsValidator extends AbstractRegexValidator<Digits> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    protected Class<Digits> getValidationAnnotationClass() {
+        return Digits.class;
+    }
 
-        Digits digits = field.getAnnotation(Digits.class);
-        if (digits != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                if (!value.matches("^[0-9]+$")) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorDigits,
-                            R.string.afe__msg_validation_digits,
-                            getName(field, digits.nameResId()));
-                }
-            }
-        }
+    @Override
+    protected String getRegex(final Digits annotation) {
+        return "^[0-9]+$";
+    }
 
-        return null;
+    @Override
+    protected int getOverrideNameResourceId(final Digits annotation) {
+        return annotation.nameResId();
+    }
+
+    @Override
+    protected int getErrorMessageResourceId() {
+        return R.string.afe__msg_validation_digits;
+    }
+
+    @Override
+    protected int getNameStyleIndex() {
+        return R.styleable.ValidatorMessages_afeErrorDigits;
     }
 
 }

@@ -19,42 +19,40 @@ package com.androidformenhancer.validator;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.AlphaNum;
 
-import android.text.TextUtils;
-
-import java.lang.reflect.Field;
-
 /**
  * Validates that the value of the field consists of ASCII alphabet and number
  * characters or not.
  * 
  * @author Soichiro Kashima
  */
-public class AlphaNumValidator extends Validator {
+public class AlphaNumValidator extends AbstractRegexValidator<AlphaNum> {
 
     private static final String REGEX = "^[a-zA-Z0-9]+$";
     private static final String REGEX_WITH_SPACE = "^[a-zA-Z0-9 ]+$";
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    protected Class<AlphaNum> getValidationAnnotationClass() {
+        return AlphaNum.class;
+    }
 
-        AlphaNum alphaNum = field.getAnnotation(AlphaNum.class);
-        if (alphaNum != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                String regex = alphaNum.allowSpace() ? REGEX_WITH_SPACE : REGEX;
-                if (!value.matches(regex)) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorAlphaNum,
-                            R.string.afe__msg_validation_alphanum,
-                            getName(field, alphaNum.nameResId()));
-                }
-            }
-        }
+    @Override
+    protected String getRegex(final AlphaNum annotation) {
+        return annotation.allowSpace() ? REGEX_WITH_SPACE : REGEX;
+    }
 
-        return null;
+    @Override
+    protected int getOverrideNameResourceId(final AlphaNum annotation) {
+        return annotation.nameResId();
+    }
+
+    @Override
+    protected int getErrorMessageResourceId() {
+        return R.string.afe__msg_validation_alphanum;
+    }
+
+    @Override
+    protected int getNameStyleIndex() {
+        return R.styleable.ValidatorMessages_afeErrorAlphaNum;
     }
 
 }

@@ -19,40 +19,39 @@ package com.androidformenhancer.validator;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Katakana;
 
-import android.text.TextUtils;
-
-import java.lang.reflect.Field;
-
 /**
  * Validates that the value of the field consists of Japanese katakana
  * characters or not.
  * 
  * @author Soichiro Kashima
  */
-public class KatakanaValidator extends Validator {
+public class KatakanaValidator extends AbstractRegexValidator<Katakana> {
 
     private static final String REGEX = "^[アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンャュョッァィゥェォヵヶガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヴー、。]+$";
 
     @Override
-    public String validate(final Field field) {
-        String value = getValueAsString(field);
+    protected Class<Katakana> getValidationAnnotationClass() {
+        return Katakana.class;
+    }
 
-        Katakana katakana = field.getAnnotation(Katakana.class);
-        if (katakana != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                if (!value.matches(REGEX)) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorKatakana,
-                            R.string.afe__msg_validation_katakana,
-                            getName(field, katakana.nameResId()));
-                }
-            }
-        }
+    @Override
+    protected String getRegex(final Katakana annotation) {
+        return REGEX;
+    }
 
-        return null;
+    @Override
+    protected int getOverrideNameResourceId(final Katakana annotation) {
+        return annotation.nameResId();
+    }
+
+    @Override
+    protected int getErrorMessageResourceId() {
+        return R.string.afe__msg_validation_katakana;
+    }
+
+    @Override
+    protected int getNameStyleIndex() {
+        return R.styleable.ValidatorMessages_afeErrorKatakana;
     }
 
 }

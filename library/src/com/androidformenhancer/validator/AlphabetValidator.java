@@ -19,42 +19,40 @@ package com.androidformenhancer.validator;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Alphabet;
 
-import android.text.TextUtils;
-
-import java.lang.reflect.Field;
-
 /**
  * Validates that the value of the field consists of ASCII alphabet characters
  * or not.
  * 
  * @author Soichiro Kashima
  */
-public class AlphabetValidator extends Validator {
+public class AlphabetValidator extends AbstractRegexValidator<Alphabet> {
 
     private static final String REGEX = "^[a-zA-Z]+$";
     private static final String REGEX_WITH_SPACE = "^[a-zA-Z ]+$";
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    protected Class<Alphabet> getValidationAnnotationClass() {
+        return Alphabet.class;
+    }
 
-        Alphabet alphabet = field.getAnnotation(Alphabet.class);
-        if (alphabet != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                String regex = alphabet.allowSpace() ? REGEX_WITH_SPACE : REGEX;
-                if (!value.matches(regex)) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorAlphabet,
-                            R.string.afe__msg_validation_alphabet,
-                            getName(field, alphabet.nameResId()));
-                }
-            }
-        }
+    @Override
+    protected String getRegex(final Alphabet annotation) {
+        return annotation.allowSpace() ? REGEX_WITH_SPACE : REGEX;
+    }
 
-        return null;
+    @Override
+    protected int getOverrideNameResourceId(final Alphabet annotation) {
+        return annotation.nameResId();
+    }
+
+    @Override
+    protected int getErrorMessageResourceId() {
+        return R.string.afe__msg_validation_alphabet;
+    }
+
+    @Override
+    protected int getNameStyleIndex() {
+        return R.styleable.ValidatorMessages_afeErrorAlphabet;
     }
 
 }

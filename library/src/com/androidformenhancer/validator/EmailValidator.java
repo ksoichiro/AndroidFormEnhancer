@@ -21,16 +21,13 @@ import com.androidformenhancer.annotation.Email;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * Validates that the value matches the regular expression.
  * 
  * @author Soichiro Kashima
  */
-public class EmailValidator extends Validator {
+public class EmailValidator extends AbstractRegexValidator<Email> {
 
     private static final String REGEX_EMAIL = "^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$";
     private String mRegex = REGEX_EMAIL;
@@ -51,25 +48,28 @@ public class EmailValidator extends Validator {
     }
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    protected Class<Email> getValidationAnnotationClass() {
+        return Email.class;
+    }
 
-        Email emailValue = field.getAnnotation(Email.class);
-        if (emailValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                if (!value.matches(mRegex)) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorEmail,
-                            R.string.afe__msg_validation_email,
-                            getName(field, emailValue.nameResId()));
-                }
-            }
-        }
+    @Override
+    protected String getRegex(final Email annotation) {
+        return mRegex;
+    }
 
-        return null;
+    @Override
+    protected int getOverrideNameResourceId(Email annotation) {
+        return annotation.nameResId();
+    }
+
+    @Override
+    protected int getErrorMessageResourceId() {
+        return R.string.afe__msg_validation_email;
+    }
+
+    @Override
+    protected int getNameStyleIndex() {
+        return R.styleable.ValidatorMessages_afeErrorEmail;
     }
 
 }

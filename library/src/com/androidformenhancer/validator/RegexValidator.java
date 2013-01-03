@@ -19,37 +19,36 @@ package com.androidformenhancer.validator;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Regex;
 
-import android.text.TextUtils;
-
-import java.lang.reflect.Field;
-
 /**
  * Validates that the value matches the regular expression.
  * 
  * @author Soichiro Kashima
  */
-public class RegexValidator extends Validator {
+public class RegexValidator extends AbstractRegexValidator<Regex> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    protected Class<Regex> getValidationAnnotationClass() {
+        return Regex.class;
+    }
 
-        Regex regexValue = field.getAnnotation(Regex.class);
-        if (regexValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                if (!value.matches(regexValue.value())) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorRegex,
-                            R.string.afe__msg_validation_regex,
-                            getName(field, regexValue.nameResId()));
-                }
-            }
-        }
+    @Override
+    protected String getRegex(final Regex annotation) {
+        return annotation.value();
+    }
 
-        return null;
+    @Override
+    protected int getOverrideNameResourceId(final Regex annotation) {
+        return annotation.nameResId();
+    }
+
+    @Override
+    protected int getErrorMessageResourceId() {
+        return R.string.afe__msg_validation_regex;
+    }
+
+    @Override
+    protected int getNameStyleIndex() {
+        return R.styleable.ValidatorMessages_afeErrorRegex;
     }
 
 }
