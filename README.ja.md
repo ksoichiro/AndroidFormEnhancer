@@ -404,6 +404,21 @@ public class DefaultForm {
 
     エラーメッセージは「お名前(名)は必ず入力してください」となります。
 
+1. エラーアイコン
+
+    入力チェックエラー時に表示されるアイコンは次のように変更することができます。
+
+    ```xml
+    <style name="YourTheme">
+        <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+    </style>
+
+    <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+        <item name="afeValidationIconError">@drawable/your_icon_error</item>
+        <item name="afeValidationIconOk">@drawable/your_icon_ok</item>
+    </style>
+    ```
+
 
 ProGuard
 ===

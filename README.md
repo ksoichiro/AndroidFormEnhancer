@@ -414,6 +414,22 @@ You can customize the behaviours and messages like following:
 
     then the result will be "First name is required".
 
+1. Error icons
+
+    You can change validation error icons as follows:
+
+    ```xml
+    <style name="YourTheme">
+        <item name="afeValidatorDefinitions">@style/YourValidatorDefinitions</item>
+    </style>
+
+    <style name="YourValidatorDefinitions" parent="@style/AfeDefaultValidators">
+        <item name="afeValidationIconError">@drawable/your_icon_error</item>
+        <item name="afeValidationIconOk">@drawable/your_icon_ok</item>
+    </style>
+    ```
+
+
 ProGuard
 ===
 
