@@ -29,8 +29,8 @@ public class FocusOutValidationActivity extends DefaultFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FormHelper helper = new FormHelper(DefaultForm.class);
-        helper.setOnFocusOutValidation(this);
+        FormHelper helper = new FormHelper(DefaultForm.class, this);
+        helper.setOnFocusOutValidation();
     }
 
 }

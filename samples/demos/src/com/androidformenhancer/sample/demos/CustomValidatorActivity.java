@@ -36,7 +36,7 @@ public class CustomValidatorActivity extends Activity {
     }
 
     public void onSubmit(View v) {
-        ValidationResult result = new FormHelper(SampleCustomForm.class).validate(this);
+        ValidationResult result = new FormHelper(SampleCustomForm.class, this).validate();
         if (result.hasError()) {
             Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
         } else {

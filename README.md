@@ -46,7 +46,7 @@ Usage
     validate them and convert types.
 
     ```java
-    ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
+    ValidationResult result = new FormHelper(DefaultForm.class, this).validate();
     if (result.hasError()) {
         // Show error messages
         Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
@@ -59,7 +59,7 @@ Usage
 1.  If you want to validate as soon as the focus changed, just write these codes:
 
     ```java
-    new FormHelper(DefaultForm.class).setOnFocusOutValidation(this);
+    new FormHelper(DefaultForm.class, this).setOnFocusOutValidation();
     ```
 
     Note that this method affects only for the text fields.

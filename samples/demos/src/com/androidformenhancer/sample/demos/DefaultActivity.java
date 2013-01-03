@@ -36,8 +36,8 @@ public class DefaultActivity extends Activity {
     }
 
     public void onSubmit(View v) {
-        FormHelper helper = new FormHelper(DefaultForm.class);
-        ValidationResult result = helper.validate(this);
+        FormHelper helper = new FormHelper(DefaultForm.class, this);
+        ValidationResult result = helper.validate();
         if (result.hasError()) {
             Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
         } else {

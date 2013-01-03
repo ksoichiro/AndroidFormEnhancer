@@ -83,7 +83,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidformenhancer.sample.demos.CustomValidatorActivity"
+            android:name=".CustomValidatorActivity"
             android:label="@string/title_activity_custom_validator"
             android:theme="@style/AppTheme.CustomValidator" >
             <intent-filter>
@@ -93,7 +93,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidformenhancer.sample.demos.CustomEmailPatternActivity"
+            android:name=".CustomEmailPatternActivity"
             android:label="@string/title_activity_custom_email_pattern"
             android:theme="@style/AppTheme.CustomEmailPattern" >
             <intent-filter>
@@ -103,8 +103,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.androidformenhancer.sample.demos.FocusOutValidationActivity"
+            android:name=".FocusOutValidationActivity"
             android:label="@string/title_activity_focus_out_validation" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.androidformenhancer.sample.demos" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SampleFragmentActivity"
+            android:label="@string/title_activity_sample_fragment" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

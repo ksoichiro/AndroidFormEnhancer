@@ -25,6 +25,7 @@
     <string name="title_activity_custom_validator">Custom validator</string>
     <string name="title_activity_custom_email_pattern">Custom email pattern</string>
     <string name="title_activity_focus_out_validation">Focus out validation</string>
+    <string name="title_activity_sample_fragment">Using fragment</string>
     <string name="form_default_name">Name</string>
     <string name="form_default_hiragana">Name(Hiragana)</string>
     <string name="form_default_katakana">Name(Katakana)</string>

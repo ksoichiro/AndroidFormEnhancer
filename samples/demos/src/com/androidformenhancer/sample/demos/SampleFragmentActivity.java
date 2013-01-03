@@ -16,32 +16,24 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.FormHelper;
-import com.androidformenhancer.ValidationResult;
-
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 /**
  * @author Soichiro Kashima
  */
-public class CustomEmailPatternActivity extends Activity {
+public class SampleFragmentActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_email_pattern);
-    }
 
-    public void onSubmit(View v) {
-        ValidationResult result = new FormHelper(CustomEmailPatternForm.class, this).validate();
-        if (result.hasError()) {
-            Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "OK!", Toast.LENGTH_SHORT).show();
-        }
+        setContentView(R.layout.activity_sample_fragment);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.parent, new SampleFragment());
+        ft.commit();
     }
 
 }

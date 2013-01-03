@@ -24,6 +24,7 @@ import com.androidformenhancer.validator.Validator;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
@@ -118,9 +119,9 @@ public final class ValidationManager {
      * {@link android.androsuit.entity.annotation.Order}. If this annotation is
      * not specified, the order is determined by field names(asc). The fields
      * with the annotations are prior to the others.
+     * 
      * @param target target object to be validated (the form)
      * @param context context to access the message resources
-     * 
      * @return list to save the error messages
      */
     public ValidationResult validate(final Object target, final Field field,

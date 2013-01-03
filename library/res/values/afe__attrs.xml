@@ -26,6 +26,9 @@
     <attr name="afeCustomValidators" format="reference" />
     <attr name="afeCharacterEncoding" format="string" />
     <attr name="afeCustomEmailPattern" format="reference" />
+    <attr name="afeValidationErrorIconEnabled" format="reference" />
+    <attr name="afeValidationIconError" format="reference" />
+    <attr name="afeValidationIconOk" format="reference" />
 
     <declare-styleable name="ValidatorDefinitions">
         <attr name="afeStopPolicy" />
@@ -33,6 +36,9 @@
         <attr name="afeCustomValidators" />
         <attr name="afeCharacterEncoding" />
         <attr name="afeCustomEmailPattern" />
+        <attr name="afeValidationErrorIconEnabled" />
+        <attr name="afeValidationIconError" />
+        <attr name="afeValidationIconOk" />
     </declare-styleable>
 
     <attr name="afeValidatorMessages" format="reference" />

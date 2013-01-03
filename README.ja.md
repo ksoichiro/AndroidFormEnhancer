@@ -43,7 +43,7 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 1.  ActivityやFragmentに下記のようなコードを書いて、画面から入力値を取り出すところから入力チェック、型変換を行ないます。
 
     ```java
-    ValidationResult result = new FormHelper(DefaultForm.class).validate(this);
+    ValidationResult result = new FormHelper(DefaultForm.class, this).validate();
     if (result.hasError()) {
         // エラーメッセージを表示します
         Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
@@ -56,7 +56,7 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 1.  もしフォーカスが外れたタイミングで入力チェックしたい場合は、次のように書くだけです。
 
     ```java
-    new FormHelper(DefaultForm.class).setOnFocusOutValidation(this);
+    new FormHelper(DefaultForm.class, this).setOnFocusOutValidation();
     ```
 
     ただし、これはテキストのフィールドだけに有効な方法です。

@@ -24,6 +24,7 @@ import com.androidformenhancer.utils.StringUtils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -52,15 +53,62 @@ public class FormHelper {
     private Class<?> mFormClass;
     private Object mForm;
     private HashMap<String, FormMetaData> mFormMetaDataMap;
+    private Context mContext;
+    private View mRootView;
+    private boolean mValidationErrorIconEnabled;
+    private Drawable mIconError;
+    private Drawable mIconOk;
 
     /**
      * Constructor. You must specify the Form class representing widget details
      * and validation specifications.
      * 
      * @param clazz class of the form
+     * @param activity activity which create this object
      */
-    public FormHelper(final Class<?> clazz) {
+    public FormHelper(final Class<?> clazz, final Activity activity) {
         mFormClass = clazz;
+        mContext = activity.getBaseContext();
+        mRootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        init();
+    }
+
+    /**
+     * Constructor. You must specify the Form class representing widget details
+     * and validation specifications.
+     * 
+     * @param clazz class of the form
+     * @param fragment fragment which create this object
+     */
+    public FormHelper(final Class<?> clazz, final Fragment fragment) {
+        mFormClass = clazz;
+        mContext = fragment.getActivity().getBaseContext();
+        mRootView = fragment.getView().getRootView();
+        init();
+    }
+
+    public void setValidationErrorIconEnabled(final boolean enabled) {
+        mValidationErrorIconEnabled = enabled;
+    }
+
+    public void setIconError(final Drawable d) {
+        mIconError = d;
+        setDrawableIntrinsicBounds(mIconError);
+    }
+
+    public void setIconError(final int resId) {
+        mIconError = mContext.getResources().getDrawable(resId);
+        setDrawableIntrinsicBounds(mIconError);
+    }
+
+    public void setIconOk(final Drawable d) {
+        mIconOk = d;
+        setDrawableIntrinsicBounds(mIconOk);
+    }
+
+    public void setIconOk(final int resId) {
+        mIconOk = mContext.getResources().getDrawable(resId);
+        setDrawableIntrinsicBounds(mIconOk);
     }
 
     /**
@@ -73,74 +121,85 @@ public class FormHelper {
      * @param activity activity which has the form
      * @return result of the validation
      */
-    public ValidationResult validate(final Activity activity) {
-        extractFormFromView(activity);
-        ValidationManager validationManager = new ValidationManager(activity);
+    public ValidationResult validate() {
+        extractFormFromView();
+        ValidationManager validationManager = new ValidationManager(mContext);
         ValidationResult validationResult = validationManager
                 .validate(mForm, null, mFormMetaDataMap);
         for (int id : validationResult.getValidatedIds()) {
-            View v = activity.findViewById(id);
+            View v = mRootView.findViewById(id);
             if (!(v instanceof TextView)) {
                 continue;
             }
-            TextView tv = (TextView) v;
-            if (validationResult.hasErrorFor(id)) {
-                tv.setError(StringUtils.serialize(validationResult.getErrorsFor(id)));
-                tv.setCompoundDrawables(null, null, getErrorIcon(activity), null);
-            } else {
-                tv.setError(null);
-                tv.setCompoundDrawables(null, null, getOkIcon(activity), null);
-            }
+            setErrorToTextView(validationResult, (TextView) v, id);
         }
         return validationResult;
     }
 
     /**
-     * Validates the input values.
-     * <p>
-     * Validations are executed in the orders specified by the
-     * {@linkplain Widget#validateAfter()}. If this annotation is not specified,
-     * the order is undefined.
-     * 
-     * @param fragment fragment which has the form
-     * @return result of the validation
+     * Sets the {@linkplain android.view.View.OnFocusChangedListener} to
+     * validate on focus out.
      */
-    public ValidationResult validate(final Fragment fragment) {
-        return validate(fragment.getActivity());
-    }
-
     /**
      * Sets the {@linkplain android.view.View.OnFocusChangedListener} to
      * validate on focus out.
      * 
      * @param activity activity which has the form
      */
-    public void setOnFocusOutValidation(final Activity activity) {
-        setOnFocusOutValidation(activity,
-                activity.getWindow().getDecorView().findViewById(android.R.id.content));
+    public void setOnFocusOutValidation() {
+        extractFormFromView();
+        final ValidationManager validationManager = new ValidationManager(mContext);
+
+        final Field[] fields = mFormClass.getFields();
+        for (final Field field : fields) {
+            if (!mFormMetaDataMap.containsKey(field.getName())) {
+                continue;
+            }
+            WidgetType widgetType = mFormMetaDataMap.get(field.getName()).getWidgetType();
+            if (widgetType != WidgetType.TEXT) {
+                continue;
+            }
+            final Widget widget = field.getAnnotation(Widget.class);
+            if (widget == null) {
+                continue;
+            }
+            final EditText e = (EditText) mRootView.findViewById(widget.id());
+            e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        extractFormFromView();
+                        ValidationResult result =
+                                validationManager.validate(mForm, field, mFormMetaDataMap);
+                        setErrorToTextView(result, e);
+                    }
+                }
+            });
+        }
     }
 
-    /**
-     * Sets the {@linkplain android.view.View.OnFocusChangedListener} to
-     * validate on focus out.
-     * 
-     * @param fragment fragment which has the form
-     */
-    public void setOnFocusOutValidation(final Fragment fragment) {
-        setOnFocusOutValidation(fragment.getActivity(),
-                fragment.getView().findViewById(android.R.id.content));
-    }
-
-    public void validateText(final Activity activity, final int textViewId) {
-        validateText(activity,
-                activity.getWindow().getDecorView().findViewById(android.R.id.content),
-                textViewId);
-    }
-
-    public void validateText(final Fragment fragment, final int textViewId) {
-        validateText(fragment.getActivity(),
-                fragment.getView().findViewById(android.R.id.content),
-                textViewId);
+    public void validateText(final int textViewId) {
+        extractFormFromView();
+        final ValidationManager validationManager = new ValidationManager(mContext);
+        final Field[] fields = mFormClass.getFields();
+        Field field = null;
+        for (final Field f : fields) {
+            Widget widget = f.getAnnotation(Widget.class);
+            if (widget == null) {
+                continue;
+            }
+            if (widget.id() == textViewId) {
+                field = f;
+                break;
+            }
+        }
+        if (field == null) {
+            throw new IllegalArgumentException("Specified TextView not found!");
+        }
+        ValidationResult result =
+                validationManager.validate(mForm, field, mFormMetaDataMap);
+        TextView v = (TextView) mRootView.findViewById(textViewId);
+        setErrorToTextView(result, v);
     }
 
     /**
@@ -202,9 +261,60 @@ public class FormHelper {
         }
     }
 
-    private void extractFormFromView(final Activity activity) {
-        extractFormFromView(activity,
-                activity.getWindow().getDecorView().findViewById(android.R.id.content));
+    public void setErrorToTextView(final ValidationResult result, final TextView textView,
+            final int id) {
+        if (mValidationErrorIconEnabled) {
+            if (result.hasErrorFor(id)) {
+                textView.setError(StringUtils.serialize(result.getErrorsFor(id)),
+                        mIconError);
+                textView.setCompoundDrawables(null, null, mIconError, null);
+            } else {
+                textView.setCompoundDrawables(null, null, mIconOk, null);
+            }
+        }
+    }
+
+    public void setErrorToTextView(final ValidationResult result, final TextView textView) {
+        if (mValidationErrorIconEnabled) {
+            if (result.hasError()) {
+                textView.setError(StringUtils.serialize(result.getAllErrors()),
+                        mIconError);
+                textView.setCompoundDrawables(null, null, mIconError, null);
+            } else {
+                textView.setCompoundDrawables(null, null, mIconOk, null);
+            }
+        }
+    }
+
+    private void init() {
+        TypedArray a = mContext.getTheme().obtainStyledAttributes(null,
+                R.styleable.ValidatorDefinitions,
+                R.attr.afeValidatorDefinitions, 0);
+
+        if (a.hasValue(R.styleable.ValidatorDefinitions_afeValidationErrorIconEnabled)) {
+            mValidationErrorIconEnabled = a.getBoolean(
+                    R.styleable.ValidatorDefinitions_afeValidationErrorIconEnabled, true);
+        } else {
+            mValidationErrorIconEnabled = true;
+        }
+
+        if (a.hasValue(R.styleable.ValidatorDefinitions_afeValidationIconError)) {
+            mIconError = a.getDrawable(R.styleable.ValidatorDefinitions_afeValidationIconError);
+            setDrawableIntrinsicBounds(mIconError);
+        } else {
+            mIconError = mContext.getResources().getDrawable(R.drawable.ic_textfield_error);
+            setDrawableIntrinsicBounds(mIconError);
+        }
+
+        if (a.hasValue(R.styleable.ValidatorDefinitions_afeValidationIconOk)) {
+            mIconOk = a.getDrawable(R.styleable.ValidatorDefinitions_afeValidationIconOk);
+            setDrawableIntrinsicBounds(mIconOk);
+        } else {
+            mIconOk = mContext.getResources().getDrawable(R.drawable.ic_textfield_ok);
+            setDrawableIntrinsicBounds(mIconOk);
+        }
+
+        a.recycle();
     }
 
     /**
@@ -213,7 +323,7 @@ public class FormHelper {
      * @param context target context
      * @param rootView root view of the form
      */
-    private void extractFormFromView(final Context context, final View rootView) {
+    private void extractFormFromView() {
         ensureFormFieldsTypes();
 
         try {
@@ -225,7 +335,7 @@ public class FormHelper {
                 if (widget == null) {
                     continue;
                 }
-                View view = rootView.findViewById(widget.id());
+                View view = mRootView.findViewById(widget.id());
                 if (view instanceof EditText) {
                     addFormMetaData(field, WidgetType.TEXT);
                     String value = ((EditText) view).getText().toString();
@@ -272,92 +382,6 @@ public class FormHelper {
         }
     }
 
-    private void setOnFocusOutValidation(final Context context, final View rootView) {
-        extractFormFromView(context, rootView);
-        final ValidationManager validationManager = new ValidationManager(context);
-
-        final Field[] fields = mFormClass.getFields();
-        for (final Field field : fields) {
-            if (!mFormMetaDataMap.containsKey(field.getName())) {
-                continue;
-            }
-            WidgetType widgetType = mFormMetaDataMap.get(field.getName()).getWidgetType();
-            if (widgetType != WidgetType.TEXT) {
-                continue;
-            }
-            final Widget widget = field.getAnnotation(Widget.class);
-            if (widget == null) {
-                continue;
-            }
-            final EditText e = (EditText) rootView.findViewById(widget.id());
-            e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) {
-                        extractFormFromView(context, rootView);
-                        ValidationResult result =
-                                validationManager.validate(mForm, field, mFormMetaDataMap);
-                        if (result.hasError()) {
-                            e.setError(StringUtils.serialize(result.getAllErrors()),
-                                    getErrorIcon(context));
-                            e.setCompoundDrawables(null, null, getErrorIcon(context), null);
-                        } else {
-                            e.setCompoundDrawables(null, null, getOkIcon(context), null);
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    private void validateText(final Context context, final View rootView, final int textViewId) {
-        extractFormFromView(context, rootView);
-        final ValidationManager validationManager = new ValidationManager(context);
-        final Field[] fields = mFormClass.getFields();
-        Field field = null;
-        for (final Field f : fields) {
-            Widget widget = f.getAnnotation(Widget.class);
-            if (widget == null) {
-                continue;
-            }
-            if (widget.id() == textViewId) {
-                field = f;
-                break;
-            }
-        }
-        if (field == null) {
-            throw new IllegalArgumentException("Specified TextView not found!");
-        }
-        ValidationResult result =
-                validationManager.validate(mForm, field, mFormMetaDataMap);
-        TextView v = (TextView) rootView.findViewById(textViewId);
-        if (result.hasError()) {
-            v.setError(StringUtils.serialize(result.getAllErrors()),
-                    getErrorIcon(context));
-            v.setCompoundDrawables(null, null, getErrorIcon(context), null);
-        } else {
-            v.setCompoundDrawables(null, null, getOkIcon(context), null);
-        }
-    }
-
-    private Drawable getOkIcon(final Context context) {
-        if (context == null) {
-            throw new IllegalArgumentException("Context must not be null!");
-        }
-        final Drawable d = context.getResources().getDrawable(R.drawable.ic_textfield_ok);
-        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-        return d;
-    }
-
-    private Drawable getErrorIcon(final Context context) {
-        if (context == null) {
-            throw new IllegalArgumentException("Context must not be null!");
-        }
-        final Drawable d = context.getResources().getDrawable(R.drawable.ic_textfield_error);
-        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-        return d;
-    }
-
     private void ensureFormFieldsTypes() {
         final Field[] fields = mFormClass.getFields();
         for (Field field : fields) {
@@ -382,4 +406,11 @@ public class FormHelper {
         data.setWidgetType(type);
         mFormMetaDataMap.put(field.getName(), data);
     }
+
+    private void setDrawableIntrinsicBounds(final Drawable d) {
+        if (d != null) {
+            d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        }
+    }
+
 }

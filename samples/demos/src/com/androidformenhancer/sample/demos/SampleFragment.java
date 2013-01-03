@@ -24,22 +24,40 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 /**
  * @author Soichiro Kashima
  */
-public class DefaultFragmentActivity extends FragmentActivity {
+public class SampleFragment extends Fragment {
 
     private static final String DIALOG_TAG = "dialog";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_default);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_sample, container, false);
+        view.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSubmit(v);
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // You must not call this in onCreateView() because we cannot access
+        // to root view by getView().
+        FormHelper helper = new FormHelper(DefaultForm.class, this);
+        helper.setOnFocusOutValidation();
     }
 
     public void onSubmit(View v) {
@@ -51,7 +69,7 @@ public class DefaultFragmentActivity extends FragmentActivity {
             // Create entity and do what you want
             // e.g. insert into database, send to server by HTTP
             DefaultEntity entity = helper.create(DefaultEntity.class);
-            Toast.makeText(this, "OK!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "OK!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -71,8 +89,8 @@ public class DefaultFragmentActivity extends FragmentActivity {
     }
 
     public void showDialogFragment(final DialogFragment dialogFragment) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment prev = getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
         if (prev != null) {
             ft.remove(prev);
         }
