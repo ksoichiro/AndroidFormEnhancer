@@ -39,6 +39,7 @@
     <string name="form_default_birthday">Birthday</string>
     <string name="form_default_credit_card_company">Credit card company</string>
     <string name="form_default_got_to_know_by">Where did you know?</string>
+    <string name="form_default_email">E-mail address</string>
     <string name="form_checkbox_got_to_know_by_tv">TV</string>
     <string name="form_checkbox_got_to_know_by_internet">Internet</string>
     <string name="form_checkbox_got_to_know_by_twitter">Twitter</string>
@@ -46,6 +47,7 @@
     <string name="form_sample_custom_sample">Sample</string>
     <string name="form_custom_required_when_reason">Reason</string>
     <string name="form_custom_required_when_reason_other">Other</string>
+    <string name="desc_custom_email_pattern">Valid pattern:\n^\\w+@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</string>
     <string name="btn_submit">Submit</string>
     <string name="custom_msg_validation_required">[%1$s] is required.</string>
     <string name="custom_msg_validation_required_selection">[%1$s] must be selected.</string>

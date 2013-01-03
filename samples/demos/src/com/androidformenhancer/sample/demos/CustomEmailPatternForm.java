@@ -25,9 +25,9 @@ import com.androidformenhancer.annotation.Widget;
  */
 public class CustomEmailPatternForm {
 
+    @Widget(id = R.id.textfield_email, nameResId = R.string.form_default_email)
     @Required
     @Email
-    @Widget(id = R.id.textfield_sample, nameResId = R.string.form_sample_custom_sample)
-    public String sample;
+    public String email;
 
 }

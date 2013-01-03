@@ -40,13 +40,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/form_sample_custom_sample" />
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/attention_background"
+                android:text="@string/desc_custom_email_pattern" />
 
-            <EditText
-                android:id="@+id/textfield_sample"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
+                android:text="@string/form_default_email" />
+
+            <EditText
+                android:id="@+id/textfield_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text|textEmailAddress" />
         </LinearLayout>
     </ScrollView>
 
