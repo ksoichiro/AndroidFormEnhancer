@@ -43,7 +43,7 @@ public class MainActivity extends ListActivity {
 
         @Override
         public int compare(Map<String, Object> lhs, Map<String, Object> rhs) {
-            return collator.compare(lhs.get("title"), rhs.get("title"));
+            return collator.compare(lhs.get("className"), rhs.get("className"));
         }
     };
 
@@ -52,12 +52,14 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         setListAdapter(new SimpleAdapter(this, getData(),
-                android.R.layout.simple_list_item_1,
+                R.layout.list_item_main,
                 new String[] {
-                        "title"
+                        "className",
+                        "description",
                 },
                 new int[] {
-                        android.R.id.text1
+                        R.id.className,
+                        R.id.description,
                 }));
     }
 
@@ -87,9 +89,12 @@ public class MainActivity extends ListActivity {
             String nextLabel = labelPath[0];
 
             if (labelPath.length == 1) {
-                addItem(data, nextLabel, activityIntent(
-                        info.activityInfo.applicationInfo.packageName,
-                        info.activityInfo.name));
+                addItem(data,
+                        info.activityInfo.name.replace(info.activityInfo.packageName + ".", ""),
+                        nextLabel,
+                        activityIntent(
+                                info.activityInfo.applicationInfo.packageName,
+                                info.activityInfo.name));
             }
         }
 
@@ -104,9 +109,11 @@ public class MainActivity extends ListActivity {
         return result;
     }
 
-    protected void addItem(List<Map<String, Object>> data, String name, Intent intent) {
+    protected void addItem(List<Map<String, Object>> data, String className, String description,
+            Intent intent) {
         Map<String, Object> temp = new HashMap<String, Object>();
-        temp.put("title", name);
+        temp.put("className", className);
+        temp.put("description", description);
         temp.put("intent", intent);
         data.add(temp);
     }
