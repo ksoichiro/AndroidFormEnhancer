@@ -44,6 +44,8 @@
 You can use annotations to describe the definitions of the input form briefly,
 reduce codes that handle data of the screens in the Activities and Fragments.</p>
 
+<p><img src="https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/screenshot.png" alt="Screenshot" title="Screenshots"></p>
+
 <h1>Install</h1>
 
 <p>The 'library' folder is the main library.
@@ -80,7 +82,7 @@ the form class.</p>
 <p>Write the codes like following to the Activity or Fragment to extract data from the screen,
 validate them and convert types.</p>
 
-<div class="highlight"><pre><span class="n">ValidationResult</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FormHelper</span><span class="o">(</span><span class="n">DefaultForm</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">validate</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<div class="highlight"><pre><span class="n">ValidationResult</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FormHelper</span><span class="o">(</span><span class="n">DefaultForm</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">this</span><span class="o">).</span><span class="na">validate</span><span class="o">();</span>
 <span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">hasError</span><span class="o">())</span> <span class="o">{</span>
     <span class="c1">// Show error messages</span>
     <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">result</span><span class="o">.</span><span class="na">getAllSerializedErrors</span><span class="o">(),</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
@@ -93,7 +95,7 @@ validate them and convert types.</p>
 <li>
 <p>If you want to validate as soon as the focus changed, just write these codes:</p>
 
-<div class="highlight"><pre><span class="k">new</span> <span class="nf">FormHelper</span><span class="o">(</span><span class="n">DefaultForm</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">setOnFocusOutValidation</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<div class="highlight"><pre><span class="k">new</span> <span class="nf">FormHelper</span><span class="o">(</span><span class="n">DefaultForm</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">this</span><span class="o">).</span><span class="na">setOnFocusOutValidation</span><span class="o">();</span>
 </pre></div>
 
 <p>Note that this method affects only for the text fields.</p>
@@ -246,41 +248,62 @@ Then you can check whether the user selected other than the head item or not.</p
 <p>Following validation classes are available:</p>
 
 <ol>
-<li>DatePatternValidator
+<li>
+<p>RequiredValidator</p>
 
 <ul>
-<li>Validates the EditText's value with date format.</li>
-<li>The target fields must have field in Form class with <code>@DatePattern</code>.</li>
-<li>Date format used in validation is <code>java.text.DateFormat.SHORT</code>, which will change with locale.</li>
-<li>If you want to use custom format, use <code>DatePattern#value()</code>.</li>
+<li>Validates the EditText's value is not <code>null</code> nor empty string.</li>
+<li>The target fields must have field in Form class with <code>@Required</code>.</li>
+<li>
+<p>If you need value with some conditions, use <code>@When</code> as follows:</p>
+
+<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomRequiredWhenForm</span> <span class="o">{</span>
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">spn_reason</span><span class="o">,</span> <span class="n">nameResId</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">form_custom_required_when_reason</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">reason</span><span class="o">;</span>
+
+    <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textfield_reason_other</span><span class="o">,</span> <span class="n">nameResId</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">form_custom_required_when_reason_other</span><span class="o">,</span>
+            <span class="n">validateAfter</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">spn_reason</span><span class="o">)</span>
+    <span class="nd">@Required</span><span class="o">(</span><span class="n">when</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="nd">@When</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">spn_reason</span><span class="o">,</span> <span class="n">equalsTo</span> <span class="o">=</span> <span class="s">"2"</span><span class="o">)</span>
+    <span class="o">})</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">reasonOther</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>If the user select the 3rd option from the spinner <code>R.id.spn_reason</code> and
+the user does not input text field <code>R.id.textfield_reason_other</code>, then this validator
+assume it is an error.</p>
+</li>
 </ul>
 </li>
-<li>DigitsValidator
+<li>
+<p>IntTypeValidator</p>
 
 <ul>
-<li>Validates the EditText's value whether it consists only of digits (which means 0 through 9).</li>
-<li>The target fields must have field in Form class with <code>@Digits</code>.</li>
+<li>Validates the EditText's value whether it is a valid integer format.</li>
+<li>The target fields must have field in Form class with <code>@IntType</code>.</li>
 </ul>
 </li>
-<li>EmailValidator
+<li>
+<p>MaxValueValidator</p>
 
 <ul>
-<li>Validates the EditText's value whether it is e-mail format.</li>
-<li>The target fields must have field in Form class with <code>@Email</code>.</li>
-<li>Pattern to be used in validation is this: <code>^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</code>
-</li>
-<li>If you want to use custom format, define your format in your style
-using <code>afeValidatorDefinitions</code> and <code>afeCustomEmailPattern</code>.</li>
+<li>Validates the EditText's value whether it is less than or equals to
+the specified value.</li>
+<li>The target fields must have field in Form class with <code>@MaxValue</code>.</li>
 </ul>
 </li>
-<li>HiraganaValidator
+<li>
+<p>MinValueValidator</p>
 
 <ul>
-<li>Validates the EditText's value whether it consists only of Japanese Hiragana.</li>
-<li>The target fields must have field in Form class with <code>@Hiragana</code>.</li>
+<li>Validates the EditText's value whether it is more than or equals to
+the specified value.</li>
+<li>The target fields must have field in Form class with <code>@MinValue</code>.</li>
 </ul>
 </li>
-<li>IntRangeValidator
+<li>
+<p>IntRangeValidator</p>
 
 <ul>
 <li>Validates the EditText's value whether it is in the specified range:
@@ -288,28 +311,74 @@ the minimum value is <code>IntRange#min()</code> and the maximum value is <code>
 <li>The target fields must have field in Form class with <code>@IntRange</code>.</li>
 </ul>
 </li>
-<li>IntTypeValidator
+<li>
+<p>DigitsValidator</p>
 
 <ul>
-<li>Validates the EditText's value whether it is a valid integer format.</li>
-<li>The target fields must have field in Form class with <code>@IntType</code>.</li>
+<li>Validates the EditText's value whether it consists only of digits (which means 0 through 9).</li>
+<li>The target fields must have field in Form class with <code>@Digits</code>.</li>
 </ul>
 </li>
-<li>KatakanaValidator
+<li>
+<p>AlphabetValidator</p>
+
+<ul>
+<li>Validates the EditText's value whether it consists only of ASCII alphabet characters.</li>
+<li>The target fields must have field in Form class with <code>@Alphabet</code>.</li>
+<li>If you want to allow space character, set <code>Alphabet#allowSpace()</code> to <code>true</code>.</li>
+</ul>
+</li>
+<li>
+<p>AlphaNumValidator</p>
+
+<ul>
+<li>Validates the EditText's value whether it consists only of ASCII alphabet characters.</li>
+<li>The target fields must have field in Form class with <code>@AlphaNum</code>.</li>
+<li>If you want to allow space character, set <code>AlphaNum#allowSpace()</code> to <code>true</code>.</li>
+</ul>
+</li>
+<li>
+<p>HiraganaValidator</p>
+
+<ul>
+<li>Validates the EditText's value whether it consists only of Japanese Hiragana.</li>
+<li>The target fields must have field in Form class with <code>@Hiragana</code>.</li>
+</ul>
+</li>
+<li>
+<p>KatakanaValidator</p>
 
 <ul>
 <li>Validates the EditText's value whether it consists only of Japanese Katakana.</li>
 <li>The target fields must have field in Form class with <code>@Katakana</code>.</li>
 </ul>
 </li>
-<li>LengthValidator
+<li>
+<p>SinglebyteValidator</p>
+
+<ul>
+<li>Validates the EditText's value whether it consists only of single-byte characters.</li>
+<li>The target fields must have field in Form class with <code>@Singlebyte</code>.</li>
+</ul>
+</li>
+<li>
+<p>MultibyteValidator</p>
+
+<ul>
+<li>Validates the EditText's value whether it consists only of multi-byte characters.</li>
+<li>The target fields must have field in Form class with <code>@Multibyte</code>.</li>
+</ul>
+</li>
+<li>
+<p>LengthValidator</p>
 
 <ul>
 <li>Validates the EditText's value whether it has the specified length.</li>
 <li>The target fields must have field in Form class with <code>@Length</code>.</li>
 </ul>
 </li>
-<li>MaxLengthValidator
+<li>
+<p>MaxLengthValidator</p>
 
 <ul>
 <li>Validates the EditText's value whether its length is less than or equals to
@@ -317,7 +386,19 @@ the specified length.</li>
 <li>The target fields must have field in Form class with <code>@MaxLength</code>.</li>
 </ul>
 </li>
-<li>MaxNumOfDigitsValidator
+<li>
+<p>NumOfDigitsValidator</p>
+
+<ul>
+<li>Validates the EditText's value whether its length is the specified length.</li>
+<li>The target fields must have field in Form class with <code>@NumOfDigits</code>.</li>
+<li>This validator resembles to the LengthValidator, but this validator
+does not treat as an error if the value includes non-digit character even
+though its length does not match <code>NumOfDigits#value()</code>.</li>
+</ul>
+</li>
+<li>
+<p>MaxNumOfDigitsValidator</p>
 
 <ul>
 <li>Validates the EditText's value whether its length is less than or equals to
@@ -328,40 +409,18 @@ does not treat as an error if the value includes non-digit character even
 though its length exceeds <code>MaxNumOfDigits#value()</code>.</li>
 </ul>
 </li>
-<li>MaxValueValidator
+<li>
+<p>DatePatternValidator</p>
 
 <ul>
-<li>Validates the EditText's value whether it is less than or equals to
-the specified value.</li>
-<li>The target fields must have field in Form class with <code>@MaxValue</code>.</li>
+<li>Validates the EditText's value with date format.</li>
+<li>The target fields must have field in Form class with <code>@DatePattern</code>.</li>
+<li>Date format used in validation is <code>java.text.DateFormat.SHORT</code>, which will change with locale.</li>
+<li>If you want to use custom format, use <code>DatePattern#value()</code>.</li>
 </ul>
 </li>
-<li>MinValueValidator
-
-<ul>
-<li>Validates the EditText's value whether it is more than or equals to
-the specified value.</li>
-<li>The target fields must have field in Form class with <code>@MinValue</code>.</li>
-</ul>
-</li>
-<li>MultibyteValidator
-
-<ul>
-<li>Validates the EditText's value whether it consists only of multi-byte characters.</li>
-<li>The target fields must have field in Form class with <code>@Multibyte</code>.</li>
-</ul>
-</li>
-<li>NumOfDigitsValidator
-
-<ul>
-<li>Validates the EditText's value whether its length is the specified length.</li>
-<li>The target fields must have field in Form class with <code>@NumOfDigits</code>.</li>
-<li>This validator resembles to the LengthValidator, but this validator
-does not treat as an error if the value includes non-digit character even
-though its length does not match <code>NumOfDigits#value()</code>.</li>
-</ul>
-</li>
-<li>PastDateValidator
+<li>
+<p>PastDateValidator</p>
 
 <ul>
 <li>Validates the EditText's value is valid date format and past date.</li>
@@ -372,26 +431,25 @@ PastDateValidator uses <code>DatePattern#value()</code>.</li>
 <li>If you do not want to assume today as an error, set <code>PastDate#allowToday</code> to <code>true</code>.</li>
 </ul>
 </li>
-<li>RegexValidator
+<li>
+<p>EmailValidator</p>
+
+<ul>
+<li>Validates the EditText's value whether it is e-mail format.</li>
+<li>The target fields must have field in Form class with <code>@Email</code>.</li>
+<li>Pattern to be used in validation is this: <code>^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</code>
+</li>
+<li>If you want to use custom format, define your format in your style
+using <code>afeValidatorDefinitions</code> and <code>afeCustomEmailPattern</code>.</li>
+</ul>
+</li>
+<li>
+<p>RegexValidator</p>
 
 <ul>
 <li>Validates the EditText's value whether it matches the specified regular expression.</li>
 <li>The target fields must have field in Form class with <code>@Regex</code>.</li>
 <li>Regular expression must be specified by <code>Regex#value()</code>.</li>
-</ul>
-</li>
-<li>RequiredValidator
-
-<ul>
-<li>Validates the EditText's value is not <code>null</code> nor empty string.</li>
-<li>The target fields must have field in Form class with <code>@Required</code>.</li>
-</ul>
-</li>
-<li>SinglebyteValidator
-
-<ul>
-<li>Validates the EditText's value whether it consists only of single-byte characters.</li>
-<li>The target fields must have field in Form class with <code>@Singlebyte</code>.</li>
 </ul>
 </li>
 </ol><h1>Orders of the validation</h1>
@@ -503,6 +561,21 @@ If you define Form like this:</p>
 </pre></div>
 
 <p>then the result will be "First name is required".</p>
+</li>
+<li>
+<p>Error icons</p>
+
+<p>You can change validation error icons as follows:</p>
+
+<div class="highlight"><pre><span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"YourTheme"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"afeValidatorDefinitions"</span><span class="nt">&gt;</span>@style/YourValidatorDefinitions<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">"YourValidatorDefinitions"</span> <span class="na">parent=</span><span class="s">"@style/AfeDefaultValidators"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"afeValidationIconError"</span><span class="nt">&gt;</span>@drawable/your_icon_error<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">"afeValidationIconOk"</span><span class="nt">&gt;</span>@drawable/your_icon_ok<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+</pre></div>
 </li>
 </ol><h1>ProGuard</h1>
 
