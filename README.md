@@ -258,6 +258,10 @@ Following validation classes are available:
 1. DigitsValidator
     * Validates the EditText's value whether it consists only of digits (which means 0 through 9).
     * The target fields must have field in Form class with `@Digits`.
+1. AlphabetValidator
+    * Validates the EditText's value whether it consists only of ASCII alphabet characters.
+    * The target fields must have field in Form class with `@Alphabet`.
+    * If you want to allow space character, set `Alphabet#allowSpace()` to `true`.
 1. HiraganaValidator
     * Validates the EditText's value whether it consists only of Japanese Hiragana.
     * The target fields must have field in Form class with `@Hiragana`.

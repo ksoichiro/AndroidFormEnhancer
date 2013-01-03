@@ -253,6 +253,10 @@ public class DefaultForm {
 1. DigitsValidator
     * EditTextの値が半角数字のみで構成されていることを検証します。
     * 対象フィールドは、Formクラスに定義され`@Digits`アノテーションを付与されている必要があります。
+1. AlphabetValidator
+    * EditTextの値が半角英字のみで構成されていることを検証します。
+    * 対象フィールドは、Formクラスに定義され`@Alphabet`アノテーションを付与されている必要があります。
+    * もし半角スペースも許可したい場合は、`Alphabet#allowSpace()`を`true`に競って強います。
 1. HiraganaValidator
     * EditTextの値が全角ひらがなのみで構成されていることを検証します。
     * 対象フィールドは、Formクラスに定義され`@Hiragana`アノテーションを付与されている必要があります。

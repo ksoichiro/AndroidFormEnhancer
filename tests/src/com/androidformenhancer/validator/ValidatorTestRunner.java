@@ -58,6 +58,7 @@ public class ValidatorTestRunner extends InstrumentationTestRunner {
         testSuite.addTestSuite(MultibyteValidatorTest.class);
         testSuite.addTestSuite(HiraganaValidatorTest.class);
         testSuite.addTestSuite(KatakanaValidatorTest.class);
+        testSuite.addTestSuite(AlphabetValidatorTest.class);
         testSuite.addTestSuite(SinglebyteValidatorTest.class);
         testSuite.addTestSuite(IntTypeValidatorTest.class);
         testSuite.addTestSuite(RequiredValidatorTest.class);
