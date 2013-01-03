@@ -131,20 +131,17 @@ public class FormHelper {
             if (!(v instanceof TextView)) {
                 continue;
             }
-            setErrorToTextView(validationResult, (TextView) v, id);
+            setErrorToTextView(validationResult, (TextView) v);
         }
         return validationResult;
     }
 
     /**
      * Sets the {@linkplain android.view.View.OnFocusChangedListener} to
-     * validate on focus out.
-     */
-    /**
-     * Sets the {@linkplain android.view.View.OnFocusChangedListener} to
-     * validate on focus out.
-     * 
-     * @param activity activity which has the form
+     * validate on focus out.<br>
+     * If you want to implement your own
+     * {@linkplain android.view.View.OnFocusChangedListener}, use
+     * {@linkplain #validateText(int)}.
      */
     public void setOnFocusOutValidation() {
         extractFormFromView();
@@ -178,6 +175,13 @@ public class FormHelper {
         }
     }
 
+    /**
+     * Validates TextView or EditText.<br>
+     * For example, you can call this inside
+     * {@linkplain android.view.View.OnFocusChangeListener}.
+     * 
+     * @param textViewId target TextView or EditText's resource ID
+     */
     public void validateText(final int textViewId) {
         extractFormFromView();
         final ValidationManager validationManager = new ValidationManager(mContext);
@@ -200,6 +204,59 @@ public class FormHelper {
                 validationManager.validate(mForm, field, mFormMetaDataMap);
         TextView v = (TextView) mRootView.findViewById(textViewId);
         setErrorToTextView(result, v);
+    }
+
+    /**
+     * Returns the extracted form.<br>
+     * The form returned is deep copy, so values of this object's fields cannot
+     * be changed from inside the FormHelper.
+     * 
+     * @return deep copy of the extracted form
+     */
+    public Object getForm() {
+        if (mForm == null || mFormClass == null) {
+            throw new IllegalStateException("Form is not initialized or validated.");
+        }
+
+        try {
+            Object form = mFormClass.newInstance();
+            for (Field field : mFormClass.getFields()) {
+                // We do not copy non-widget field
+                if (field.getAnnotation(Widget.class) == null) {
+                    continue;
+                }
+
+                // Ignore null field
+                Object value = field.get(mForm);
+                if (value == null) {
+                    continue;
+                }
+
+                // Allows only String and List<String> fields
+                Class<?> type = field.getType();
+                if (type.equals(List.class)) {
+                    @SuppressWarnings("unchecked")
+                    List<String> srcList = (List<String>) value;
+                    List<String> dstList = new ArrayList<String>();
+                    for (String srcValue : srcList) {
+                        dstList.add(srcValue);
+                    }
+                    field.set(form, dstList);
+                } else if (type.equals(String.class)) {
+                    field.set(form, field.get(mForm));
+                } else {
+                    throw new IllegalStateException(
+                            "Form class can have only String and List<String> fields but "
+                                    + type + " found.");
+                }
+            }
+            return form;
+        } catch (InstantiationException e) {
+            Log.v(TAG, "Failed to copy form.", e);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -261,23 +318,20 @@ public class FormHelper {
         }
     }
 
-    public void setErrorToTextView(final ValidationResult result, final TextView textView,
-            final int id) {
-        if (mValidationErrorIconEnabled) {
-            if (result.hasErrorFor(id)) {
-                textView.setError(StringUtils.serialize(result.getErrorsFor(id)),
-                        mIconError);
-                textView.setCompoundDrawables(null, null, mIconError, null);
-            } else {
-                textView.setCompoundDrawables(null, null, mIconOk, null);
-            }
-        }
-    }
-
+    /**
+     * Sets the error icon and popup window to the specified TextView or
+     * EditText.<br>
+     * Before calling this, you must call {@linkplain #validate()} or
+     * {@linkplain #validateText(int)} to get validation result.
+     * 
+     * @param result validation result
+     * @param textView TextView or EditText object which you want to set error
+     */
     public void setErrorToTextView(final ValidationResult result, final TextView textView) {
         if (mValidationErrorIconEnabled) {
-            if (result.hasError()) {
-                textView.setError(StringUtils.serialize(result.getAllErrors()),
+            int id = textView.getId();
+            if (result.hasErrorFor(id)) {
+                textView.setError(StringUtils.serialize(result.getErrorsFor(id)),
                         mIconError);
                 textView.setCompoundDrawables(null, null, mIconError, null);
             } else {
