@@ -31,5 +31,13 @@
     <string-array name="custom_validators">
         <item>com.androidformenhancer.sample.demos.SampleValidator</item>
     </string-array>
-
+    <string-array name="form_entries_residence">
+        <item>Please select</item>
+        <item>Your house</item>
+        <item>Your family\'s house</item>
+        <item>Rented house</item>
+        <item>Company owned house</item>
+        <item>Other</item>
+    </string-array>
+    
 </resources>

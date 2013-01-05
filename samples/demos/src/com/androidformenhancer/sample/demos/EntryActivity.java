@@ -27,23 +27,24 @@ import android.widget.Toast;
 /**
  * @author Soichiro Kashima
  */
-public class DefaultFragmentActivity extends FragmentActivity {
+public class EntryActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_default);
+        setContentView(R.layout.activity_entry);
+
+        FormHelper helper = new FormHelper(EntryForm.class, this);
+        helper.setAsDateField(R.id.textfield_birthday, R.string.msg_default_date);
+        helper.setOnFocusOutValidation();
     }
 
     public void onSubmit(View v) {
-        FormHelper helper = new FormHelper(DefaultForm.class, this);
+        FormHelper helper = new FormHelper(EntryForm.class, this);
         ValidationResult result = helper.validate();
         if (result.hasError()) {
             helper.showAlertDialog(result.getAllSerializedErrors());
         } else {
-            // Create entity and do what you want
-            // e.g. insert into database, send to server by HTTP
-            DefaultEntity entity = helper.create(DefaultEntity.class);
             Toast.makeText(this, "OK!", Toast.LENGTH_SHORT).show();
         }
     }

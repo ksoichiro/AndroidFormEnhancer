@@ -28,6 +28,7 @@
     <string name="title_activity_custom_error_icon">カスタムエラーアイコン</string>
     <string name="title_activity_sample_fragment">Fragment使用</string>
     <string name="title_activity_custom_required_when">条件付き必須</string>
+    <string name="title_activity_entry">入会情報サンプル</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_hiragana">お名前(ひらがな)</string>
     <string name="form_default_katakana">お名前(カタカナ)</string>
@@ -47,6 +48,28 @@
     <string name="form_sample_custom_sample">サンプル</string>
     <string name="form_custom_required_when_reason">理由</string>
     <string name="form_custom_required_when_reason_other">その他の内容</string>
+    <string name="form_entry_last_name">姓(漢字)</string>
+    <string name="form_entry_first_name">名(漢字)</string>
+    <string name="form_entry_last_name_kana">姓(フリガナ)</string>
+    <string name="form_entry_first_name_kana">名(フリガナ)</string>
+    <string name="form_entry_birthday">生年月日</string>
+    <string name="form_entry_gender">性別</string>
+    <string name="form_entry_gender_male">男性</string>
+    <string name="form_entry_gender_female">女性</string>
+    <string name="form_entry_phone_home">ご自宅電話番号</string>
+    <string name="form_entry_phone_mobile">携帯電話番号</string>
+    <string name="form_entry_email_mobile">携帯メールアドレス</string>
+    <string name="form_entry_email_pc">PCメールアドレス</string>
+    <string name="form_entry_zip_code">郵便番号</string>
+    <string name="form_entry_address1">都道府県</string>
+    <string name="form_entry_address2">市区郡</string>
+    <string name="form_entry_address3">町村番地</string>
+    <string name="form_entry_address4">マンション・ビル名</string>
+    <string name="form_entry_password">暗証番号</string>
+    <string name="form_entry_password_retype">暗証番号(再入力)</string>
+    <string name="form_entry_residence_type">お住まい</string>
+    <string name="form_entry_residence_year">居住年数(年)</string>
+    <string name="form_entry_residence_month">居住年数(月)</string>
     <string name="desc_custom_email_pattern">有効なパターン:\n^\\w+@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</string>
     <string name="desc_custom_error_icon">EditTextに表示されるエラーアイコンがスタイルで変更されています。</string>
     <string name="desc_custom_required_when">\"理由\"の3番目の選択肢を選んだ場合は、\"その他の内容\"は入力必須です。</string>
@@ -72,5 +95,6 @@
     <string name="custom_msg_validation_date">[%1$s]が無効な日付です。</string>
     <string name="custom_msg_validation_past_date">[%1$s]は過去の日付で入力してください。</string>
     <string name="msg_validation_sample">%1$sには A を入力してください</string>
+    <string name="msg_default_date">選択してください</string>
 
 </resources>

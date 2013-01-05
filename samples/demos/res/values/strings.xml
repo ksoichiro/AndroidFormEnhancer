@@ -28,6 +28,7 @@
     <string name="title_activity_sample_fragment">Using fragment</string>
     <string name="title_activity_custom_error_icon">Custom error icon</string>
     <string name="title_activity_custom_required_when">Required when</string>
+    <string name="title_activity_entry">Entry sample (for Japanese)</string>
     <string name="form_default_name">Name</string>
     <string name="form_default_hiragana">Name(Hiragana)</string>
     <string name="form_default_katakana">Name(Katakana)</string>

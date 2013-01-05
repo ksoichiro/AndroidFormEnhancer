@@ -28,5 +28,13 @@
         <item>理由2</item>
         <item>その他</item>
     </string-array>
+    <string-array name="form_entries_residence">
+        <item>お選びください</item>
+        <item>自己名義持家</item>
+        <item>家族名義持家</item>
+        <item>賃貸</item>
+        <item>社宅・寮</item>
+        <item>その他</item>
+    </string-array>
 
 </resources>
