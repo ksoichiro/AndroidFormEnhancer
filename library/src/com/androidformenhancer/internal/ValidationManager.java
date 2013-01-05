@@ -25,7 +25,6 @@ import com.androidformenhancer.validator.Validator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 
 import java.lang.reflect.Field;
@@ -139,15 +138,12 @@ public final class ValidationManager {
                 field,
         };
         Field[] sorted = sort(fields);
-        Log.v("AFE", "Fields to validate: " + fields.length + ", sorted: " + sorted.length);
         validation: for (Field f : sorted) {
             Widget widget = (Widget) f.getAnnotation(Widget.class);
             if (widget == null) {
-                Log.v("AFE", "No widget: " + f.getName());
                 continue;
             }
             validationResult.addValidatedId(widget.id());
-            Log.v("AFE", "Validated: " + widget.id() + ", " + f.getName());
             for (Validator validator : mValidators) {
                 String errorMessage = validator.validate(f);
                 if (!TextUtils.isEmpty(errorMessage)) {
