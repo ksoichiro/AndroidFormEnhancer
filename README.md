@@ -173,8 +173,8 @@ then you should define your Form class like this:
 
 ```java
 public class DefaultForm {
+    @Required(atLeast = 1)
     @Widget(id = R.id.cbg_sns,
-        atLeast = 1,
         values = {
             @WidgetValue(id = R.id.cb_facebook, value = "FB"),
             @WidgetValue(id = R.id.cb_googleplus, value = "GP"),
