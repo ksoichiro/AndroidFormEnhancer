@@ -79,17 +79,16 @@ public class DefaultForm {
     @Widget(id = R.id.textfield_birthday, nameResId = R.string.form_default_birthday, validateAfter = R.id.textfield_phone)
     public String birthday;
 
-    @Required
+    @Required(otherThanHead = true)
     @Widget(id = R.id.spn_credit_card_company,
-            nameResId = R.string.form_default_credit_card_company, headIsDummy = true,
+            nameResId = R.string.form_default_credit_card_company,
             validateAfter = R.id.textfield_birthday)
     public String creditCardCompany;
 
-    @Required
+    @Required(atLeast = 2)
     @Widget(id = R.id.cbg_got_to_know_by,
             nameResId = R.string.form_default_got_to_know_by,
             validateAfter = R.id.spn_credit_card_company,
-            atLeast = 2,
             values = {
                     @WidgetValue(id = R.id.cb_got_to_know_by_tv, value = "TV"),
                     @WidgetValue(id = R.id.cb_got_to_know_by_internet, value = "IN"),

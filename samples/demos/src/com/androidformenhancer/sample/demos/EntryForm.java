@@ -125,9 +125,9 @@ public class EntryForm {
     @Widget(id = R.id.textfield_password_retype, nameResId = R.string.form_entry_password_retype, validateAfter = R.id.textfield_password)
     public String passwordRetype;
 
-    @Required
+    @Required(otherThanHead = true)
     @Widget(id = R.id.spn_residence_type,
-            nameResId = R.string.form_entry_residence_type, headIsDummy = true,
+            nameResId = R.string.form_entry_residence_type,
             validateAfter = R.id.textfield_password_retype)
     public String residenceType;
 

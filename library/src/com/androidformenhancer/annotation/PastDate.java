@@ -22,8 +22,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents the value of the field must be past date.
+ * Represents the value of the field must match the date pattern and be a past
+ * date.
+ * <p>
+ * If you assume the date of today as a past date (meaning valid date), set
+ * {@link #allowToday()} to true.
+ * <p>
+ * Use {@link #value()} if you change the default date format. It will be passed
+ * to the {@linkplain java.text.SimpleDateFormat()} with the device's default
+ * Locale. If you do not change {@link #value()},
+ * {@link java.text.DateFormat.SHORT} with the device's default Locale will be
+ * used.
  * 
+ * @see DatePattern
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
@@ -35,6 +46,9 @@ public @interface PastDate {
      * used in the error messages.
      */
     int nameResId() default 0;
+
+    /** Date format of the field. */
+    String value() default "";
 
     /** True if you assume today as past. */
     boolean allowToday() default false;

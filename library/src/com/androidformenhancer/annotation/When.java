@@ -22,8 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation representing the condition when the validation is
- * applied.
+ * Represents the condition when the validation is applied.
  * 
  * @author Soichiro Kashima
  */

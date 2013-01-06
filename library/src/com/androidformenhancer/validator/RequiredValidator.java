@@ -20,7 +20,6 @@ import com.androidformenhancer.R;
 import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Required;
 import com.androidformenhancer.annotation.When;
-import com.androidformenhancer.annotation.Widget;
 
 import android.text.TextUtils;
 
@@ -70,12 +69,11 @@ public class RequiredValidator extends Validator {
             final Class<?> type = field.getType();
             if (type.equals(String.class)) {
                 final String strValue = getValueAsString(field);
-                Widget widget = (Widget) field.getAnnotation(Widget.class);
                 if (TextUtils.isEmpty(strValue)
-                        || (widget != null && getWidgetType(field) == WidgetType.SPINNER
-                                && widget.headIsDummy() && strValue.equals("0"))) {
-                    if (widget != null && (getWidgetType(field) == WidgetType.RADIO
-                            || getWidgetType(field) == WidgetType.SPINNER)) {
+                        || (getWidgetType(field) == WidgetType.SPINNER
+                                && required.otherThanHead() && strValue.equals("0"))) {
+                    if (getWidgetType(field) == WidgetType.RADIO
+                            || getWidgetType(field) == WidgetType.SPINNER) {
                         return getMessage(R.styleable.ValidatorMessages_afeErrorRequiredSelection,
                                 R.string.afe__msg_validation_required_selection,
                                 getName(field, required.nameResId()));
@@ -87,14 +85,11 @@ public class RequiredValidator extends Validator {
                 }
             } else if (type.equals(List.class)) {
                 final List<String> list = getValueAsStringList(field);
-                Widget checkBoxGroup = (Widget) field
-                        .getAnnotation(Widget.class);
-                if (checkBoxGroup != null
-                        && (list == null || list.size() < checkBoxGroup.atLeast())) {
+                if (list == null || list.size() < required.atLeast()) {
                     return getMessage(
                             R.styleable.ValidatorMessages_afeErrorRequiredMultipleSelection,
                             R.string.afe__msg_validation_required_multiple_selection,
-                            getName(field, required.nameResId()), checkBoxGroup.atLeast());
+                            getName(field, required.nameResId()), required.atLeast());
                 }
             }
         }

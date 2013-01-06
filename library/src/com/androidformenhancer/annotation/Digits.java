@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation which represents that the field consists of digits.
+ * Represents the value of the field must consist of ASCII digit characters.
  * 
  * @author Soichiro Kashima
  */

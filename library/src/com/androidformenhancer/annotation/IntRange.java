@@ -36,9 +36,9 @@ public @interface IntRange {
      */
     int nameResId() default 0;
 
-    /** Min value of the field. */
+    /** Minimum value of the field. */
     int min();
 
-    /** Max value of the field. */
+    /** Maximum value of the field. */
     int max();
 }

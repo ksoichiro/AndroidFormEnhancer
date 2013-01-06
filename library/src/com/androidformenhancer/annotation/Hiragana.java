@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents the value of the field must consist of Japanese hiragana
+ * Represents the value of the field must consist of Japanese Hiragana
  * characters.
  * 
  * @author Soichiro Kashima

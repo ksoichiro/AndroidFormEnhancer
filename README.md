@@ -211,7 +211,7 @@ public class DefaultForm {
 ```
 
 If you want to use the head item as a dummy text like "Please select",
-then set `Widget#headIsDummy` to `true` and add `@Required` annotation.
+then add `@Required` annotation and set `Required#otherThanHead` to `true`.
 Then you can check whether the user selected other than the head item or not.
 
 
@@ -310,8 +310,7 @@ Following validation classes are available:
     * Validates the EditText's value is valid date format and past date.
     * The target fields must have field in Form class with `@PastDate`.
     * Date format used in validation is `java.text.DateFormat.SHORT`, which will change with locale.
-    * If you want to use custom format, use `@DatePattern` annotation together.
-      PastDateValidator uses `DatePattern#value()`.
+    * If you want to use custom format, use `PastDate#value()`.
     * If you do not want to assume today as an error, set `PastDate#allowToday` to `true`.
 1. EmailValidator
     * Validates the EditText's value whether it is e-mail format.

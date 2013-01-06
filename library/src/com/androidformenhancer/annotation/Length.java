@@ -22,8 +22,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation which represents the length.
+ * Represents the value of the field must have length specified by
+ * {@link #value()}.
+ * <p>
+ * This annotation resembles to the {@linkplain NumOfDigits}, but this does
+ * treat as an error if the value includes non-digit character.
+ * <p>
+ * If you want to allow length less than {@link #value()}, use
+ * {@linkplain MaxLength} instead.
  * 
+ * @see MaxLength
+ * @see NumOfDigits
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)

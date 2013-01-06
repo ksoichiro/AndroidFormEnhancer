@@ -108,25 +108,52 @@ public class FormHelper {
         init();
     }
 
+    /**
+     * Enables or disables the error icon feature. If enabled and the EditText
+     * has errors, the icon will be shown on the right of it. By default, it is
+     * enabled.
+     * 
+     * @param enabled true if enable error icon
+     */
     public void setValidationErrorIconEnabled(final boolean enabled) {
         mValidationErrorIconEnabled = enabled;
     }
 
+    /**
+     * Sets the icon of the error for the EditText.
+     * 
+     * @param d Drawable object for icon
+     */
     public void setIconError(final Drawable d) {
         mIconError = d;
         setDrawableIntrinsicBounds(mIconError);
     }
 
+    /**
+     * Sets the icon of the error for the EditText.
+     * 
+     * @param resId resource ID for icon drawable
+     */
     public void setIconError(final int resId) {
         mIconError = mContext.getResources().getDrawable(resId);
         setDrawableIntrinsicBounds(mIconError);
     }
 
+    /**
+     * Sets the icon of the success for the EditText.
+     * 
+     * @param d Drawable object for icon
+     */
     public void setIconOk(final Drawable d) {
         mIconOk = d;
         setDrawableIntrinsicBounds(mIconOk);
     }
 
+    /**
+     * Sets the icon of the success for the EditText.
+     * 
+     * @param resId resource ID for icon drawable
+     */
     public void setIconOk(final int resId) {
         mIconOk = mContext.getResources().getDrawable(resId);
         setDrawableIntrinsicBounds(mIconOk);
@@ -281,7 +308,7 @@ public class FormHelper {
     }
 
     /**
-     * Copies an object fields which have same names as the form class.<br>
+     * Copies an object fields which have same names as the form class.
      * 
      * @param clazz the entity class to create
      * @return created entity object
@@ -361,6 +388,17 @@ public class FormHelper {
         }
     }
 
+    /**
+     * Shows the DialogFragment with FragmentActivity.<br>
+     * You must set {@linkplain android.support.v4.app.FragmentActivity}
+     * instance when you create this instance. This method use only one fragment
+     * tag, so if the old fragment has been shown already, it will be dismissed
+     * and new one will be shown.
+     * 
+     * @param dialogFragment dialog to be shown
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
     public void showDialogFragment(final DialogFragment dialogFragment) {
         if (mActivity == null) {
             throw new IllegalStateException(EXCEPTION_MSG_WITHOUT_FRAGMENT_ACTIVITY);
@@ -375,32 +413,19 @@ public class FormHelper {
         }
     }
 
-    public void showAlertDialog(final int messageResId) {
-        showAlertDialog(null, mContext.getString(messageResId), false);
-    }
-
-    public void showAlertDialog(final int messageResId, final boolean cancelable) {
-        showAlertDialog(null, mContext.getString(messageResId), cancelable);
-    }
-
-    public void showAlertDialog(final int titleResId, final int messageResId) {
-        showAlertDialog(mContext.getString(titleResId), mContext.getString(messageResId), false);
-    }
-
-    public void showAlertDialog(final int titleResId, final int messageResId,
-            final boolean cancelable) {
-        showAlertDialog(mContext.getString(titleResId), mContext.getString(messageResId),
-                cancelable);
-    }
-
-    public void showAlertDialog(final String message) {
-        showAlertDialog(null, message, false);
-    }
-
-    public void showAlertDialog(final String title, final String message) {
-        showAlertDialog(title, message, false);
-    }
-
+    /**
+     * Shows the simple dialog with title and message using DialogFragment. You
+     * must set {@linkplain android.support.v4.app.FragmentActivity} instance
+     * when you create this instance. This method use only one fragment tag, so
+     * if the old fragment has been shown already, it will be dismissed and new
+     * one will be shown.
+     * 
+     * @param title title string
+     * @param message message string
+     * @param cancelable true if the dialog is cancelable
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
     public void showAlertDialog(final String title, final String message, final boolean cancelable) {
         if (mActivity == null) {
             throw new IllegalStateException(EXCEPTION_MSG_WITHOUT_FRAGMENT_ACTIVITY);
@@ -420,20 +445,122 @@ public class FormHelper {
         });
     }
 
+    /**
+     * Convenience for showAlertDialog(null, Context#getString(messageResId),
+     * false)}.
+     * 
+     * @see #showAlertDialog(int, int, boolean)
+     * @param messageResId message resource ID
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
+    public void showAlertDialog(final int messageResId) {
+        showAlertDialog(null, mContext.getString(messageResId), false);
+    }
+
+    /**
+     * Convenience for showAlertDialog(null, Context#getString(messageResId),
+     * cancelable)}.
+     * 
+     * @see #showAlertDialog(int, int, boolean)
+     * @param messageResId message resource ID
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
+    public void showAlertDialog(final int messageResId, final boolean cancelable) {
+        showAlertDialog(null, mContext.getString(messageResId), cancelable);
+    }
+
+    /**
+     * Convenience for showAlertDialog(Context#getString(titleResId),
+     * Context#getString(messageResId), false)}.
+     * 
+     * @see #showAlertDialog(int, int, boolean)
+     * @param messageResId message resource ID
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
+    public void showAlertDialog(final int titleResId, final int messageResId) {
+        showAlertDialog(mContext.getString(titleResId), mContext.getString(messageResId), false);
+    }
+
+    /**
+     * Convenience for showAlertDialog(Context#getString(titleResId),
+     * Context#getString(messageResId), cancelable)}.
+     * 
+     * @see #showAlertDialog(int, int, boolean)
+     * @param messageResId message resource ID
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
+    public void showAlertDialog(final int titleResId, final int messageResId,
+            final boolean cancelable) {
+        showAlertDialog(mContext.getString(titleResId), mContext.getString(messageResId),
+                cancelable);
+    }
+
+    /**
+     * Convenience for showAlertDialog(null, message, false)}.
+     * 
+     * @see #showAlertDialog(int, int, boolean)
+     * @param messageResId message resource ID
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
+    public void showAlertDialog(final String message) {
+        showAlertDialog(null, message, false);
+    }
+
+    /**
+     * Convenience for showAlertDialog(title, message, false)}.
+     * 
+     * @see #showAlertDialog(int, int, boolean)
+     * @param messageResId message resource ID
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
+    public void showAlertDialog(final String title, final String message) {
+        showAlertDialog(title, message, false);
+    }
+
+    /**
+     * Sets the TextView (or its subclass such as Button) as date field. If you
+     * click the widget, the DatePickerDialog will be shown.
+     * 
+     * @see #showDatePickerDialog(int, int)
+     * @param id target widget resource ID
+     * @param defaultMessageId message resource ID when there is no selection
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
     public void setAsDateField(final int id, final int defaultMessageId) {
         if (mActivity == null) {
             throw new IllegalStateException(EXCEPTION_MSG_WITHOUT_FRAGMENT_ACTIVITY);
         }
+        mActivity.findViewById(id).setClickable(true);
         mActivity.findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePicker(id, defaultMessageId);
+                showDatePickerDialog(id, defaultMessageId);
             }
         });
         ((TextView) mActivity.findViewById(id)).setText(mActivity.getString(defaultMessageId));
     }
 
-    public void showDatePicker(final int id, final int defaultMessageId) {
+    /**
+     * Shows a DatePickerDialog. If the date set by dialog, the value will be
+     * set to the TextView specified by the id. The date format is
+     * {@linkplain java.text.DateFormat.SHORT} with your device's default
+     * Locale.<br>
+     * Normally, you should use {@linkplain #setAsDateField(int, int)} instead
+     * of calling this directly.
+     * 
+     * @param id target widget resource ID
+     * @param defaultMessageId message resource ID when there is no selection
+     * @throws IllegalStateException if FragmentActivity instance has not been
+     *             passed to this instance
+     */
+    public void showDatePickerDialog(final int id, final int defaultMessageId) {
         if (mActivity == null) {
             throw new IllegalStateException(EXCEPTION_MSG_WITHOUT_FRAGMENT_ACTIVITY);
         }

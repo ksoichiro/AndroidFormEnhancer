@@ -29,7 +29,7 @@ import android.content.res.TypedArray;
  */
 public class EmailValidator extends AbstractRegexValidator<Email> {
 
-    private static final String REGEX_EMAIL = "^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$";
+    public static final String REGEX_EMAIL = "^[\\w-]+(\\.[\\w-]+)*@([\\w][\\w-]*\\.)+[\\w][\\w-]*$";
     private String mRegex = REGEX_EMAIL;
 
     @Override

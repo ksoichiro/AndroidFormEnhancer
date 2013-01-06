@@ -22,8 +22,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation representing the required field.
+ * Represents the value of the field must not be null or empty String.
+ * <p>
+ * If the target widget is a Spinner or RadioGroup, it means that one of the
+ * item must be selected. If the target widget are CheckBoxes, it means that
+ * some of the items must be checked. The number of check boxes which must be
+ * checked, is defined by {@linkplain #atLeast()}.
+ * <p>
+ * If you want to set conditions, use {@link #when()}.
  * 
+ * @see When
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
@@ -37,8 +45,19 @@ public @interface Required {
     int nameResId() default 0;
 
     /**
-     * This is the condition when the constraint is applied.<br>
-     * Conditions are not set by default.
+     * CheckBoxes must be checked at least this value. This is only valid if the
+     * widget are the CheckBoxes.
+     */
+    int atLeast() default 1;
+
+    /**
+     * If set to true, the validator assumes selecting the head item of the
+     * spinner is an error.
+     */
+    boolean otherThanHead() default false;
+
+    /**
+     * Conditions when the constraint is applied.
      */
     When[] when() default {};
 }

@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents the value of the field must consist of Japanese katakana
+ * Represents the value of the field must consist of Japanese Katakana
  * characters.
  * 
  * @author Soichiro Kashima

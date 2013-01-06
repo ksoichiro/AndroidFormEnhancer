@@ -16,7 +16,6 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.annotation.DatePattern;
 import com.androidformenhancer.annotation.PastDate;
 
 import android.test.InstrumentationTestCase;
@@ -46,8 +45,7 @@ public class PastDateValidatorTest extends InstrumentationTestCase {
         @PastDate(allowToday = true)
         public String b;
 
-        @DatePattern("yyyy.MM.dd")
-        @PastDate
+        @PastDate("yyyy.MM.dd")
         public String c;
     }
 

@@ -23,6 +23,10 @@ import java.lang.annotation.Target;
 
 /**
  * Represents the value of the field must match the e-mail format.
+ * <p>
+ * By default, the e-mail format will be {@linkplain EmailValidator#REGEX_EMAIL}
+ * . If you want to change the default e-mail format, define
+ * {@code afeErrorDatePattern} in your style of {@code ValidatorDefinitions}.
  * 
  * @author Soichiro Kashima
  */

@@ -22,8 +22,20 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents the max number of the digits.
+ * Represents the value of the field must have digits less than or equals to the
+ * number specified by {@link #value()}.
+ * <p>
+ * This annotation resembles to the {@linkplain MaxLength}, but this does not
+ * treat as an error if the value includes non-digit character even though its
+ * length does not match {@linkplain #value()}. Use {@linkplain Digits} together
+ * if you want to validate whether the characters in the value are only digits.
+ * <p>
+ * If you want to disallow length less than {@link #value()}, use
+ * {@linkplain NumOfDigits} instead.
  * 
+ * @see Digits
+ * @see NumOfDigits
+ * @see MaxLength
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)

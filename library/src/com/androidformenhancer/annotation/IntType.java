@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation which represents the integer value.
+ * Represents the value of the field must be convertible to Integer.
  * 
  * @author Soichiro Kashima
  */

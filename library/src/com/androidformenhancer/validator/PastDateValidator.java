@@ -17,7 +17,6 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.R;
-import com.androidformenhancer.annotation.DatePattern;
 import com.androidformenhancer.annotation.PastDate;
 
 import android.text.TextUtils;
@@ -50,12 +49,10 @@ public class PastDateValidator extends Validator {
                 }
                 DateFormat dateFormat = null;
 
-                // Use DatePattern's format if exists
-                DatePattern datePatternValue = field.getAnnotation(DatePattern.class);
-                if (datePatternValue == null || TextUtils.isEmpty(datePatternValue.value())) {
+                if (TextUtils.isEmpty(pastDateValue.value())) {
                     dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
                 } else {
-                    dateFormat = new SimpleDateFormat(datePatternValue.value(),
+                    dateFormat = new SimpleDateFormat(pastDateValue.value(),
                             Locale.getDefault());
                 }
 

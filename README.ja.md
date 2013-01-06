@@ -208,7 +208,7 @@ public class DefaultForm {
 ```
 
 もし、先頭の要素を"選択してください"のようなダミー文字列として使いたい場合は、
-`Widget#headIsDummy`を`true`に設定し、`@Required`アノテーションをフィールドに追加します。
+`@Required`アノテーションをフィールドに追加し、`Required#otherThanHead`を`true`に設定します。
 これにより、先頭の要素以外が選択されているかどうかを検証することができます。
 
 
@@ -303,8 +303,7 @@ public class DefaultForm {
     * EditTextの値が正しい日付形式であり、過去の日付であることを検証します。
     * 対象フィールドは、Formクラスに定義され`@PastDate`アノテーションを付与されている必要があります。
     * 日付形式には`java.text.DateFormat.SHORT`が使用されます。これはロケールにより変化します。
-    * 検証に使用する日付形式をカスタマイズする場合は、`@DatePattern`アノテーションを併せて使用してください。
-      PastDateValidatorは`DatePattern#value()`を日付形式として使用します。
+    * 検証に使用する日付形式をカスタマイズする場合は、`PastDate#value()`を使用してください。
     * 今日の日付をエラーとみなしたくない場合は、`PastDate#allowToday`を`true`に設定してください。
 1. EmailValidator
     * EditTextの値がEメールアドレスの形式であることを検証します。

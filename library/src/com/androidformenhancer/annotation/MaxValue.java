@@ -22,8 +22,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This is the annotation which represents the max value.
+ * Represents the value of the field must be less than or equals to the
+ * {@link #value()}.
+ * <p>
+ * This annotation also assumes as an error if the value is not a valid Integer.
+ * So you do not have to use {@linkplain IntType} together.
  * 
+ * @see IntType
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)

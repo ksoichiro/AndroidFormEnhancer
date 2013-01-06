@@ -24,6 +24,9 @@ import java.lang.annotation.Target;
 /**
  * Represents the value of the field must consist of ASCII alphabet and number
  * characters.
+ * <p>
+ * Use {@link #allowSpace()} if you want to control whether the single-byte
+ * space character is an error.
  * 
  * @author Soichiro Kashima
  */

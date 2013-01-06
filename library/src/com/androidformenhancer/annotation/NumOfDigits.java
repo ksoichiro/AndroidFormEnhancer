@@ -22,8 +22,20 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents the number of the digits.
+ * Represents the value of the field must have the number of the digits
+ * specified by {@link #value()}.
+ * <p>
+ * This annotation resembles to the {@linkplain Length}, but this does not treat
+ * as an error if the value includes non-digit character even though its length
+ * does not match {@linkplain #value()}. Use {@linkplain Digits} together if you
+ * want to validate whether the characters in the value are only digits.
+ * <p>
+ * If you want to allow length less than {@link #value()}, use
+ * {@linkplain MaxNumOfDigits} instead.
  * 
+ * @see Digits
+ * @see MaxNumOfDigits
+ * @see Length
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
