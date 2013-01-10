@@ -203,8 +203,8 @@ For example, if the part of your <code>res/layout/some_layout.xml</code> is like
 <p>then you should define your Form class like this:</p>
 
 <div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultForm</span> <span class="o">{</span>
+    <span class="nd">@Required</span><span class="o">(</span><span class="n">atLeast</span> <span class="o">=</span> <span class="mi">1</span><span class="o">)</span>
     <span class="nd">@Widget</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">cbg_sns</span><span class="o">,</span>
-        <span class="n">atLeast</span> <span class="o">=</span> <span class="mi">1</span><span class="o">,</span>
         <span class="n">values</span> <span class="o">=</span> <span class="o">{</span>
             <span class="nd">@WidgetValue</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">cb_facebook</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">"FB"</span><span class="o">),</span>
             <span class="nd">@WidgetValue</span><span class="o">(</span><span class="n">id</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">cb_googleplus</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">"GP"</span><span class="o">),</span>
@@ -240,7 +240,7 @@ For example, if the part of your <code>res/layout/some_layout.xml</code> is like
 </pre></div>
 
 <p>If you want to use the head item as a dummy text like "Please select",
-then set <code>Widget#headIsDummy</code> to <code>true</code> and add <code>@Required</code> annotation.
+then add <code>@Required</code> annotation and set <code>Required#otherThanHead</code> to <code>true</code>.
 Then you can check whether the user selected other than the head item or not.</p>
 
 <h1>Validations</h1>
@@ -282,6 +282,14 @@ assume it is an error.</p>
 <ul>
 <li>Validates the EditText's value whether it is a valid integer format.</li>
 <li>The target fields must have field in Form class with <code>@IntType</code>.</li>
+</ul>
+</li>
+<li>
+<p>FloatTypeValidator</p>
+
+<ul>
+<li>Validates the EditText's value whether it is a valid float format.</li>
+<li>The target fields must have field in Form class with <code>@FloatType</code>.</li>
 </ul>
 </li>
 <li>
@@ -426,8 +434,7 @@ though its length exceeds <code>MaxNumOfDigits#value()</code>.</li>
 <li>Validates the EditText's value is valid date format and past date.</li>
 <li>The target fields must have field in Form class with <code>@PastDate</code>.</li>
 <li>Date format used in validation is <code>java.text.DateFormat.SHORT</code>, which will change with locale.</li>
-<li>If you want to use custom format, use <code>@DatePattern</code> annotation together.
-PastDateValidator uses <code>DatePattern#value()</code>.</li>
+<li>If you want to use custom format, use <code>PastDate#value()</code>.</li>
 <li>If you do not want to assume today as an error, set <code>PastDate#allowToday</code> to <code>true</code>.</li>
 </ul>
 </li>
