@@ -16,10 +16,10 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.MaxLength;
-
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+import com.androidformenhancer.annotation.Widget;
 
 import java.lang.reflect.Field;
 
@@ -29,105 +29,64 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class MaxLengthValidatorTest extends InstrumentationTestCase {
+public class MaxLengthValidatorTest extends ValidatorTest {
 
     /**
      * Dummy class which has @MaxLength field.
      */
     public class Foo {
         @MaxLength(5)
+        @Widget(id = 0)
         public String a;
     }
 
     public void testValidate() throws Exception {
-        Foo foo = new Foo();
-
         MaxLengthValidator validator = new MaxLengthValidator();
         validator.setContext(getInstrumentation().getContext());
-        validator.setTarget(foo);
+
         Field field = Foo.class.getDeclaredField("a");
+        FieldData fieldData = new FieldData(field, WidgetType.TEXT);
 
-        // Null
-        foo.a = null;
-        String errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(null);
+        validate(validator, fieldData, true);
 
-        // Empty
-        foo.a = "";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("");
+        validate(validator, fieldData, true);
 
-        foo.a = "      ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("      ");
+        validate(validator, fieldData, false);
 
-        foo.a = "　　　　　　";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("　　　　　　");
+        validate(validator, fieldData, false);
 
-        // 1 character with ASCII
-        foo.a = "a";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a");
+        validate(validator, fieldData, true);
 
-        // 2 characters with ASCII
-        foo.a = "ab";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("ab");
+        validate(validator, fieldData, true);
 
-        // Boundary with ASCII
-        foo.a = "abcde";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("abcde");
+        validate(validator, fieldData, true);
 
-        // Boundary +1 with ASCII
-        foo.a = "abcdef";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("abcdef");
+        validate(validator, fieldData, false);
 
-        // 1 character with Multi-byte
-        foo.a = "あ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
-
-        // 2 characters with Multi-byte
-        foo.a = "あい";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("あ");
+        validate(validator, fieldData, true);
 
         // Boundary with Multi-byte
-        foo.a = "あいうえお";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("あいうえお");
+        validate(validator, fieldData, true);
 
-        // Boundary +1 with Multi-byte
-        foo.a = "あいうえおか";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("あいうえおか");
+        validate(validator, fieldData, false);
 
         // Boundary with Multi-byte including surrogate pair
-        foo.a = "あいう𠮷";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("あいう𠮷");
+        validate(validator, fieldData, true);
 
-        // Boundary +1 with Multi-byte including surrogate pair
-        foo.a = "あいうえ𠮷";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("あいうえ𠮷");
+        validate(validator, fieldData, false);
     }
 
 }

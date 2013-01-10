@@ -31,7 +31,7 @@ public class AlphabetValidator extends AbstractRegexValidator<Alphabet> {
     private static final String REGEX_WITH_SPACE = "^[a-zA-Z ]+$";
 
     @Override
-    protected Class<Alphabet> getValidationAnnotationClass() {
+    public Class<Alphabet> getAnnotationClass() {
         return Alphabet.class;
     }
 

@@ -30,7 +30,7 @@ public class HiraganaValidator extends AbstractRegexValidator<Hiragana> {
     private static final String REGEX = "^[あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゃゅょっぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽゔー、。]+$";
 
     @Override
-    protected Class<Hiragana> getValidationAnnotationClass() {
+    public Class<Hiragana> getAnnotationClass() {
         return Hiragana.class;
     }
 

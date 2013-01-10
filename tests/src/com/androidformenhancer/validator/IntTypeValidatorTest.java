@@ -16,10 +16,10 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.IntType;
-
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+import com.androidformenhancer.annotation.Widget;
 
 import java.lang.reflect.Field;
 
@@ -29,107 +29,73 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class IntTypeValidatorTest extends InstrumentationTestCase {
+public class IntTypeValidatorTest extends ValidatorTest {
 
     /**
      * Dummy class which has @IntType field.
      */
     public class Foo {
         @IntType
+        @Widget(id = 0)
         public String a;
     }
 
     public void testValidate() throws Exception {
-        Foo foo = new Foo();
-
         IntTypeValidator validator = new IntTypeValidator();
         validator.setContext(getInstrumentation().getContext());
-        validator.setTarget(foo);
+
         Field field = Foo.class.getDeclaredField("a");
+        FieldData fieldData = new FieldData(field, WidgetType.TEXT);
 
-        // Null
-        foo.a = null;
-        String errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(null);
+        validate(validator, fieldData, true);
 
-        // Empty
-        foo.a = "";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("");
+        validate(validator, fieldData, true);
 
-        foo.a = " ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(" ");
+        validate(validator, fieldData, false);
 
-        foo.a = "　";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("　");
+        validate(validator, fieldData, false);
 
-        foo.a = "0";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a");
+        validate(validator, fieldData, false);
 
-        foo.a = "1";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("0");
+        validate(validator, fieldData, true);
 
-        foo.a = "100";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("1");
+        validate(validator, fieldData, true);
 
-        foo.a = "-1";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("100");
+        validate(validator, fieldData, true);
 
-        foo.a = "1,000";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("-1");
+        validate(validator, fieldData, true);
 
-        foo.a = "1.0";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("1,000");
+        validate(validator, fieldData, false);
 
-        foo.a = Integer.toString(Integer.MAX_VALUE);
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("1.0");
+        validate(validator, fieldData, false);
+
+        fieldData.setValue(Long.toString(Integer.MAX_VALUE));
+        validate(validator, fieldData, true);
 
         // Invalid validation because of overflow
-        foo.a = Long.toString(Integer.MAX_VALUE + 1);
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(Long.toString(Integer.MAX_VALUE + 1));
+        validate(validator, fieldData, true);
 
-        foo.a = Integer.toString(Integer.MIN_VALUE);
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(Long.toString(Integer.MIN_VALUE));
+        validate(validator, fieldData, true);
 
         // Invalid validation because of overflow
-        foo.a = Long.toString(Integer.MIN_VALUE - 1);
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(Long.toString(Integer.MIN_VALUE - 1));
+        validate(validator, fieldData, true);
 
-        foo.a = "a";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
-
-        foo.a = "あ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("あ");
+        validate(validator, fieldData, false);
     }
 
 }

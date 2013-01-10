@@ -31,7 +31,7 @@ public class AlphaNumValidator extends AbstractRegexValidator<AlphaNum> {
     private static final String REGEX_WITH_SPACE = "^[a-zA-Z0-9 ]+$";
 
     @Override
-    protected Class<AlphaNum> getValidationAnnotationClass() {
+    public Class<AlphaNum> getAnnotationClass() {
         return AlphaNum.class;
     }
 

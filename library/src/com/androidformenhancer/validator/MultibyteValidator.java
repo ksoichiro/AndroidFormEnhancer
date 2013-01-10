@@ -16,6 +16,7 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.ValidationException;
 import com.androidformenhancer.annotation.Multibyte;
@@ -25,7 +26,6 @@ import android.content.res.TypedArray;
 import android.text.TextUtils;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
 
 /**
  * Validates that the value of the field consists of multi-byte characters or
@@ -33,7 +33,7 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class MultibyteValidator extends Validator {
+public class MultibyteValidator extends Validator<Multibyte> {
 
     private static final String DEFAULT_ENCODING = "UTF-8";
 
@@ -46,39 +46,36 @@ public class MultibyteValidator extends Validator {
     }
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<Multibyte> getAnnotationClass() {
+        return Multibyte.class;
+    }
 
-        Multibyte multibyte = field.getAnnotation(Multibyte.class);
-        if (multibyte != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
+    @Override
+    public String validate(final Multibyte annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
+        }
+        boolean hasError = false;
+        try {
+            for (int i = 0; i < value.length(); i = value.offsetByCodePoints(i, 1)) {
+                char[] c = Character.toChars(value.codePointAt(i));
+                if (c.length > 1) {
+                    continue;
                 }
-                boolean hasError = false;
-                try {
-                    for (int i = 0; i < value.length(); i = value.offsetByCodePoints(i, 1)) {
-                        char[] c = Character.toChars(value.codePointAt(i));
-                        if (c.length > 1) {
-                            continue;
-                        }
-                        byte[] b = new String(c).getBytes(mEncoding);
-                        if (b.length < 2) {
-                            hasError = true;
-                        }
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    throw new ValidationException("Unsupported encoding used: " + mEncoding, e);
-                }
-                if (hasError) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorMultibyte,
-                            R.string.afe__msg_validation_multibyte,
-                            getName(field, multibyte.nameResId()));
+                byte[] b = new String(c).getBytes(mEncoding);
+                if (b.length < 2) {
+                    hasError = true;
                 }
             }
+        } catch (UnsupportedEncodingException e) {
+            throw new ValidationException("Unsupported encoding used: " + mEncoding, e);
         }
-
+        if (hasError) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorMultibyte,
+                    R.string.afe__msg_validation_multibyte,
+                    getName(fieldData, annotation.nameResId()));
+        }
         return null;
     }
 

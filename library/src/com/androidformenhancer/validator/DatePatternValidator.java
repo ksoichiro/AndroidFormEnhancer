@@ -16,12 +16,12 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.DatePattern;
 
 import android.text.TextUtils;
 
-import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,40 +32,36 @@ import java.util.Locale;
  * 
  * @author Soichiro Kashima
  */
-public class DatePatternValidator extends Validator {
+public class DatePatternValidator extends Validator<DatePattern> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<DatePattern> getAnnotationClass() {
+        return DatePattern.class;
+    }
 
-        DatePattern datePatternValue = field.getAnnotation(DatePattern.class);
-        if (datePatternValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                DateFormat dateFormat = null;
-
-                if (TextUtils.isEmpty(datePatternValue.value())) {
-                    dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-                } else {
-                    dateFormat = new SimpleDateFormat(datePatternValue.value(),
-                            Locale.getDefault());
-                }
-                dateFormat.setLenient(false);
-                try {
-                    dateFormat.parse(value);
-                    return null;
-                } catch (ParseException e) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorDatePattern,
-                            R.string.afe__msg_validation_date,
-                            getName(field, datePatternValue.nameResId()));
-                }
-            }
+    @Override
+    public String validate(final DatePattern annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
         }
+        DateFormat dateFormat = null;
 
-        return null;
+        if (TextUtils.isEmpty(annotation.value())) {
+            dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+        } else {
+            dateFormat = new SimpleDateFormat(annotation.value(),
+                    Locale.getDefault());
+        }
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(value);
+            return null;
+        } catch (ParseException e) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorDatePattern,
+                    R.string.afe__msg_validation_date,
+                    getName(fieldData, annotation.nameResId()));
+        }
     }
 
 }

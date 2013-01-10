@@ -16,48 +16,43 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.IntRange;
 
 import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * Validates that the value is in the integer range or not.
  * 
  * @author Soichiro Kashima
  */
-public class IntRangeValidator extends Validator {
+public class IntRangeValidator extends Validator<IntRange> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<IntRange> getAnnotationClass() {
+        return IntRange.class;
+    }
 
-        IntRange intRangeValue = field.getAnnotation(IntRange.class);
-        if (intRangeValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                int nValue = -1;
-                boolean hasError = false;
-                try {
-                    nValue = Integer.parseInt(value);
-                } catch (NumberFormatException e) {
-                    hasError = true;
-                }
-                if (hasError || nValue < intRangeValue.min()
-                        || intRangeValue.max() < nValue) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorIntRange,
-                            R.string.afe__msg_validation_int_range,
-                            getName(field, intRangeValue.nameResId()),
-                            intRangeValue.min(), intRangeValue.max());
-                }
-            }
+    @Override
+    public String validate(final IntRange annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
         }
-
+        int nValue = -1;
+        boolean hasError = false;
+        try {
+            nValue = Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            hasError = true;
+        }
+        if (hasError || nValue < annotation.min() || annotation.max() < nValue) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorIntRange,
+                    R.string.afe__msg_validation_int_range,
+                    getName(fieldData, annotation.nameResId()),
+                    annotation.min(), annotation.max());
+        }
         return null;
     }
 

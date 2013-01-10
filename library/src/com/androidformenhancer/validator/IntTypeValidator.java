@@ -16,41 +16,37 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.IntType;
 
 import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * This validator provides the integer field validation.
  * 
  * @author Soichiro Kashima
  */
-public class IntTypeValidator extends Validator {
+public class IntTypeValidator extends Validator<IntType> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<IntType> getAnnotationClass() {
+        return IntType.class;
+    }
 
-        IntType intValue = field.getAnnotation(IntType.class);
-        if (intValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                try {
-                    Integer.parseInt(value);
-                } catch (NumberFormatException e) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorIntType,
-                            R.string.afe__msg_validation_int_type,
-                            getName(field, intValue.nameResId()));
-                }
-            }
+    @Override
+    public String validate(final IntType annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
         }
-
+        try {
+            Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorIntType,
+                    R.string.afe__msg_validation_int_type,
+                    getName(fieldData, annotation.nameResId()));
+        }
         return null;
     }
 }

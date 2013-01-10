@@ -16,112 +16,114 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
-import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Widget;
-import com.androidformenhancer.internal.FormMetaData;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.util.SparseArray;
 
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
+import java.lang.annotation.Annotation;
 
 /**
  * Provides the validation functions.
  * <p>
  * This class prepares the objects to validation for subclasses.
  * 
+ * @param <T> annotation type which is necessary to the validation
  * @author Soichiro Kashima
  */
-public abstract class Validator {
+public abstract class Validator<T extends Annotation> {
 
     /** Context to access to the resources. */
     private Context mContext;
 
-    /** Target object to validate. */
-    private Object mTarget;
+    private SparseArray<FieldData> mFieldDataArray;
 
-    private Map<String, FormMetaData> mFormMetaDataMap;
+    /** Constructor. */
+    public Validator() {
+        mFieldDataArray = new SparseArray<FieldData>();
+    }
 
     /**
-     * Validates the object, and returns whether it has any errors or not.
+     * Validates the object, and returns a message if there is an error.
      * 
-     * @param value input value
-     * @param field target field
-     * @return true if there are errors.
+     * @param fieldData field value and meta data
+     * @return error message
      */
-    public abstract String validate(final Field field);
+    @SuppressWarnings("unchecked")
+    public String validate(final FieldData fieldData) {
+        return validate((T) fieldData.getAnnotation(getAnnotationClass()), fieldData);
+    }
 
+    /**
+     * Validates the object, and returns a message if there is an error.
+     * 
+     * @param annotation annotation which the field has
+     * @param fieldData field value and meta data
+     * @return error message
+     */
+    public abstract String validate(final T annotation, final FieldData fieldData);
+
+    /**
+     * Gives the concrete annotation class to the {@linkplain Validator} because
+     * the {@linkplain Validator}, the abstract parameterized class cannot
+     * determine its parameter's concrete class.<br>
+     * When you implement this method, just return the class as follows:
+     * 
+     * <pre>
+     * return SomeAnnotation.class;
+     * </pre>
+     * 
+     * @return annotation class
+     */
+    public abstract Class<T> getAnnotationClass();
+
+    /**
+     * Gets the context set by the framework.
+     * 
+     * @return context
+     */
     protected Context getContext() {
         return mContext;
     }
 
+    /**
+     * Sets the context for validators to access to the resources.
+     * <p>
+     * This is designed to use in the framework internally.
+     * 
+     * @param context context
+     */
     public void setContext(final Context context) {
         mContext = context;
     }
 
-    protected Object getTarget() {
-        return mTarget;
+    /**
+     * Sets the array of the field meta data.
+     * <p>
+     * This is designed to use in the framework internally.
+     * 
+     * @param fieldDataArray array of the field data
+     */
+    public void setFieldDataArray(final SparseArray<FieldData> fieldDataArray) {
+        mFieldDataArray = fieldDataArray;
     }
 
     /**
-     * Sets the target object.
+     * Gets the user-readable name of the field for showing error message.<br>
+     * This method use resource {@code overrideId}, otherwise
+     * {@linkplain Widget#nameResId()} if there is defined, or the name of the
+     * field.
      * 
-     * @param target target object to set
+     * @param fieldData field data given by the target field
+     * @param overrideId resource ID of the name if you want to override
+     * @return
      */
-    public void setTarget(final Object target) {
-        mTarget = target;
-    }
-
-    public void setFormMetaDataMap(final Map<String, FormMetaData> formMetaDataMap) {
-        mFormMetaDataMap = formMetaDataMap;
-    }
-
-    protected WidgetType getWidgetType(final Field field) {
-        if (mFormMetaDataMap == null || field == null) {
-            return null;
-        }
-        return mFormMetaDataMap.get(field.getName()).getWidgetType();
-    }
-
-    /**
-     * Gets the value of the field from the target object as String type.
-     * 
-     * @param field target field
-     * @return value as String type
-     */
-    protected String getValueAsString(final Field field) {
-        String value;
-        try {
-            value = (String) field.get(getTarget());
-            return value;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /**
-     * Gets the value of the field from the target object as List<String> type.
-     * 
-     * @param field target field
-     * @return value as List<String> type
-     */
-    @SuppressWarnings("unchecked")
-    protected List<String> getValueAsStringList(final Field field) {
-        List<String> value;
-        try {
-            value = (List<String>) field.get(getTarget());
-            return value;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    protected String getName(final Field field, final int overrideId) {
-        String name = field.getName();
-        int nameResId = getNameResourceId(field);
+    protected String getName(final FieldData fieldData, final int overrideId) {
+        String name = fieldData.getName();
+        int nameResId = getNameResourceId(fieldData);
         if (nameResId > 0) {
             name = getContext().getResources().getString(nameResId);
         }
@@ -131,11 +133,14 @@ public abstract class Validator {
         return name;
     }
 
-    protected int getNameResourceId(final Field field) {
-        Widget widget = (Widget) field.getAnnotation(Widget.class);
-        return widget == null ? 0 : widget.nameResId();
-    }
-
+    /**
+     * Gets an error message from resource.
+     * 
+     * @param index index of the attributes
+     * @param defaultId message resource ID of the default message
+     * @param messageParams array of the parameters needed by message resource
+     * @return error message
+     */
     protected String getMessage(final int index, final int defaultId, final Object... messageParams) {
         int messageResId = 0;
         if (index > 0) {
@@ -151,12 +156,19 @@ public abstract class Validator {
         return getContext().getResources().getString(messageResId, messageParams);
     }
 
-    protected Object getValueById(int id) {
-        for (FormMetaData data : mFormMetaDataMap.values()) {
-            if (data.getId() == id) {
-                return data.getValue();
-            }
-        }
-        return null;
+    /**
+     * Gets the value of the other field in the form.
+     * 
+     * @param id resource ID of the target field
+     * @return value of the target field
+     */
+    protected String getValueById(int id) {
+        return mFieldDataArray.get(id).getValueAsString();
     }
+
+    private int getNameResourceId(final FieldData formMetaData) {
+        Widget widget = formMetaData.getWidget();
+        return widget == null ? 0 : widget.nameResId();
+    }
+
 }

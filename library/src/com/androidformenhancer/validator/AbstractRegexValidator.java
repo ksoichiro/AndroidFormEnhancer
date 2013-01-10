@@ -16,41 +16,32 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
+
 import android.text.TextUtils;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 
 /**
  * Validates that the value matches the regular expression.
  * 
  * @author Soichiro Kashima
  */
-public abstract class AbstractRegexValidator<T extends Annotation> extends Validator {
+public abstract class AbstractRegexValidator<T extends Annotation> extends Validator<T> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
-
-        T annotation = field.getAnnotation(getValidationAnnotationClass());
-        if (annotation != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                if (!value.matches(getRegex(annotation))) {
-                    return getMessage(getNameStyleIndex(),
-                            getErrorMessageResourceId(),
-                            getName(field, getOverrideNameResourceId(annotation)));
-                }
-            }
+    public String validate(final T annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
         }
-
+        if (!value.matches(getRegex(annotation))) {
+            return getMessage(getNameStyleIndex(),
+                    getErrorMessageResourceId(),
+                    getName(fieldData, getOverrideNameResourceId(annotation)));
+        }
         return null;
     }
-
-    protected abstract Class<T> getValidationAnnotationClass();
 
     protected abstract String getRegex(final T annotation);
 

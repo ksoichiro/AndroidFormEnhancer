@@ -16,12 +16,11 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.MaxNumOfDigits;
 
 import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * Validates that the length of the value of the field exceeds the max number of
@@ -29,28 +28,25 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class MaxNumOfDigitsValidator extends Validator {
+public class MaxNumOfDigitsValidator extends Validator<MaxNumOfDigits> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<MaxNumOfDigits> getAnnotationClass() {
+        return MaxNumOfDigits.class;
+    }
 
-        MaxNumOfDigits maxNumOfDigitsValue = field.getAnnotation(MaxNumOfDigits.class);
-        if (maxNumOfDigitsValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value) || !value.matches("^[0-9]+$")) {
-                    return null;
-                }
-                if (maxNumOfDigitsValue.value() < value.length()) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorMaxNumOfDigits,
-                            R.string.afe__msg_validation_max_num_of_digits,
-                            getName(field, maxNumOfDigitsValue.nameResId()),
-                            maxNumOfDigitsValue.value());
-                }
-            }
+    @Override
+    public String validate(final MaxNumOfDigits annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value) || !value.matches("^[0-9]+$")) {
+            return null;
         }
-
+        if (annotation.value() < value.length()) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorMaxNumOfDigits,
+                    R.string.afe__msg_validation_max_num_of_digits,
+                    getName(fieldData, annotation.nameResId()),
+                    annotation.value());
+        }
         return null;
     }
 

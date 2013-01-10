@@ -16,10 +16,10 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Required;
-
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+import com.androidformenhancer.annotation.Widget;
 
 import java.lang.reflect.Field;
 
@@ -29,60 +29,41 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class RequiredValidatorTest extends InstrumentationTestCase {
+public class RequiredValidatorTest extends ValidatorTest {
 
     /**
      * Dummy class which has @Required field.
      */
     public class Foo {
         @Required
+        @Widget(id = 0)
         public String a;
     }
 
     public void testValidate() throws Exception {
-        Foo foo = new Foo();
-
         RequiredValidator validator = new RequiredValidator();
         validator.setContext(getInstrumentation().getContext());
-        validator.setTarget(foo);
+
         Field field = Foo.class.getDeclaredField("a");
+        FieldData fieldData = new FieldData(field, WidgetType.TEXT);
 
-        // Null
-        foo.a = null;
-        String errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(null);
+        validate(validator, fieldData, false);
 
-        // Empty
-        foo.a = "";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("");
+        validate(validator, fieldData, false);
 
-        foo.a = " ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(" ");
+        validate(validator, fieldData, true);
 
-        foo.a = "　";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("　");
+        validate(validator, fieldData, true);
 
-        foo.a = "a";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a");
+        validate(validator, fieldData, true);
 
-        foo.a = "　";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
-
-        foo.a = "あ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("あ");
+        validate(validator, fieldData, true);
     }
 
 }

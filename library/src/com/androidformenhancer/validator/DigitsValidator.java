@@ -27,7 +27,7 @@ import com.androidformenhancer.annotation.Digits;
 public class DigitsValidator extends AbstractRegexValidator<Digits> {
 
     @Override
-    protected Class<Digits> getValidationAnnotationClass() {
+    public Class<Digits> getAnnotationClass() {
         return Digits.class;
     }
 

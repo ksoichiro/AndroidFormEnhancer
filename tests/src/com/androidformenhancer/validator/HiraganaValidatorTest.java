@@ -16,10 +16,10 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Hiragana;
-
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+import com.androidformenhancer.annotation.Widget;
 
 import java.lang.reflect.Field;
 
@@ -29,80 +29,54 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class HiraganaValidatorTest extends InstrumentationTestCase {
+public class HiraganaValidatorTest extends ValidatorTest {
 
     /**
      * Dummy class which has @Hiragana field.
      */
     public class Foo {
         @Hiragana
+        @Widget(id = 0)
         public String a;
     }
 
     public void testValidate() throws Exception {
-        Foo foo = new Foo();
-
         HiraganaValidator validator = new HiraganaValidator();
         validator.setContext(getInstrumentation().getContext());
-        validator.setTarget(foo);
+
         Field field = Foo.class.getDeclaredField("a");
+        FieldData fieldData = new FieldData(field, WidgetType.TEXT);
 
-        // Null
-        foo.a = null;
-        String errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(null);
+        validate(validator, fieldData, true);
 
-        // Empty
-        foo.a = "";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("");
+        validate(validator, fieldData, true);
 
-        foo.a = " ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(" ");
+        validate(validator, fieldData, false);
 
-        foo.a = "　";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("　");
+        validate(validator, fieldData, false);
 
-        foo.a = "a";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a");
+        validate(validator, fieldData, false);
 
-        foo.a = "1";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("1");
+        validate(validator, fieldData, false);
 
-        foo.a = "あ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData
+                .setValue("いうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゃゅょっぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽゔー、。あ");
+        validate(validator, fieldData, true);
 
-        foo.a = "いうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんゃゅょっぁぃぅぇぉがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽゔー、。あ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("ア");
+        validate(validator, fieldData, false);
 
-        foo.a = "ア";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("亜");
+        validate(validator, fieldData, false);
 
-        foo.a = "亜";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
-
-        foo.a = "あア";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("あア");
+        validate(validator, fieldData, false);
     }
 
 }

@@ -17,8 +17,6 @@
 package com.androidformenhancer;
 
 import com.androidformenhancer.annotation.Widget;
-import com.androidformenhancer.annotation.WidgetValue;
-import com.androidformenhancer.internal.FormMetaData;
 import com.androidformenhancer.internal.ValidationManager;
 import com.androidformenhancer.utils.StringUtils;
 
@@ -35,22 +33,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.lang.reflect.Field;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -61,21 +50,18 @@ import java.util.Locale;
 public class FormHelper {
 
     private static final String DIALOG_TAG = FormHelper.class.getCanonicalName() + "_dialog";
-    private static final String TAG = "FormHelper";
     private static final String EXCEPTION_MSG_WITHOUT_FRAGMENT_ACTIVITY =
             "You cannot use this method without FragmentActivity "
                     + "because this method use DialogFragment. "
                     + "Check that you set a FragmentActivity instance to the constructor.";
 
-    private Class<?> mFormClass;
-    private Object mForm;
-    private HashMap<String, FormMetaData> mFormMetaDataMap;
     private FragmentActivity mActivity;
     private Context mContext;
     private View mRootView;
     private boolean mValidationErrorIconEnabled;
     private Drawable mIconError;
     private Drawable mIconOk;
+    private ValidationManager mValidationManager;
 
     /**
      * Constructor. You must specify the Form class representing widget details
@@ -85,12 +71,12 @@ public class FormHelper {
      * @param activity activity which create this object
      */
     public FormHelper(final Class<?> clazz, final Activity activity) {
-        mFormClass = clazz;
         mContext = activity;
         if (activity instanceof FragmentActivity) {
             mActivity = (FragmentActivity) activity;
         }
         mRootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        mValidationManager = new ValidationManager(mContext, clazz);
         init();
     }
 
@@ -102,9 +88,9 @@ public class FormHelper {
      * @param fragment fragment which create this object
      */
     public FormHelper(final Class<?> clazz, final Fragment fragment) {
-        mFormClass = clazz;
         mContext = fragment.getActivity().getBaseContext();
         mRootView = fragment.getView().getRootView();
+        mValidationManager = new ValidationManager(mContext, clazz);
         init();
     }
 
@@ -170,10 +156,8 @@ public class FormHelper {
      * @return result of the validation
      */
     public ValidationResult validate() {
-        extractFormFromView();
-        ValidationManager validationManager = new ValidationManager(mContext);
-        ValidationResult validationResult = validationManager
-                .validate(mForm, null, mFormMetaDataMap);
+        mValidationManager.extractFormFromView(mRootView);
+        ValidationResult validationResult = mValidationManager.validate();
         for (int id : validationResult.getValidatedIds()) {
             View v = mRootView.findViewById(id);
             if (!(v instanceof TextView)) {
@@ -192,30 +176,19 @@ public class FormHelper {
      * {@linkplain #validateText(int)}.
      */
     public void setOnFocusOutValidation() {
-        extractFormFromView();
-        final ValidationManager validationManager = new ValidationManager(mContext);
-
-        final Field[] fields = mFormClass.getFields();
-        for (final Field field : fields) {
-            if (!mFormMetaDataMap.containsKey(field.getName())) {
-                continue;
-            }
-            WidgetType widgetType = mFormMetaDataMap.get(field.getName()).getWidgetType();
+        mValidationManager.extractFormFromView(mRootView);
+        for (final int id : mValidationManager.getExtractedWidgetIds()) {
+            WidgetType widgetType = mValidationManager.getFieldData(id).getWidgetType();
             if (widgetType != WidgetType.TEXT) {
                 continue;
             }
-            final Widget widget = field.getAnnotation(Widget.class);
-            if (widget == null) {
-                continue;
-            }
-            final EditText e = (EditText) mRootView.findViewById(widget.id());
+            final EditText e = (EditText) mRootView.findViewById(id);
             e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (!hasFocus) {
-                        extractFormFromView();
-                        ValidationResult result =
-                                validationManager.validate(mForm, field, mFormMetaDataMap);
+                        mValidationManager.extractFormFromView(mRootView);
+                        ValidationResult result = mValidationManager.validate(id);
                         setErrorToTextView(result, e);
                     }
                 }
@@ -231,25 +204,8 @@ public class FormHelper {
      * @param textViewId target TextView or EditText's resource ID
      */
     public void validateText(final int textViewId) {
-        extractFormFromView();
-        final ValidationManager validationManager = new ValidationManager(mContext);
-        final Field[] fields = mFormClass.getFields();
-        Field field = null;
-        for (final Field f : fields) {
-            Widget widget = f.getAnnotation(Widget.class);
-            if (widget == null) {
-                continue;
-            }
-            if (widget.id() == textViewId) {
-                field = f;
-                break;
-            }
-        }
-        if (field == null) {
-            throw new IllegalArgumentException("Specified TextView not found!");
-        }
-        ValidationResult result =
-                validationManager.validate(mForm, field, mFormMetaDataMap);
+        mValidationManager.extractFormFromView(mRootView);
+        ValidationResult result = mValidationManager.validate(textViewId);
         TextView v = (TextView) mRootView.findViewById(textViewId);
         setErrorToTextView(result, v);
     }
@@ -262,49 +218,7 @@ public class FormHelper {
      * @return deep copy of the extracted form
      */
     public Object getForm() {
-        if (mForm == null || mFormClass == null) {
-            throw new IllegalStateException("Form is not initialized or validated.");
-        }
-
-        try {
-            Object form = mFormClass.newInstance();
-            for (Field field : mFormClass.getFields()) {
-                // We do not copy non-widget field
-                if (field.getAnnotation(Widget.class) == null) {
-                    continue;
-                }
-
-                // Ignore null field
-                Object value = field.get(mForm);
-                if (value == null) {
-                    continue;
-                }
-
-                // Allows only String and List<String> fields
-                Class<?> type = field.getType();
-                if (type.equals(List.class)) {
-                    @SuppressWarnings("unchecked")
-                    List<String> srcList = (List<String>) value;
-                    List<String> dstList = new ArrayList<String>();
-                    for (String srcValue : srcList) {
-                        dstList.add(srcValue);
-                    }
-                    field.set(form, dstList);
-                } else if (type.equals(String.class)) {
-                    field.set(form, field.get(mForm));
-                } else {
-                    throw new IllegalStateException(
-                            "Form class can have only String and List<String> fields but "
-                                    + type + " found.");
-                }
-            }
-            return form;
-        } catch (InstantiationException e) {
-            Log.v(TAG, "Failed to copy form.", e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return mValidationManager.getForm();
     }
 
     /**
@@ -314,56 +228,7 @@ public class FormHelper {
      * @return created entity object
      */
     public <E> E create(final Class<E> clazz) {
-        Field[] srcFields = mForm.getClass().getFields();
-
-        try {
-            E dst = clazz.newInstance();
-            for (Field srcField : srcFields) {
-                Object value = srcField.get(mForm);
-                if (value == null) {
-                    continue;
-                }
-                String name = srcField.getName();
-                Field dstField = clazz.getField(name);
-                Class<?> dstType = dstField.getType();
-                if (dstType.equals(List.class)) {
-                    @SuppressWarnings("unchecked")
-                    List<String> srcList = (List<String>) value;
-                    List<String> dstList = new ArrayList<String>();
-                    for (String srcValue : srcList) {
-                        dstList.add(srcValue);
-                    }
-                    dstField.set(dst, dstList);
-                } else {
-                    String valueString = (String) value;
-                    if (dstType.equals(String.class)) {
-                        dstField.set(dst, valueString);
-                    } else if (dstType.equals(int.class)) {
-                        dstField.setInt(dst, Integer.parseInt(valueString));
-                    } else if (dstType.equals(float.class)) {
-                        dstField.setFloat(dst, Float.parseFloat(valueString));
-                    } else if (dstType.equals(double.class)) {
-                        dstField.setDouble(dst, Double.parseDouble(valueString));
-                    } else if (dstType.equals(boolean.class)) {
-                        dstField.setBoolean(dst, Boolean.parseBoolean(valueString));
-                    } else if (dstType.equals(long.class)) {
-                        dstField.setLong(dst, Long.parseLong(valueString));
-                    } else if (dstType.equals(short.class)) {
-                        dstField.setShort(dst, Short.parseShort(valueString));
-                    } else if (dstType.equals(char.class)) {
-                        dstField.setChar(dst, valueString.charAt(0));
-                    } else {
-                        throw new IllegalArgumentException(
-                                "Entity field types must be primitive types or String or List<String>: "
-                                        + dstType.getCanonicalName());
-                    }
-                }
-            }
-            return dst;
-        } catch (Exception e) {
-            Log.v(TAG, e.getMessage(), e);
-            throw new RuntimeException("Failed to instantiate entity.", e);
-        }
+        return mValidationManager.create(clazz);
     }
 
     /**
@@ -627,103 +492,6 @@ public class FormHelper {
         }
         setDrawableIntrinsicBounds(d);
         return d;
-    }
-
-    /**
-     * Reads the form information from the form, and creates a new object.
-     * 
-     * @param context target context
-     * @param rootView root view of the form
-     */
-    private void extractFormFromView() {
-        ensureFormFieldsTypes();
-
-        try {
-            mForm = mFormClass.newInstance();
-            mFormMetaDataMap = new HashMap<String, FormMetaData>();
-            final Field[] fields = mFormClass.getFields();
-            for (Field field : fields) {
-                Widget widget = field.getAnnotation(Widget.class);
-                if (widget == null) {
-                    continue;
-                }
-                View view = mRootView.findViewById(widget.id());
-                if (view instanceof EditText) {
-                    String value = ((EditText) view).getText().toString();
-                    field.set(mForm, value);
-                    addFormMetaData(field, WidgetType.TEXT, value);
-                    continue;
-                }
-                if (view instanceof RadioGroup) {
-                    RadioGroup radioGroup = (RadioGroup) view;
-                    int checkedId = radioGroup.getCheckedRadioButtonId();
-                    WidgetValue[] values = widget.values();
-                    String value = null;
-                    for (int i = 0; i < values.length; i++) {
-                        if (values[i].id() == checkedId) {
-                            field.set(mForm, values[i].value());
-                            value = values[i].value();
-                            break;
-                        }
-                    }
-                    addFormMetaData(field, WidgetType.RADIO, value);
-                    continue;
-                }
-                if (view instanceof Spinner) {
-                    int index = ((Spinner) view).getSelectedItemPosition();
-                    field.set(mForm, Integer.toString(index));
-                    addFormMetaData(field, WidgetType.SPINNER, Integer.toString(index));
-                    continue;
-                }
-                if (view instanceof ViewGroup) {
-                    ViewGroup group = (ViewGroup) view;
-                    List<String> checkedValues = new ArrayList<String>();
-                    for (WidgetValue checkBoxValue : widget.values()) {
-                        CheckBox cb = (CheckBox) group.findViewById(checkBoxValue.id());
-                        if (cb != null && cb.isChecked()) {
-                            checkedValues.add(checkBoxValue.value());
-                        }
-                    }
-                    field.set(mForm, checkedValues);
-                    addFormMetaData(field, WidgetType.CHECKBOX, checkedValues);
-                    continue;
-                }
-            }
-        } catch (Exception e) {
-            mForm = null;
-            Log.v(TAG, e.getMessage(), e);
-            throw new RuntimeException("Failed to create form instance or retrive data.", e);
-        }
-    }
-
-    private void ensureFormFieldsTypes() {
-        final Field[] fields = mFormClass.getFields();
-        for (Field field : fields) {
-            // Ensure the field types in form class are all String or
-            // List<String>.
-            Class<?> type = field.getType();
-            if (!type.equals(String.class) && !type.equals(List.class)) {
-                throw new IllegalArgumentException(""
-                        + "All the form instance fields must be String or List<String>. "
-                        + "If you want to use types other than String and List<String>, "
-                        + "create an 'entity class' and use FormHelper#createEntityFromForm() "
-                        + "after calling this method. Field name: "
-                        + field.getName()
-                        + " Field type: "
-                        + type);
-            }
-        }
-    }
-
-    private void addFormMetaData(final Field field, WidgetType type, Object value) {
-        FormMetaData data = new FormMetaData();
-        Widget widget = (Widget) field.getAnnotation(Widget.class);
-        if (widget != null) {
-            data.setId(widget.id());
-        }
-        data.setWidgetType(type);
-        data.setValue(value);
-        mFormMetaDataMap.put(field.getName(), data);
     }
 
     private void setDrawableIntrinsicBounds(final Drawable d) {

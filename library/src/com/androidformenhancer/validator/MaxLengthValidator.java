@@ -16,12 +16,11 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.MaxLength;
 
 import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * Validates that the length of the value of the field exceeds the max length or
@@ -29,27 +28,24 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class MaxLengthValidator extends Validator {
+public class MaxLengthValidator extends Validator<MaxLength> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<MaxLength> getAnnotationClass() {
+        return MaxLength.class;
+    }
 
-        MaxLength maxLengthValue = field.getAnnotation(MaxLength.class);
-        if (maxLengthValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                if (maxLengthValue.value() < value.length()) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorMaxLength,
-                            R.string.afe__msg_validation_max_length,
-                            getName(field, maxLengthValue.nameResId()), maxLengthValue.value());
-                }
-            }
+    @Override
+    public String validate(final MaxLength annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
         }
-
+        if (annotation.value() < value.length()) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorMaxLength,
+                    R.string.afe__msg_validation_max_length,
+                    getName(fieldData, annotation.nameResId()), annotation.value());
+        }
         return null;
     }
 

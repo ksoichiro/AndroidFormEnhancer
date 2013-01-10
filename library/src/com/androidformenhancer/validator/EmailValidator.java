@@ -48,7 +48,7 @@ public class EmailValidator extends AbstractRegexValidator<Email> {
     }
 
     @Override
-    protected Class<Email> getValidationAnnotationClass() {
+    public Class<Email> getAnnotationClass() {
         return Email.class;
     }
 

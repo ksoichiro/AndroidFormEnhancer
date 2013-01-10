@@ -16,12 +16,12 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.PastDate;
 
 import android.text.TextUtils;
 
-import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,52 +34,48 @@ import java.util.Locale;
  * 
  * @author Soichiro Kashima
  */
-public class PastDateValidator extends Validator {
+public class PastDateValidator extends Validator<PastDate> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<PastDate> getAnnotationClass() {
+        return PastDate.class;
+    }
 
-        PastDate pastDateValue = field.getAnnotation(PastDate.class);
-        if (pastDateValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                DateFormat dateFormat = null;
+    @Override
+    public String validate(final PastDate annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
+        }
+        DateFormat dateFormat = null;
 
-                if (TextUtils.isEmpty(pastDateValue.value())) {
-                    dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-                } else {
-                    dateFormat = new SimpleDateFormat(pastDateValue.value(),
-                            Locale.getDefault());
-                }
-
-                dateFormat.setLenient(false);
-                Date date = null;
-                try {
-                    date = dateFormat.parse(value);
-                    Calendar calendar = Calendar.getInstance(Locale.getDefault());
-                    calendar.setTime(date);
-                    discardTimeLessThanDay(calendar);
-                    Calendar today = Calendar.getInstance(Locale.getDefault());
-                    discardTimeLessThanDay(today);
-                    if (pastDateValue.allowToday()) {
-                        calendar.add(Calendar.DAY_OF_MONTH, -1);
-                    }
-                    if (calendar.before(today)) {
-                        return null;
-                    }
-                } catch (ParseException e) {
-                }
-                return getMessage(R.styleable.ValidatorMessages_afeErrorPastDate,
-                        R.string.afe__msg_validation_past_date,
-                        getName(field, pastDateValue.nameResId()));
-            }
+        if (TextUtils.isEmpty(annotation.value())) {
+            dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+        } else {
+            dateFormat = new SimpleDateFormat(annotation.value(),
+                    Locale.getDefault());
         }
 
-        return null;
+        dateFormat.setLenient(false);
+        Date date = null;
+        try {
+            date = dateFormat.parse(value);
+            Calendar calendar = Calendar.getInstance(Locale.getDefault());
+            calendar.setTime(date);
+            discardTimeLessThanDay(calendar);
+            Calendar today = Calendar.getInstance(Locale.getDefault());
+            discardTimeLessThanDay(today);
+            if (annotation.allowToday()) {
+                calendar.add(Calendar.DAY_OF_MONTH, -1);
+            }
+            if (calendar.before(today)) {
+                return null;
+            }
+        } catch (ParseException e) {
+        }
+        return getMessage(R.styleable.ValidatorMessages_afeErrorPastDate,
+                R.string.afe__msg_validation_past_date,
+                getName(fieldData, annotation.nameResId()));
     }
 
     private void discardTimeLessThanDay(Calendar calendar) {

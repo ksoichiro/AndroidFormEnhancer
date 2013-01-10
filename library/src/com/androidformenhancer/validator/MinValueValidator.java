@@ -16,46 +16,42 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.MinValue;
 
 import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * Validates that the value is less than the minimum value or not.
  * 
  * @author Soichiro Kashima
  */
-public class MinValueValidator extends Validator {
+public class MinValueValidator extends Validator<MinValue> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<MinValue> getAnnotationClass() {
+        return MinValue.class;
+    }
 
-        MinValue minValue = field.getAnnotation(MinValue.class);
-        if (minValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                int nValue = -1;
-                boolean hasError = false;
-                try {
-                    nValue = Integer.parseInt(value);
-                } catch (NumberFormatException e) {
-                    hasError = true;
-                }
-                if (hasError || nValue < minValue.value()) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorMinValue,
-                            R.string.afe__msg_validation_min_value,
-                            getName(field, minValue.nameResId()), minValue.value());
-                }
-            }
+    @Override
+    public String validate(final MinValue annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
         }
-
+        int nValue = -1;
+        boolean hasError = false;
+        try {
+            nValue = Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            hasError = true;
+        }
+        if (hasError || nValue < annotation.value()) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorMinValue,
+                    R.string.afe__msg_validation_min_value,
+                    getName(fieldData, annotation.nameResId()), annotation.value());
+        }
         return null;
     }
 

@@ -27,7 +27,7 @@ import com.androidformenhancer.annotation.Regex;
 public class RegexValidator extends AbstractRegexValidator<Regex> {
 
     @Override
-    protected Class<Regex> getValidationAnnotationClass() {
+    public Class<Regex> getAnnotationClass() {
         return Regex.class;
     }
 

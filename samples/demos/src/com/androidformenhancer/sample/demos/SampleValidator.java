@@ -16,48 +16,34 @@
 
 package com.androidformenhancer.sample.demos;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.validator.Validator;
 
 import android.text.TextUtils;
 
-import java.lang.reflect.Field;
 import java.util.Locale;
 
 /**
  * @author Soichiro Kashima
  */
-public class SampleValidator extends Validator {
+public class SampleValidator extends Validator<SampleAnnotation> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<SampleAnnotation> getAnnotationClass() {
+        return SampleAnnotation.class;
+    }
 
-        SampleAnnotation sampleValue = field.getAnnotation(SampleAnnotation.class);
-        if (sampleValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)
-                        || !"A".equals(value.toUpperCase(Locale.getDefault()))) {
-                    // Now this is a validation error, create message
-                    String name = field.getName();
-                    int nameResId = getNameResourceId(field);
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    nameResId = sampleValue.nameResId();
-                    if (nameResId > 0) {
-                        name = getContext().getResources().getString(nameResId);
-                    }
-                    Object[] messageParams = new Object[] {
-                            name
-                    };
-                    return getContext().getResources().getString(
-                            R.string.msg_validation_sample,
-                            messageParams);
-                }
-            }
+    @Override
+    public String validate(final SampleAnnotation annotation, final FieldData formMetaData) {
+        final String value = formMetaData.getValueAsString();
+        if (TextUtils.isEmpty(value)
+                || !"A".equals(value.toUpperCase(Locale.getDefault()))) {
+            // Now this is a validation error, create message
+            return getContext().getResources().getString(
+                    R.string.msg_validation_sample,
+                    getName(formMetaData, annotation.nameResId()));
         }
-
         return null;
     }
+
 }

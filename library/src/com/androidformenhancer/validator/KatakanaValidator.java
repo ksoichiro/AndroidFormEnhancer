@@ -30,7 +30,7 @@ public class KatakanaValidator extends AbstractRegexValidator<Katakana> {
     private static final String REGEX = "^[アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンャュョッァィゥェォヵヶガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヴー、。]+$";
 
     @Override
-    protected Class<Katakana> getValidationAnnotationClass() {
+    public Class<Katakana> getAnnotationClass() {
         return Katakana.class;
     }
 

@@ -16,6 +16,7 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.ValidationException;
 import com.androidformenhancer.annotation.Singlebyte;
@@ -25,7 +26,6 @@ import android.content.res.TypedArray;
 import android.text.TextUtils;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
 
 /**
  * Validates that the value of the field consists of single-byte characters or
@@ -33,7 +33,7 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class SinglebyteValidator extends Validator {
+public class SinglebyteValidator extends Validator<Singlebyte> {
 
     private static final String DEFAULT_ENCODING = "UTF-8";
 
@@ -46,39 +46,37 @@ public class SinglebyteValidator extends Validator {
     }
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<Singlebyte> getAnnotationClass() {
+        return Singlebyte.class;
+    }
 
-        Singlebyte singlebyte = field.getAnnotation(Singlebyte.class);
-        if (singlebyte != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
+    @Override
+    public String validate(final Singlebyte annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
+        }
+        boolean hasError = false;
+        try {
+            for (int i = 0; i < value.length(); i = value.offsetByCodePoints(i, 1)) {
+                char[] c = Character.toChars(value.codePointAt(i));
+                if (c.length > 1) {
+                    hasError = true;
+                    break;
                 }
-                boolean hasError = false;
-                try {
-                    for (int i = 0; i < value.length(); i = value.offsetByCodePoints(i, 1)) {
-                        char[] c = Character.toChars(value.codePointAt(i));
-                        if (c.length > 1) {
-                            hasError = true;
-                            break;
-                        }
-                        byte[] b = new String(c).getBytes(mEncoding);
-                        if (b.length != 1) {
-                            hasError = true;
-                            break;
-                        }
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    throw new ValidationException("Unsupported encoding used: " + mEncoding, e);
-                }
-                if (hasError) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorSinglebyte,
-                            R.string.afe__msg_validation_singlebyte,
-                            getName(field, singlebyte.nameResId()));
+                byte[] b = new String(c).getBytes(mEncoding);
+                if (b.length != 1) {
+                    hasError = true;
+                    break;
                 }
             }
+        } catch (UnsupportedEncodingException e) {
+            throw new ValidationException("Unsupported encoding used: " + mEncoding, e);
+        }
+        if (hasError) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorSinglebyte,
+                    R.string.afe__msg_validation_singlebyte,
+                    getName(fieldData, annotation.nameResId()));
         }
 
         return null;

@@ -16,10 +16,10 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.IntRange;
-
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+import com.androidformenhancer.annotation.Widget;
 
 import java.lang.reflect.Field;
 
@@ -29,70 +29,53 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class IntRangeValidatorTest extends InstrumentationTestCase {
+public class IntRangeValidatorTest extends ValidatorTest {
 
     /**
      * Dummy class which has @IntRange field.
      */
     public class Foo {
         @IntRange(min = 0, max = 100)
+        @Widget(id = 0)
         public String a;
     }
 
     public void testValidate() throws Exception {
-        Foo foo = new Foo();
-
         IntRangeValidator validator = new IntRangeValidator();
         validator.setContext(getInstrumentation().getContext());
-        validator.setTarget(foo);
+
         Field field = Foo.class.getDeclaredField("a");
+        FieldData fieldData = new FieldData(field, WidgetType.TEXT);
 
-        // Null
-        foo.a = null;
-        String errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(null);
+        validate(validator, fieldData, true);
 
-        // Empty
-        foo.a = "";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("");
+        validate(validator, fieldData, true);
 
-        foo.a = " ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(" ");
+        validate(validator, fieldData, false);
 
-        foo.a = "　";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("　");
+        validate(validator, fieldData, false);
 
-        foo.a = "a";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a");
+        validate(validator, fieldData, false);
 
-        foo.a = "0";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("0");
+        validate(validator, fieldData, true);
 
-        foo.a = "-1";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("-1");
+        validate(validator, fieldData, false);
 
-        foo.a = "100";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("50");
+        validate(validator, fieldData, true);
 
-        foo.a = "101";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("100");
+        validate(validator, fieldData, true);
+
+        fieldData.setValue("101");
+        validate(validator, fieldData, false);
     }
 
 }

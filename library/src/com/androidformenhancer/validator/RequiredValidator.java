@@ -16,6 +16,7 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Required;
@@ -23,7 +24,6 @@ import com.androidformenhancer.annotation.When;
 
 import android.text.TextUtils;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -31,69 +31,69 @@ import java.util.List;
  * 
  * @author Soichiro Kashima
  */
-public class RequiredValidator extends Validator {
+public class RequiredValidator extends Validator<Required> {
 
     @Override
-    public String validate(final Field field) {
-        Required required = field.getAnnotation(Required.class);
-        if (required != null) {
-            // Checks the conditions to valiate
-            When[] whenList = required.when();
-            boolean validateEnabled;
-            if (whenList == null || whenList.length == 0) {
-                validateEnabled = true;
-            } else {
-                validateEnabled = false;
-                for (When when : whenList) {
-                    boolean isNotEmpty = when.isNotEmpty();
-                    String equalsTo = when.equalsTo();
-                    try {
-                        String whenValue = (String) getValueById(when.id());
-                        if (isNotEmpty) {
-                            if (!TextUtils.isEmpty(whenValue)) {
-                                validateEnabled = true;
-                            }
-                        } else if (equalsTo.equals(whenValue)) {
+    public Class<Required> getAnnotationClass() {
+        return Required.class;
+    }
+
+    @Override
+    public String validate(final Required annotation, final FieldData fieldData) {
+        // Checks the conditions to validate
+        When[] whenList = annotation.when();
+        boolean validateEnabled;
+        if (whenList == null || whenList.length == 0) {
+            validateEnabled = true;
+        } else {
+            validateEnabled = false;
+            for (When when : whenList) {
+                boolean isNotEmpty = when.isNotEmpty();
+                String equalsTo = when.equalsTo();
+                try {
+                    String whenValue = getValueById(when.id());
+                    if (isNotEmpty) {
+                        if (!TextUtils.isEmpty(whenValue)) {
                             validateEnabled = true;
                         }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                    } else if (equalsTo.equals(whenValue)) {
+                        validateEnabled = true;
                     }
-                }
-            }
-            // Do not validate
-            if (!validateEnabled) {
-                return null;
-            }
-            // Validate
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                final String strValue = getValueAsString(field);
-                if (TextUtils.isEmpty(strValue)
-                        || (getWidgetType(field) == WidgetType.SPINNER
-                                && required.otherThanHead() && strValue.equals("0"))) {
-                    if (getWidgetType(field) == WidgetType.RADIO
-                            || getWidgetType(field) == WidgetType.SPINNER) {
-                        return getMessage(R.styleable.ValidatorMessages_afeErrorRequiredSelection,
-                                R.string.afe__msg_validation_required_selection,
-                                getName(field, required.nameResId()));
-                    } else {
-                        return getMessage(R.styleable.ValidatorMessages_afeErrorRequired,
-                                R.string.afe__msg_validation_required,
-                                getName(field, required.nameResId()));
-                    }
-                }
-            } else if (type.equals(List.class)) {
-                final List<String> list = getValueAsStringList(field);
-                if (list == null || list.size() < required.atLeast()) {
-                    return getMessage(
-                            R.styleable.ValidatorMessages_afeErrorRequiredMultipleSelection,
-                            R.string.afe__msg_validation_required_multiple_selection,
-                            getName(field, required.nameResId()), required.atLeast());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
-
+        // Do not validate
+        if (!validateEnabled) {
+            return null;
+        }
+        // Validate
+        if (fieldData.isArray()) {
+            final List<String> list = fieldData.getValueAsStringList();
+            if (list == null || list.size() < annotation.atLeast()) {
+                return getMessage(
+                        R.styleable.ValidatorMessages_afeErrorRequiredMultipleSelection,
+                        R.string.afe__msg_validation_required_multiple_selection,
+                        getName(fieldData, annotation.nameResId()), annotation.atLeast());
+            }
+        } else {
+            final String strValue = fieldData.getValueAsString();
+            if (TextUtils.isEmpty(strValue)
+                    || (fieldData.getWidgetType() == WidgetType.SPINNER
+                            && annotation.otherThanHead() && strValue.equals("0"))) {
+                if (fieldData.getWidgetType() == WidgetType.RADIO
+                        || fieldData.getWidgetType() == WidgetType.SPINNER) {
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorRequiredSelection,
+                            R.string.afe__msg_validation_required_selection,
+                            getName(fieldData, annotation.nameResId()));
+                } else {
+                    return getMessage(R.styleable.ValidatorMessages_afeErrorRequired,
+                            R.string.afe__msg_validation_required,
+                            getName(fieldData, annotation.nameResId()));
+                }
+            }
+        }
         return null;
     }
 }

@@ -16,39 +16,36 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.FloatType;
 
 import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * This validator provides the float field validation.
  * 
  * @author Soichiro Kashima
  */
-public class FloatTypeValidator extends Validator {
+public class FloatTypeValidator extends Validator<FloatType> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<FloatType> getAnnotationClass() {
+        return FloatType.class;
+    }
 
-        FloatType floatValue = field.getAnnotation(FloatType.class);
-        if (floatValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                try {
-                    Float.parseFloat(value);
-                } catch (NumberFormatException e) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorFloatType,
-                            R.string.afe__msg_validation_float_type,
-                            getName(field, floatValue.nameResId()));
-                }
-            }
+    @Override
+    public String validate(final FloatType annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
+        }
+        try {
+            Float.parseFloat(value);
+        } catch (NumberFormatException e) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorFloatType,
+                    R.string.afe__msg_validation_float_type,
+                    getName(fieldData, annotation.nameResId()));
         }
 
         return null;

@@ -16,39 +16,35 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Length;
 
 import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * Validates that the length of the value of the field.
  * 
  * @author Soichiro Kashima
  */
-public class LengthValidator extends Validator {
+public class LengthValidator extends Validator<Length> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<Length> getAnnotationClass() {
+        return Length.class;
+    }
 
-        Length lengthValue = field.getAnnotation(Length.class);
-        if (lengthValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                if (lengthValue.value() != value.length()) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorLength,
-                            R.string.afe__msg_validation_length,
-                            getName(field, lengthValue.nameResId()), lengthValue.value());
-                }
-            }
+    @Override
+    public String validate(final Length annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
         }
-
+        if (annotation.value() != value.length()) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorLength,
+                    R.string.afe__msg_validation_length,
+                    getName(fieldData, annotation.nameResId()), annotation.value());
+        }
         return null;
     }
 

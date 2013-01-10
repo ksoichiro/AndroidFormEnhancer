@@ -16,46 +16,42 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.MaxValue;
 
 import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * Validates that the value exceeds the max value or not.
  * 
  * @author Soichiro Kashima
  */
-public class MaxValueValidator extends Validator {
+public class MaxValueValidator extends Validator<MaxValue> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<MaxValue> getAnnotationClass() {
+        return MaxValue.class;
+    }
 
-        MaxValue maxValue = field.getAnnotation(MaxValue.class);
-        if (maxValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value)) {
-                    return null;
-                }
-                int nValue = -1;
-                boolean hasError = false;
-                try {
-                    nValue = Integer.parseInt(value);
-                } catch (NumberFormatException e) {
-                    hasError = true;
-                }
-                if (hasError || maxValue.value() < nValue) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorMaxValue,
-                            R.string.afe__msg_validation_max_value,
-                            getName(field, maxValue.nameResId()), maxValue.value());
-                }
-            }
+    @Override
+    public String validate(final MaxValue annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value)) {
+            return null;
         }
-
+        int nValue = -1;
+        boolean hasError = false;
+        try {
+            nValue = Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            hasError = true;
+        }
+        if (hasError || annotation.value() < nValue) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorMaxValue,
+                    R.string.afe__msg_validation_max_value,
+                    getName(fieldData, annotation.nameResId()), annotation.value());
+        }
         return null;
     }
 

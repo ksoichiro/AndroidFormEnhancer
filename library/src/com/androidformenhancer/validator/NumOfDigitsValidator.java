@@ -16,39 +16,35 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.NumOfDigits;
 
 import android.text.TextUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * Validates that the number of the digits of the field.
  * 
  * @author Soichiro Kashima
  */
-public class NumOfDigitsValidator extends Validator {
+public class NumOfDigitsValidator extends Validator<NumOfDigits> {
 
     @Override
-    public String validate(final Field field) {
-        final String value = getValueAsString(field);
+    public Class<NumOfDigits> getAnnotationClass() {
+        return NumOfDigits.class;
+    }
 
-        NumOfDigits numOfDigitsValue = field.getAnnotation(NumOfDigits.class);
-        if (numOfDigitsValue != null) {
-            final Class<?> type = field.getType();
-            if (type.equals(String.class)) {
-                if (TextUtils.isEmpty(value) || !value.matches("^[0-9]+$")) {
-                    return null;
-                }
-                if (numOfDigitsValue.value() != value.length()) {
-                    return getMessage(R.styleable.ValidatorMessages_afeErrorNumOfDigits,
-                            R.string.afe__msg_validation_num_of_digits,
-                            getName(field, numOfDigitsValue.nameResId()), numOfDigitsValue.value());
-                }
-            }
+    @Override
+    public String validate(final NumOfDigits annotation, final FieldData fieldData) {
+        final String value = fieldData.getValueAsString();
+        if (TextUtils.isEmpty(value) || !value.matches("^[0-9]+$")) {
+            return null;
         }
-
+        if (annotation.value() != value.length()) {
+            return getMessage(R.styleable.ValidatorMessages_afeErrorNumOfDigits,
+                    R.string.afe__msg_validation_num_of_digits,
+                    getName(fieldData, annotation.nameResId()), annotation.value());
+        }
         return null;
     }
 

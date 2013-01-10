@@ -16,10 +16,10 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.PastDate;
-
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+import com.androidformenhancer.annotation.Widget;
 
 import java.lang.reflect.Field;
 import java.text.DateFormat;
@@ -33,248 +33,196 @@ import java.util.Locale;
  * 
  * @author Soichiro Kashima
  */
-public class PastDateValidatorTest extends InstrumentationTestCase {
+public class PastDateValidatorTest extends ValidatorTest {
 
     /**
      * Dummy class which has @PastDate field.
      */
     public class Foo {
         @PastDate
+        @Widget(id = 0)
         public String a;
 
         @PastDate(allowToday = true)
+        @Widget(id = 0)
         public String b;
 
         @PastDate("yyyy.MM.dd")
+        @Widget(id = 0)
         public String c;
     }
 
     public void testValidate() throws Exception {
-        Foo foo = new Foo();
-
         PastDateValidator validator = new PastDateValidator();
         validator.setContext(getInstrumentation().getContext());
-        validator.setTarget(foo);
+
         Field field = Foo.class.getDeclaredField("a");
+        FieldData fieldData = new FieldData(field, WidgetType.TEXT);
 
-        // Null
-        foo.a = null;
-        String errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(null);
+        validate(validator, fieldData, true);
 
-        // Empty
-        foo.a = "";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("");
+        validate(validator, fieldData, true);
 
-        foo.a = " ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(" ");
+        validate(validator, fieldData, false);
 
-        foo.a = "　";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("　");
+        validate(validator, fieldData, false);
 
-        foo.a = "a";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a");
+        validate(validator, fieldData, false);
 
         // Locale specific tests
         Locale defaultLocale = Locale.getDefault();
 
         Locale.setDefault(Locale.US);
 
-        foo.a = "12/32/2000";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("12/32/2000");
+        validate(validator, fieldData, false);
 
-        foo.a = "1/1/2000";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("1/1/2000");
+        validate(validator, fieldData, true);
 
-        foo.a = "01/01/2000";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("01/01/2000");
+        validate(validator, fieldData, true);
 
-        foo.a = "2/29/2000";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("2/29/2000");
+        validate(validator, fieldData, true);
 
-        foo.a = "2/29/2001";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("2/29/2001");
+        validate(validator, fieldData, false);
 
         Calendar c = Calendar.getInstance(Locale.getDefault());
         DateFormat dateFormatUS = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-        foo.a = dateFormatUS.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
 
+        // Today
+        fieldData.setValue(dateFormatUS.format(c.getTime()));
+        validate(validator, fieldData, false);
+
+        // Yesterday
         c.add(Calendar.DAY_OF_MONTH, -1);
-        foo.a = dateFormatUS.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(dateFormatUS.format(c.getTime()));
+        validate(validator, fieldData, true);
 
+        // Tomorrow
         c.add(Calendar.DAY_OF_MONTH, 2);
-        foo.a = dateFormatUS.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(dateFormatUS.format(c.getTime()));
+        validate(validator, fieldData, false);
 
         field = Foo.class.getDeclaredField("b");
-
+        fieldData = new FieldData(field, WidgetType.TEXT);
         c = Calendar.getInstance(Locale.getDefault());
-        foo.b = dateFormatUS.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.b + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(dateFormatUS.format(c.getTime()));
+        validate(validator, fieldData, true);
 
+        // Yesterday
         c.add(Calendar.DAY_OF_MONTH, -1);
-        foo.b = dateFormatUS.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.b + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(dateFormatUS.format(c.getTime()));
+        validate(validator, fieldData, true);
 
+        // Tomorrow
         c.add(Calendar.DAY_OF_MONTH, 2);
-        foo.b = dateFormatUS.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.b + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(dateFormatUS.format(c.getTime()));
+        validate(validator, fieldData, false);
 
         Locale.setDefault(Locale.JAPAN);
 
         field = Foo.class.getDeclaredField("a");
+        fieldData = new FieldData(field, WidgetType.TEXT);
 
-        foo.a = "2000/12/32";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("2000/12/32");
+        validate(validator, fieldData, false);
 
-        foo.a = "2000/1/1";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("2000/1/1");
+        validate(validator, fieldData, true);
 
-        foo.a = "2000/01/01";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("2000/01/01");
+        validate(validator, fieldData, true);
 
-        foo.a = "2000/2/29";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("2000/2/29");
+        validate(validator, fieldData, true);
 
-        foo.a = "2001/2/29";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("2001/2/29");
+        validate(validator, fieldData, false);
 
         c = Calendar.getInstance(Locale.getDefault());
         DateFormat dateFormatJAPAN = DateFormat.getDateInstance(DateFormat.SHORT,
                 Locale.getDefault());
-        foo.a = dateFormatJAPAN.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
 
+        // Today
+        fieldData.setValue(dateFormatJAPAN.format(c.getTime()));
+        validate(validator, fieldData, false);
+
+        // Yesterday
         c.add(Calendar.DAY_OF_MONTH, -1);
-        foo.a = dateFormatJAPAN.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(dateFormatJAPAN.format(c.getTime()));
+        validate(validator, fieldData, true);
 
+        // Tomorrow
         c.add(Calendar.DAY_OF_MONTH, 2);
-        foo.a = dateFormatJAPAN.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(dateFormatJAPAN.format(c.getTime()));
+        validate(validator, fieldData, false);
 
         field = Foo.class.getDeclaredField("b");
-
+        fieldData = new FieldData(field, WidgetType.TEXT);
         c = Calendar.getInstance(Locale.getDefault());
-        foo.b = dateFormatJAPAN.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.b + ", message: " + errorMessage);
-        assertNull(errorMessage);
 
+        // Today
+        fieldData.setValue(dateFormatJAPAN.format(c.getTime()));
+        validate(validator, fieldData, true);
+
+        // Yesterday
         c.add(Calendar.DAY_OF_MONTH, -1);
-        foo.b = dateFormatJAPAN.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.b + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(dateFormatJAPAN.format(c.getTime()));
+        validate(validator, fieldData, true);
 
+        // Tomorrow
         c.add(Calendar.DAY_OF_MONTH, 2);
-        foo.b = dateFormatJAPAN.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.b + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(dateFormatJAPAN.format(c.getTime()));
+        validate(validator, fieldData, false);
 
         Locale.setDefault(defaultLocale);
 
         // User defined format
-
         field = Foo.class.getDeclaredField("c");
-        foo.c = "2000.12.31";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.c + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData = new FieldData(field, WidgetType.TEXT);
 
-        foo.c = "2000.12.32";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.c + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("2000.12.31");
+        validate(validator, fieldData, true);
 
-        foo.c = "2000.1.1";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.c + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("2000.12.32");
+        validate(validator, fieldData, false);
 
-        foo.c = "2000.01.01";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.c + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("2000.1.1");
+        validate(validator, fieldData, true);
 
-        foo.c = "2000.2.29";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.c + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("2000.01.01");
+        validate(validator, fieldData, true);
 
-        foo.c = "2001.2.29";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.c + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("2000.2.29");
+        validate(validator, fieldData, true);
+
+        fieldData.setValue("2001.2.29");
+        validate(validator, fieldData, false);
 
         c = Calendar.getInstance(Locale.getDefault());
         SimpleDateFormat customDateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
-        foo.c = customDateFormat.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.c + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
 
+        // Today
+        fieldData.setValue(customDateFormat.format(c.getTime()));
+        validate(validator, fieldData, false);
+
+        // Yesterday
         c.add(Calendar.DAY_OF_MONTH, -1);
-        foo.c = customDateFormat.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.c + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(customDateFormat.format(c.getTime()));
+        validate(validator, fieldData, true);
 
+        // Tomorrow
         c.add(Calendar.DAY_OF_MONTH, 2);
-        foo.c = customDateFormat.format(c.getTime());
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.c + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(customDateFormat.format(c.getTime()));
+        validate(validator, fieldData, false);
     }
 
 }

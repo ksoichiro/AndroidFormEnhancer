@@ -16,10 +16,10 @@
 
 package com.androidformenhancer.validator;
 
+import com.androidformenhancer.FieldData;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Email;
-
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+import com.androidformenhancer.annotation.Widget;
 
 import java.lang.reflect.Field;
 
@@ -29,135 +29,89 @@ import java.lang.reflect.Field;
  * 
  * @author Soichiro Kashima
  */
-public class EmailValidatorTest extends InstrumentationTestCase {
+public class EmailValidatorTest extends ValidatorTest {
 
     /**
      * Dummy class which has @Email field.
      */
     public class Foo {
         @Email
+        @Widget(id = 0)
         public String a;
     }
 
     public void testValidate() throws Exception {
-        Foo foo = new Foo();
-
         EmailValidator validator = new EmailValidator();
         validator.setContext(getInstrumentation().getContext());
-        validator.setTarget(foo);
+
         Field field = Foo.class.getDeclaredField("a");
+        FieldData fieldData = new FieldData(field, WidgetType.TEXT);
 
-        // Null
-        foo.a = null;
-        String errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue(null);
+        validate(validator, fieldData, true);
 
-        // Empty
-        foo.a = "";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("");
+        validate(validator, fieldData, true);
 
-        foo.a = " ";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue(" ");
+        validate(validator, fieldData, false);
 
-        foo.a = "　";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("　");
+        validate(validator, fieldData, false);
 
-        foo.a = "a";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a");
+        validate(validator, fieldData, false);
 
-        foo.a = "a@a";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a@a");
+        validate(validator, fieldData, false);
 
-        foo.a = "a@a.b";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a@a.b");
+        validate(validator, fieldData, true);
 
-        foo.a = "a@a.b.c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a@a.b.c");
+        validate(validator, fieldData, true);
 
-        foo.a = "a.b@a.b.c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a.b@a.b.c");
+        validate(validator, fieldData, true);
 
-        foo.a = "a123.b123@a123.b123.c123";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a123.b123@a123.b123.c123");
+        validate(validator, fieldData, true);
 
-        foo.a = "a.b-c@a.b-c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a.b-c@a.b-c");
+        validate(validator, fieldData, true);
 
-        foo.a = "a.b_c@a.b_c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a.b_c@a.b_c");
+        validate(validator, fieldData, true);
 
-        foo.a = "a.b-@a.b.c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a.b-@a.b.c");
+        validate(validator, fieldData, true);
 
-        foo.a = "a.b.@a.b.c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a.b.@a.b.c");
+        validate(validator, fieldData, false);
 
-        foo.a = "a.b_@a.b.c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a.b_@a.b.c");
+        validate(validator, fieldData, true);
 
-        foo.a = "a.b-c@a.b.c-";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a.b-c@a.b.c-");
+        validate(validator, fieldData, true);
 
-        foo.a = "a.b-c@a.b.c.";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a.b-c@a.b.c.");
+        validate(validator, fieldData, false);
 
-        foo.a = "a.b-c@a.b.c_";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("a.b-c@a.b.c_");
+        validate(validator, fieldData, true);
 
-        foo.a = "a.b.c@@a.b.c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a.b.c@@a.b.c");
+        validate(validator, fieldData, false);
 
-        foo.a = "a.b.c@a..b.c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a.b.c@a..b.c");
+        validate(validator, fieldData, false);
 
-        foo.a = "a..b.c@a.b.c";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNotNull(errorMessage);
+        fieldData.setValue("a..b.c@a.b.c");
+        validate(validator, fieldData, false);
 
-        foo.a = "ABC@ABC.DEF";
-        errorMessage = validator.validate(field);
-        Log.i("TEST", "input: " + foo.a + ", message: " + errorMessage);
-        assertNull(errorMessage);
+        fieldData.setValue("ABC@ABC.DEF");
+        validate(validator, fieldData, true);
     }
 
 }
