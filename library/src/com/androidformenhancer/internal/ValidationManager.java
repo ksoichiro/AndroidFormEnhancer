@@ -309,6 +309,9 @@ public final class ValidationManager {
                     dstField.set(dst, dstList);
                 } else {
                     String valueString = (String) value;
+                    if (valueString.length() == 0) {
+                        continue;
+                    }
                     if (dstType.equals(String.class)) {
                         dstField.set(dst, valueString);
                     } else if (dstType.equals(int.class)) {
