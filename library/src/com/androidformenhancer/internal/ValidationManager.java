@@ -125,10 +125,20 @@ public final class ValidationManager {
                 if (view instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) view;
                     List<String> checkedValues = new ArrayList<String>();
-                    for (WidgetValue checkBoxValue : widget.values()) {
-                        CheckBox cb = (CheckBox) group.findViewById(checkBoxValue.id());
-                        if (cb != null && cb.isChecked()) {
-                            checkedValues.add(checkBoxValue.value());
+                    if (widget.values() != null && widget.values().length > 0) {
+                        for (WidgetValue checkBoxValue : widget.values()) {
+                            CheckBox cb = (CheckBox) group.findViewById(checkBoxValue.id());
+                            if (cb != null && cb.isChecked()) {
+                                checkedValues.add(checkBoxValue.value());
+                            }
+                        }
+                    } else {
+                        List<CheckBox> cbs = findCheckboxes(group);
+                        for (CheckBox cb : cbs) {
+                            if (cb != null && cb.isChecked() && cb.getTag() != null) {
+                                Object tag = cb.getTag();
+                                checkedValues.add(tag.toString());
+                            }
                         }
                     }
                     field.set(mForm, checkedValues);
@@ -481,5 +491,19 @@ public final class ValidationManager {
             }
         }
         return result.toArray(new FieldData[] {});
+    }
+
+    private List<CheckBox> findCheckboxes(ViewGroup group) {
+        List<CheckBox> list = new ArrayList<CheckBox>();
+        for (int i = 0; i < group.getChildCount(); i++) {
+            View child = group.getChildAt(i);
+            if (child instanceof CheckBox) {
+                CheckBox cb = (CheckBox) child;
+                list.add(cb);
+            } else if (child instanceof ViewGroup) {
+                list.addAll(findCheckboxes((ViewGroup) child));
+            }
+        }
+        return list;
     }
 }

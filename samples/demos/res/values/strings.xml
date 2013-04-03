@@ -29,6 +29,7 @@
     <string name="title_activity_custom_error_icon">Custom error icon</string>
     <string name="title_activity_custom_required_when">Required when</string>
     <string name="title_activity_entry">Entry sample (for Japanese)</string>
+    <string name="title_activity_multiple_checkbox">Multiple checkboxes(dynamically generated)</string>
     <string name="form_default_name">Name</string>
     <string name="form_default_hiragana">Name(Hiragana)</string>
     <string name="form_default_katakana">Name(Katakana)</string>
@@ -40,6 +41,7 @@
     <string name="form_default_birthday">Birthday</string>
     <string name="form_default_credit_card_company">Credit card company</string>
     <string name="form_default_got_to_know_by">Where did you know?</string>
+    <string name="form_multiple_checkbox_sample">Items</string>
     <string name="form_default_email">E-mail address</string>
     <string name="form_checkbox_got_to_know_by_tv">TV</string>
     <string name="form_checkbox_got_to_know_by_internet">Internet</string>

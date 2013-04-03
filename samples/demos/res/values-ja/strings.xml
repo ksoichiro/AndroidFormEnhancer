@@ -29,6 +29,7 @@
     <string name="title_activity_sample_fragment">Fragment使用</string>
     <string name="title_activity_custom_required_when">条件付き必須</string>
     <string name="title_activity_entry">入会情報サンプル</string>
+    <string name="title_activity_multiple_checkbox">複数チェックボックス(動的生成)</string>
     <string name="form_default_name">お名前</string>
     <string name="form_default_hiragana">お名前(ひらがな)</string>
     <string name="form_default_katakana">お名前(カタカナ)</string>
@@ -40,6 +41,7 @@
     <string name="form_default_birthday">生年月日</string>
     <string name="form_default_credit_card_company">クレジットカード会社</string>
     <string name="form_default_got_to_know_by">どこで知りましたか？</string>
+    <string name="form_multiple_checkbox_sample">サンプル</string>
     <string name="form_default_email">Eメールアドレス</string>
     <string name="form_checkbox_got_to_know_by_tv">TV</string>
     <string name="form_checkbox_got_to_know_by_internet">インターネット</string>
