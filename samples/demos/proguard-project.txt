@@ -18,10 +18,29 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keepclassmembers class com.androidformenhancer.sample.demos.CustomEmailPatternForm {
+   public *;
+}
+-keepclassmembers class com.androidformenhancer.sample.demos.CustomRequiredWhenForm {
+   public *;
+}
 -keepclassmembers class com.androidformenhancer.sample.demos.DefaultForm {
    public *;
 }
 -keepclassmembers class com.androidformenhancer.sample.demos.DefaultEntity {
    public *;
 }
+-keepclassmembers class com.androidformenhancer.sample.demos.EntryForm {
+   public *;
+}
+-keepclassmembers class com.androidformenhancer.sample.demos.MultipleCheckboxForm {
+   public *;
+}
+-keepclassmembers class com.androidformenhancer.sample.demos.MultipleCheckboxEntity {
+   public *;
+}
+-keepclassmembers class com.androidformenhancer.sample.demos.SampleCustomForm {
+   public *;
+}
+-keep class com.androidformenhancer.sample.demos.SampleValidator { <init>(...); }
 -keep class com.androidformenhancer.validator.* { <init>(...); }

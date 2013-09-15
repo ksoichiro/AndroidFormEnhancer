@@ -4,3 +4,4 @@ samples/demos/bin
 samples/demos/gen
 tests/bin
 tests/gen
+local.properties
