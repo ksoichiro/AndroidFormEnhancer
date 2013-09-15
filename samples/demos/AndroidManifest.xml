@@ -159,6 +159,9 @@
                 <category android:name="com.androidformenhancer.sample.demos" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" />
     </application>
 
 </manifest>

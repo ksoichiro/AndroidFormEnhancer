@@ -17,6 +17,7 @@
 <resources>
 
     <string name="app_name">AFE-Demos</string>
+    <string name="title_activity_about">About this app</string>
     <string name="title_activity_default">Default behavior with Toast</string>
     <string name="title_activity_default_fragment">Default behavior with Dialog</string>
     <string name="title_activity_dont_stop">Show all errors</string>
@@ -50,6 +51,28 @@
     <string name="form_sample_custom_sample">Sample</string>
     <string name="form_custom_required_when_reason">Reason</string>
     <string name="form_custom_required_when_reason_other">Other</string>
+    <string name="form_entry_last_name">Last name</string>
+    <string name="form_entry_first_name">First name</string>
+    <string name="form_entry_last_name_kana">Last name ruby(for Japanese)</string>
+    <string name="form_entry_first_name_kana">First name ruby(for Japanese)</string>
+    <string name="form_entry_birthday">Birthday</string>
+    <string name="form_entry_gender">Gender</string>
+    <string name="form_entry_gender_male">Male</string>
+    <string name="form_entry_gender_female">Female</string>
+    <string name="form_entry_phone_home">Phone(Home)</string>
+    <string name="form_entry_phone_mobile">Phone(Mobile)</string>
+    <string name="form_entry_email_mobile">Mobile Email</string>
+    <string name="form_entry_email_pc">Email</string>
+    <string name="form_entry_zip_code">Zip code</string>
+    <string name="form_entry_address1">Address1</string>
+    <string name="form_entry_address2">Address2</string>
+    <string name="form_entry_address3">Address3</string>
+    <string name="form_entry_address4">Address4</string>
+    <string name="form_entry_password">Password</string>
+    <string name="form_entry_password_retype">Password(retype)</string>
+    <string name="form_entry_residence_type">Residence</string>
+    <string name="form_entry_residence_year">Residence Years</string>
+    <string name="form_entry_residence_month">Residence Months</string>
     <string name="desc_custom_email_pattern">Valid pattern:\n^\\w+@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</string>
     <string name="desc_custom_error_icon">Error icons shown in the EditText is changed by style.</string>
     <string name="desc_custom_required_when">If you select the 3rd option in \"Reason\", you must input \"Other\".</string>
@@ -75,6 +98,14 @@
     <string name="custom_msg_validation_date">[%1$s] is invalid date.</string>
     <string name="custom_msg_validation_past_date">[%1$s] must be past date.</string>
     <string name="msg_validation_sample">%1$s must be A.</string>
+    <string name="msg_default_date">Please select</string>
+    <string name="msg_version">Version</string>
+    <string name="msg_copyright">&amp;copy; 2012 Soichiro Kashima All rights reserved.</string>
+    <string name="msg_about_description">Demo app for AndroidFormEnhancer.</string>
+    <string name="msg_about_fork_me_on_github">Fork me on GitHub!</string>
+    <string name="msg_about_github_url">https://github.com/ksoichiro/AndroidFormEnhancer</string>
+    <string name="msg_about_afe_description">AndroidFormEnhancer is a library for implementing input forms easily in the Android application.</string>
+    <string name="menu_about">About</string>
     <string name="custom_email_pattern">^\\w+@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</string>
 
 </resources>

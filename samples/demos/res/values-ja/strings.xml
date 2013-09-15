@@ -17,6 +17,7 @@
 <resources>
 
     <string name="app_name">AFE-Demos</string>
+    <string name="title_activity_about">このアプリについて</string>
     <string name="title_activity_default">標準の動作(Toast使用)</string>
     <string name="title_activity_default_fragment">標準の動作(Dialog使用)</string>
     <string name="title_activity_dont_stop">全てのエラーを表示</string>
@@ -98,5 +99,12 @@
     <string name="custom_msg_validation_past_date">[%1$s]は過去の日付で入力してください。</string>
     <string name="msg_validation_sample">%1$sには A を入力してください</string>
     <string name="msg_default_date">選択してください</string>
+    <string name="msg_version">Version</string>
+    <string name="msg_copyright">&amp;copy; 2012 Soichiro Kashima All rights reserved.</string>
+    <string name="msg_about_description">Demo app for AndroidFormEnhancer.</string>
+    <string name="msg_about_fork_me_on_github">Fork me on GitHub!</string>
+    <string name="msg_about_github_url">https://github.com/ksoichiro/AndroidFormEnhancer</string>
+    <string name="msg_about_afe_description">AndroidFormEnhancerはAndroidアプリの入力フォーム実装を簡単にするライブラリです。</string>
+    <string name="menu_about">アプリについて</string>
 
 </resources>

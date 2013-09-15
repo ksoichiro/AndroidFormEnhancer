@@ -21,6 +21,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -61,6 +63,22 @@ public class MainActivity extends ListActivity {
                         R.id.className,
                         R.id.description,
                 }));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem menu) {
+        int id = menu.getItemId();
+        if (id == R.id.menu_about) {
+            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+            return true;
+        }
+        return false;
     }
 
     private List<Map<String, Object>> getData() {
