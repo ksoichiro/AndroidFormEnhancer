@@ -481,6 +481,9 @@ Samples
 ===
 
 * Sample applications using this library are included in the samples folder.
+* You can also try it on Google Play.
+
+  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/en_generic_rgb_wo_60.png "Screenshots")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
 
 
 Tests

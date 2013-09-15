@@ -471,6 +471,9 @@ ProGuardを使用する場合は、以下のようにproguard-project.txtを編�
 ===
 
 * ライブラリを使用したサンプルアプリケーションは、samplesフォルダに含まれています。
+* Google Playからダウンロードしてお試しいただけます。
+
+  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/en_generic_rgb_wo_60.png "Screenshots")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
 
 
 テスト
