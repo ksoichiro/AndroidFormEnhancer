@@ -106,5 +106,6 @@
     <string name="msg_about_github_url">https://github.com/ksoichiro/AndroidFormEnhancer</string>
     <string name="msg_about_afe_description">AndroidFormEnhancerはAndroidアプリの入力フォーム実装を簡単にするライブラリです。</string>
     <string name="menu_about">アプリについて</string>
+    <string name="custom_email_pattern">^\\w+@([\\w][\\w-]*\\.)+[\\w][\\w-]*$</string>
 
 </resources>

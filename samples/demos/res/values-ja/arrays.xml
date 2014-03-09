@@ -28,6 +28,9 @@
         <item>理由2</item>
         <item>その他</item>
     </string-array>
+    <string-array name="custom_validators">
+        <item>com.androidformenhancer.sample.demos.SampleValidator</item>
+    </string-array>
     <string-array name="form_entries_residence">
         <item>お選びください</item>
         <item>自己名義持家</item>

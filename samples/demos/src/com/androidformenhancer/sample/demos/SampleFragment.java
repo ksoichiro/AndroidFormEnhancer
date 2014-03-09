@@ -74,18 +74,9 @@ public class SampleFragment extends Fragment {
     }
 
     private void showAlertDialog(final String message) {
-        showDialogFragment(new DialogFragment() {
-            @Override
-            public Dialog onCreateDialog(Bundle savedInstanceState) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage(message);
-                builder.setPositiveButton(android.R.string.ok, null);
-                Dialog dialog = builder.create();
-                dialog.setCancelable(false);
-                dialog.setCanceledOnTouchOutside(false);
-                return dialog;
-            }
-        });
+        SampleAlertDialogFragment f = new SampleAlertDialogFragment();
+        f.setMessage(message);
+        showDialogFragment(f);
     }
 
     public void showDialogFragment(final DialogFragment dialogFragment) {
@@ -96,6 +87,33 @@ public class SampleFragment extends Fragment {
         }
         if (dialogFragment != null) {
             dialogFragment.show(ft, DIALOG_TAG);
+        }
+    }
+
+    public static class SampleAlertDialogFragment extends DialogFragment {
+        private static final String ARG_MESSAGE = "message";
+        private String mMessage;
+
+        private void setMessage(final String message) {
+            Bundle args = getArguments();
+            if (args == null) {
+                args = new Bundle();
+            }
+            args.putString(ARG_MESSAGE, mMessage);
+            setArguments(args);
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            Bundle args = getArguments();
+            String message = args.getString(ARG_MESSAGE);
+            builder.setMessage(message);
+            builder.setPositiveButton(android.R.string.ok, null);
+            Dialog dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            return dialog;
         }
     }
 
