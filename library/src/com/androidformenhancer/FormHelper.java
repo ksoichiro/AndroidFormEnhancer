@@ -152,7 +152,6 @@ public class FormHelper {
      * {@linkplain Widget#validateAfter()}. If this annotation is not specified,
      * the order is undefined.
      * 
-     * @param activity activity which has the form
      * @return result of the validation
      */
     public ValidationResult validate() {
@@ -169,10 +168,10 @@ public class FormHelper {
     }
 
     /**
-     * Sets the {@linkplain android.view.View.OnFocusChangedListener} to
+     * Sets the {@linkplain android.view.View.OnFocusChangeListener} to
      * validate on focus out.<br>
      * If you want to implement your own
-     * {@linkplain android.view.View.OnFocusChangedListener}, use
+     * {@linkplain android.view.View.OnFocusChangeListener}, use
      * {@linkplain #validateText(int)}.
      */
     public void setOnFocusOutValidation() {
@@ -295,19 +294,11 @@ public class FormHelper {
         if (mActivity == null) {
             throw new IllegalStateException(EXCEPTION_MSG_WITHOUT_FRAGMENT_ACTIVITY);
         }
-        showDialogFragment(new DialogFragment() {
-            @Override
-            public Dialog onCreateDialog(Bundle savedInstanceState) {
-                setCancelable(cancelable);
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                if (!TextUtils.isEmpty(title)) {
-                    builder.setTitle(title);
-                }
-                builder.setMessage(message);
-                builder.setPositiveButton(android.R.string.ok, null);
-                return builder.create();
-            }
-        });
+        showDialogFragment(new SimpleDialogFragment.Builder()
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(cancelable)
+                .create());
     }
 
     /**
@@ -368,7 +359,7 @@ public class FormHelper {
      * Convenience for showAlertDialog(null, message, false)}.
      * 
      * @see #showAlertDialog(int, int, boolean)
-     * @param messageResId message resource ID
+     * @param message message string
      * @throws IllegalStateException if FragmentActivity instance has not been
      *             passed to this instance
      */
@@ -380,7 +371,8 @@ public class FormHelper {
      * Convenience for showAlertDialog(title, message, false)}.
      * 
      * @see #showAlertDialog(int, int, boolean)
-     * @param messageResId message resource ID
+     * @param title title string
+     * @param message message string
      * @throws IllegalStateException if FragmentActivity instance has not been
      *             passed to this instance
      */
@@ -433,34 +425,10 @@ public class FormHelper {
         if (v == null || !(v instanceof TextView)) {
             throw new IllegalArgumentException("Target view must be valid TextView: " + v);
         }
-        final TextView tv = (TextView) v;
-        if (TextUtils.isEmpty(tv.getText())) {
-            tv.setText(mActivity.getString(defaultMessageId));
-        }
-
-        DatePickerDialog.OnDateSetListener callBack =
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Calendar c = Calendar.getInstance(Locale.getDefault());
-                        c.set(Calendar.YEAR, year);
-                        c.set(Calendar.MONTH, monthOfYear);
-                        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        tv.setText(DateFormat
-                                .getDateInstance(DateFormat.SHORT, Locale.getDefault())
-                                .format(c.getTime()));
-                    }
-                };
-        Calendar c = Calendar.getInstance();
-        final Dialog dialog = new DatePickerDialog(mActivity, callBack, c.get(Calendar.YEAR),
-                c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)) {
-        };
-        showDialogFragment(new DialogFragment() {
-            @Override
-            public Dialog onCreateDialog(Bundle savedInstanceState) {
-                return dialog;
-            }
-        });
+        showDialogFragment(new DatePickerDialogFragment.Builder()
+                .setTargetViewResId(id)
+                .setDefaultMessageResId(defaultMessageId)
+                .create());
     }
 
     private void init() {
@@ -500,4 +468,129 @@ public class FormHelper {
         }
     }
 
+    public static class SimpleDialogFragment extends DialogFragment {
+        private static final String ARG_TITLE = "title";
+        private static final String ARG_MESSAGE = "message";
+        private static final String ARG_CANCELABLE = "cancelable";
+
+        public static class Builder {
+            private String mTitle;
+            private String mMessage;
+            private boolean mCancelable = true;
+
+            public Builder setTitle(final String title) {
+                mTitle = title;
+                return this;
+            }
+
+            public Builder setMessage(final String message) {
+                mMessage = message;
+                return this;
+            }
+
+            public Builder setCancelable(final boolean cancelable) {
+                mCancelable = cancelable;
+                return this;
+            }
+
+            public SimpleDialogFragment create() {
+                Bundle args = new Bundle();
+                if (mTitle != null) {
+                    args.putString(ARG_TITLE, mTitle);
+                }
+                if (mMessage != null) {
+                    args.putString(ARG_MESSAGE, mMessage);
+                }
+                args.putBoolean(ARG_CANCELABLE, mCancelable);
+                SimpleDialogFragment fragment = new SimpleDialogFragment();
+                fragment.setArguments(args);
+                return fragment;
+            }
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Bundle args = getArguments();
+            boolean cancelable = args.getBoolean(ARG_CANCELABLE, true);
+            setCancelable(cancelable);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            String title = args.getString(ARG_TITLE);
+            if (!TextUtils.isEmpty(title)) {
+                builder.setTitle(title);
+            }
+            String message = args.getString(ARG_MESSAGE);
+            if (!TextUtils.isEmpty(message)) {
+                builder.setMessage(message);
+            }
+            builder.setPositiveButton(android.R.string.ok, null);
+            return builder.create();
+        }
+    }
+
+    public static class DatePickerDialogFragment extends DialogFragment {
+        private static final String ARG_TARGET_VIEW_RES_ID = "targetViewResId";
+        private static final String ARG_DEFAULT_MESSAGE_RES_ID = "defaultMessageResId";
+
+        public static class Builder {
+            private int mTargetViewResId;
+            private int mDefaultMessageResId;
+
+            public Builder setTargetViewResId(final int resId) {
+                mTargetViewResId = resId;
+                return this;
+            }
+
+            public Builder setDefaultMessageResId(final int resId) {
+                mDefaultMessageResId = resId;
+                return this;
+            }
+
+            public DatePickerDialogFragment create() {
+                Bundle args = new Bundle();
+                if (mTargetViewResId != 0) {
+                    args.putInt(ARG_TARGET_VIEW_RES_ID, mTargetViewResId);
+                }
+                if (mDefaultMessageResId != 0) {
+                    args.putInt(ARG_DEFAULT_MESSAGE_RES_ID, mDefaultMessageResId);
+                }
+                DatePickerDialogFragment fragment = new DatePickerDialogFragment();
+                fragment.setArguments(args);
+                return fragment;
+            }
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Bundle args = getArguments();
+            int id = args.getInt(ARG_TARGET_VIEW_RES_ID);
+            View v = getActivity().findViewById(id);
+            if (v == null || !(v instanceof TextView)) {
+                throw new IllegalArgumentException("Target view must be valid TextView: " + v);
+            }
+            final TextView tv = (TextView) v;
+            if (TextUtils.isEmpty(tv.getText())) {
+                int defaultMessageId = args.getInt(ARG_DEFAULT_MESSAGE_RES_ID);
+                tv.setText(getActivity().getString(defaultMessageId));
+            }
+
+            DatePickerDialog.OnDateSetListener callBack =
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            Calendar c = Calendar.getInstance(Locale.getDefault());
+                            c.set(Calendar.YEAR, year);
+                            c.set(Calendar.MONTH, monthOfYear);
+                            c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                            tv.setText(DateFormat
+                                    .getDateInstance(DateFormat.SHORT, Locale.getDefault())
+                                    .format(c.getTime()));
+                        }
+                    };
+            Calendar c = Calendar.getInstance();
+            final Dialog dialog = new DatePickerDialog(getActivity(), callBack, c.get(Calendar.YEAR),
+                    c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)) {
+            };
+            return dialog;
+        }
+    }
 }
