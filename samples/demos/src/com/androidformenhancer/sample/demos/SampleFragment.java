@@ -92,14 +92,13 @@ public class SampleFragment extends Fragment {
 
     public static class SampleAlertDialogFragment extends DialogFragment {
         private static final String ARG_MESSAGE = "message";
-        private String mMessage;
 
         private void setMessage(final String message) {
             Bundle args = getArguments();
             if (args == null) {
                 args = new Bundle();
             }
-            args.putString(ARG_MESSAGE, mMessage);
+            args.putString(ARG_MESSAGE, message);
             setArguments(args);
         }
 
