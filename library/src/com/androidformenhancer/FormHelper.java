@@ -407,7 +407,7 @@ public class FormHelper {
     /**
      * Shows a DatePickerDialog. If the date set by dialog, the value will be
      * set to the TextView specified by the id. The date format is
-     * {@linkplain java.text.DateFormat.SHORT} with your device's default
+     * {@linkplain java.text.DateFormat#SHORT} with your device's default
      * Locale.<br>
      * Normally, you should use {@linkplain #setAsDateField(int, int)} instead
      * of calling this directly.
