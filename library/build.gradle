@@ -58,3 +58,5 @@ android {
         abortOnError false
     }
 }
+
+coveralls.jacocoReportPath = 'build/reports/coverage/debug/report.xml'
