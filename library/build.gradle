@@ -1,4 +1,5 @@
 apply plugin: 'android-library'
+apply plugin: 'coveralls'
 
 // This is required to resolve Jacoco dependency
 repositories {
