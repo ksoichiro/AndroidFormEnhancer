@@ -52,4 +52,9 @@ android {
             testCoverageEnabled = true
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
