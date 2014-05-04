@@ -1,6 +1,7 @@
 AndroidFormEnhancer
 ===
 [![Build Status](https://travis-ci.org/ksoichiro/AndroidFormEnhancer.png)](https://travis-ci.org/ksoichiro/AndroidFormEnhancer)
+[![Coverage Status](https://coveralls.io/repos/ksoichiro/AndroidFormEnhancer/badge.png?branch=master)](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer?branch=master)
 
 AndroidFormEnhancerは、Androidアプリケーションで入力フォームを簡単に実装するためのライブラリです。
 アノテーションを利用して、入力フォームに関する定義を簡潔に記述することができ、

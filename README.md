@@ -1,6 +1,7 @@
 AndroidFormEnhancer
 ===
 [![Build Status](https://travis-ci.org/ksoichiro/AndroidFormEnhancer.png)](https://travis-ci.org/ksoichiro/AndroidFormEnhancer)
+[![Coverage Status](https://coveralls.io/repos/ksoichiro/AndroidFormEnhancer/badge.png?branch=master)](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer?branch=master)
 
 AndroidFormEnhancer is a library for implementing input forms easily in the Android application.
 You can use annotations to describe the definitions of the input form briefly,
