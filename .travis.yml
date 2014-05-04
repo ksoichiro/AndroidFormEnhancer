@@ -26,4 +26,5 @@ script:
     - TERM=dumb ./gradlew connectedCheck
 
 after_success:
-    - TERM=dumb ./gradlew coveralls
+    - TERM=dumb ./gradlew coveralls --info
+    - find ./library/build -ls
