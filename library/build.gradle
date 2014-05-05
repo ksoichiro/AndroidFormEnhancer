@@ -29,11 +29,10 @@ android {
         }
 
         // Move the tests to tests/java, tests/res, etc...
-        androidTest.setRoot('tests')
         androidTest.setRoot('../tests')
         androidTest.java.srcDirs = ['../tests/src'];
         androidTest.resources.srcDirs = ['../tests/src']
-        androidTest.renderscript.srcDirs = ['src']
+        androidTest.renderscript.srcDirs = ['../tests/src']
         androidTest.res.srcDirs = ['../tests/res']
 
         // Move the build types to build-types/<type>
