@@ -1,5 +1,5 @@
-AndroidFormEnhancer
-===
+# AndroidFormEnhancer
+
 [![Build Status](https://travis-ci.org/ksoichiro/AndroidFormEnhancer.png)](https://travis-ci.org/ksoichiro/AndroidFormEnhancer)
 [![Coverage Status](https://coveralls.io/repos/ksoichiro/AndroidFormEnhancer/badge.png?branch=master)](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer?branch=master)
 
@@ -7,18 +7,30 @@ AndroidFormEnhancer is a library for implementing input forms easily in the Andr
 You can use annotations to describe the definitions of the input form briefly,
 reduce codes that handle data of the screens in the Activities and Fragments.
 
+## Features
+
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Input values of widgets can be handled with simple POJO class  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Input validation can be implemented with annotations  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Useful validation patterns are included and also customizable  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Validation errors can be obtained easily, which you can show with dialogs  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Error messages, icons, ... are customizable  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Support API level 8 through 19
+
 ![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/screenshot.png "Screenshots")
 
+## Demo
 
-Install
-===
+* Sample applications using this library are included in the samples folder.
+* You can also try it on Google Play.
 
-The 'library' folder is the main library.
-Please import it into the Eclipse or other IDEs.
+  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/en_generic_rgb_wo_60.png "Demo on Google Play")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
 
+## Install
 
-Usage
-===
+The 'library' folder is the main library.  
+Please import it into the Eclipse, Android Studio or other IDEs.
+
+## Usage
 
 1.  Create POJO class of the input form, define public fields and add annotations to them.
 
@@ -66,9 +78,7 @@ Usage
 
     Note that this method affects only for the text fields.
 
-
-Get input values
-===
+## Get input values
 
 To get input values from the layouts, create a Form class at first.
 Form class is just a POJO class, which has public fields.
@@ -83,7 +93,7 @@ public class DefaultForm {
 Each fields must be related to the widgets like `android.widget.EditText`.
 To create relationship with widgets, add special annotations to the fields.
 
-## EditText
+### EditText
 If you use `<EditText>`, then just use `@Widget` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
@@ -103,7 +113,7 @@ public class DefaultForm {
 }
 ```
 
-## RadioGroup and RadioButton
+### RadioGroup and RadioButton
 If you use `<RadioGroup>` and `<RadioButton>`, and you want to validate
 whether the one of the radio buttons is checked or not,
 then use `@Widget` and `@WidgetValue` for the related field of the Form class.
@@ -142,7 +152,7 @@ public class DefaultForm {
 
 If you choose radio button "Male", then the value of the `DefaultForm#gender` will be "M".
 
-## CheckBox
+### CheckBox
 If you use `<CheckBox>` and you want to validate that at least one check box is checked,
 then use `@Widget` and `@WidgetValue` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
@@ -192,7 +202,7 @@ Note that `@Widget` is used just for grouping same kind of `CheckBox`es,
 so the other `ViewGroup`'s subclasses than `LinearLayout` like `RelativeLayout`
 can be related to `@Widget`.
 
-## Spinner
+### Spinner
 If you use `<Spinner>`, then just use `@Widget` for the related field of the Form class.
 For example, if the part of your `res/layout/some_layout.xml` is like this:
 
@@ -216,9 +226,7 @@ If you want to use the head item as a dummy text like "Please select",
 then add `@Required` annotation and set `Required#otherThanHead` to `true`.
 Then you can check whether the user selected other than the head item or not.
 
-
-Validations
-===
+## Validations
 
 Following validation classes are available:
 
@@ -325,9 +333,7 @@ Following validation classes are available:
     * The target fields must have field in Form class with `@Regex`.
     * Regular expression must be specified by `Regex#value()`.
 
-
-Orders of the validation
-===
+## Orders of the validation
 
 Orders of the validation for each items are defined by `Widget#validateAfter`.
 For example, if you define form like following, the validators validate `name` at first,
@@ -346,9 +352,7 @@ public class DefaultForm {
 }
 ```
 
-
-Customizations
-===
+## Customizations
 
 You can customize the behaviours and messages like following:
 
@@ -458,11 +462,17 @@ You can customize the behaviours and messages like following:
     </style>
     ```
 
+## Build
 
-ProGuard
-===
+### Build using Gradle wrapper
 
-If you want to use ProGuard, edit proguard-project.txt.
+This project contains Gradle wrapper, which is used in development.  
+So building your project by Gradle wrapper with the same settings
+will be stable and recommended.
+
+### ProGuard
+
+If you want to use ProGuard, edit your `proguard-project.txt`.
 
 1. Keep class name of the Validators. This is always required.
 
@@ -478,30 +488,55 @@ If you want to use ProGuard, edit proguard-project.txt.
           public *;
         }
 
+## Tests
 
-Samples
-===
+### Executing tests
 
-* Sample applications using this library are included in the samples folder.
-* You can also try it on Google Play.
+#### Unit Tests
 
-  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/en_generic_rgb_wo_60.png "Screenshots")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
+Test codes for JUnit test are included in the tests folder.  
+You can execute tests on your environment with a command below:
 
+```
+./gradlew :library:connectedAndroidTest
+```
 
-Tests
-===
+#### Unit Tests with Docker
 
-* Test codes for JUnit test are included in the tests folder.
+If you don't have an Android development environment,  
+you can also execute tests with the following command using Docker.  
+(Note that the Docker is required to execute.)
 
+```
+./test-docker.sh
+```
 
-Developed By
-===
+#### Continuous Integration
+
+This project is built on the [Travis CI](https://travis-ci.org/ksoichiro/AndroidFormEnhancer) triggered by pushes to master branch.
+
+### Test Reports
+
+#### Unit test report
+
+```
+library/build/reports/androidTests/connected/index.html
+```
+
+#### Coverage report by JaCoCo
+
+The coverage of this library (library folder) is measured using JaCoCo.  
+You can also check the results of Travis CI builds on [Coveralls](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer).
+
+```
+library/build/reports/coverage/debug/index.html
+```
+
+## Developed By
 
 * Soichiro Kashima - <soichiro.kashima@gmail.com>
 
-
-License
-===
+## License
 
     Copyright 2012 Soichiro Kashima
 
@@ -516,4 +551,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-

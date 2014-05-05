@@ -1,5 +1,5 @@
-AndroidFormEnhancer
-===
+# AndroidFormEnhancer
+
 [![Build Status](https://travis-ci.org/ksoichiro/AndroidFormEnhancer.png)](https://travis-ci.org/ksoichiro/AndroidFormEnhancer)
 [![Coverage Status](https://coveralls.io/repos/ksoichiro/AndroidFormEnhancer/badge.png?branch=master)](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer?branch=master)
 
@@ -7,17 +7,30 @@ AndroidFormEnhancerは、Androidアプリケーションで入力フォームを
 アノテーションを利用して、入力フォームに関する定義を簡潔に記述することができ、
 ActivityやFragmentの中に含まれる画面との値のやり取りや入力チェックのコードを削減することができます。
 
+## 主な機能
+
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) UI部品の入力値がシンプルなPOJOクラスで処理可能  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) 入力値検証がアノテーションで実装可能  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) 多数の入力値検証パターンが利用できカスタマイズも可能  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) 入力エラーメッセージは簡単に取得できダイアログ表示も可能  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) エラーメッセージ、アイコン、..といったものもカスタマイズ可能  
+![OK](library/res/drawable-ldpi/ic_textfield_ok.png) APIレベル 8 から 19 までをサポート
+
 ![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/screenshot.png "Screenshots")
 
+## デモ
 
-インストール
-===
+* ライブラリを使用したサンプルアプリケーションは、samplesフォルダに含まれています。
+* Google Playからダウンロードしてお試しいただけます。
 
-libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroid Library Projectとして取り込んでください。
+  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/en_generic_rgb_wo_60.png "Demo on Google Play")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
 
+## インストール
 
-使い方
-===
+libraryフォルダがライブラリ本体です。  
+EclipseやAndroid StudioなどのIDEでAndroid Library Projectとして取り込んでください。
+
+## 使い方
 
 1.  入力フォーム用のPOJOクラスを作成し、アノテーションでフォームの仕様を定義します。
 
@@ -63,9 +76,7 @@ libraryフォルダがライブラリ本体です。EclipseなどのIDEでAndroi
 
     ただし、これはテキストのフィールドだけに有効な方法です。
 
-
-入力値の取得
-===
+## 入力値の取得
 
 レイアウトから入力値を取得するには、まずFormクラスを作成します。
 Formクラスはpublicなフィールドを持つだけの単なるPOJOクラスです。
@@ -80,7 +91,7 @@ public class DefaultForm {
 各フィールドは、`android.widget.EditText`のようなウィジェットと関連付ける必要がります。
 ウィジェットとの関連付けをするには、特別なアノテーションをフィールドに付与します。
 
-## EditText
+### EditText
 `<EditText>`タグを使う場合は、`@Widget`をFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
@@ -100,7 +111,7 @@ public class DefaultForm {
 }
 ```
 
-## RadioGroupとRadioButton
+### RadioGroupとRadioButton
 `<RadioGroup>`タグや`<RadioButton>`を使い、いずれかのラジオボタンが選択されていることを
 検証したい場合は、`@Widget`と`@WidgetValue`のアノテーションをFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
@@ -138,7 +149,7 @@ public class DefaultForm {
 
 もし"男性"のラジオボタンを選択すれば、`DefaultForm#gender`の値は"M"になります。
 
-## CheckBox
+### CheckBox
 `<CheckBox>`タグを使用し、少なくとも1つ以上のチェックボックスがチェックされている
 ことを検証したい場合は、`@Widget`と`@WidgetValue`アノテーションを
 Formクラスのフィールドに付与します。
@@ -189,7 +200,7 @@ public class DefaultForm {
 この例にある`LinearLayout`だけでなく、他の`ViewGroup`のサブクラスである
 `RelativeLayout`なども`@Widget`と関連付けられることに注意してください。
 
-## Spinner
+### Spinner
 `<Spinner>`タグを使う場合は、`@Widget`アノテーションをFormクラスのフィールドに付与します。
 例えば、`res/layout/some_layout.xml`の一部が以下の通りだとします。
 
@@ -213,9 +224,7 @@ public class DefaultForm {
 `@Required`アノテーションをフィールドに追加し、`Required#otherThanHead`を`true`に設定します。
 これにより、先頭の要素以外が選択されているかどうかを検証することができます。
 
-
-検証クラス
-===
+## 検証クラス
 
 以下の検証クラスが利用できます。
 
@@ -318,9 +327,7 @@ public class DefaultForm {
     * 対象フィールドは、Formクラスに`@Regex`アノテーションを付与されている必要があります。
     * 検証に使用する正規表現は`Regex#value()`で指定します。
 
-
-検証の順序
-===
+## 検証の順序
 
 各項目の検証順序は、`Widget#validateAfter`を使用して定義します。
 例えば、以下のように定義した場合は、`name`、`age`の順番に検証されます。
@@ -338,9 +345,7 @@ public class DefaultForm {
 }
 ```
 
-
-カスタマイズ
-===
+## カスタマイズ
 
 ライブラリの挙動やメッセージは、以下のようにカスタマイズすることができます。
 
@@ -448,11 +453,16 @@ public class DefaultForm {
     </style>
     ```
 
+## ビルド
 
-ProGuard
-===
+### Gradleラッパーを使ったビルド
 
-ProGuardを使用する場合は、以下のようにproguard-project.txtを編集してください。
+このプロジェクトにはGradleラッパーが含まれており、このプロジェクトの開発で使用されています。  
+安定したビルドのために、ライブラリを利用するプロジェクトでもGradleラッパーを同じ設定で利用していただくことを推奨します。
+
+### ProGuard
+
+ProGuardを使用する場合は、以下のように`proguard-project.txt`を編集してください。
 
 1. Validatorのクラス名を維持します。これは常に必須です。
 
@@ -468,30 +478,54 @@ ProGuardを使用する場合は、以下のようにproguard-project.txtを編�
           public *;
         }
 
+## テスト
 
-サンプル
-===
+### テストの実行
 
-* ライブラリを使用したサンプルアプリケーションは、samplesフォルダに含まれています。
-* Google Playからダウンロードしてお試しいただけます。
+#### ユニットテスト
 
-  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/en_generic_rgb_wo_60.png "Screenshots")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
+JUnitテストコードはtestsフォルダに含まれています。  
+以下のコマンドでテストを実行できます。
 
+```
+./gradlew :library:connectedAndroidTest
+```
 
-テスト
-===
+#### Dockerを利用したビルド
 
-* JUnitテストコードはtestsフォルダに含まれています。
+手元にAndroid開発環境がなくても、Dockerがインストールされていれば、
+以下のコマンドでDockerを使用してテストを実行することができます。 
 
+```
+./test-docker.sh
+```
 
-開発者
-===
+#### Continuous Integration
+
+このプロジェクトは[Travis CI](https://travis-ci.org/ksoichiro/AndroidFormEnhancer)でmasterブランチへのPushをトリガーとしてビルドされています。
+
+### テスト結果のレポート
+
+#### ユニットテストレポート
+
+```
+library/build/reports/androidTests/connected/index.html
+```
+
+#### JaCoCoによるカバレッジ計測レポート
+
+ライブラリ本体部分(libraryフォルダ)のカバレッジをJaCoCoを使って計測しています。  
+Travis CIでのビルド結果は[Coveralls](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer)で確認できます。
+
+```
+library/build/reports/coverage/debug/index.html
+```
+
+## 開発者
 
 * Soichiro Kashima - <soichiro.kashima@gmail.com>
 
-
-ライセンス
-===
+## ライセンス
 
     Copyright 2012 Soichiro Kashima
 
@@ -506,4 +540,3 @@ ProGuardを使用する場合は、以下のようにproguard-project.txtを編�
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
