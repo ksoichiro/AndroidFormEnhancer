@@ -1,9 +1,13 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url "$System.env.ANDROID_HOME/extras/android/m2repository"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.10.+'
+        classpath 'com.android.support:support-v4:19.1.+'
     }
 }
 
@@ -15,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.android.support:support-v4:19.1.+'
 }
 
 android {
