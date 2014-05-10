@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.internal.impl;
+package com.androidformenhancer.helper;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,8 +22,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
-import com.androidformenhancer.FormHelper;
 import com.androidformenhancer.internal.DialogFragment;
+import com.androidformenhancer.internal.impl.DatePickerDialogSupportFragment;
+import com.androidformenhancer.internal.impl.SimpleDialogSupportFragment;
 
 public class SupportV4ActivityFormHelper extends FormHelper {
 

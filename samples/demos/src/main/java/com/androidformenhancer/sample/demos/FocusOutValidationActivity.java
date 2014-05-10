@@ -16,8 +16,8 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.FormHelper;
-import com.androidformenhancer.internal.impl.SupportV4ActivityFormHelper;
+import com.androidformenhancer.helper.FormHelper;
+import com.androidformenhancer.helper.SupportV4ActivityFormHelper;
 
 import android.os.Bundle;
 

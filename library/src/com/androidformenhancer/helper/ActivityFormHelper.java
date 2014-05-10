@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.internal.impl;
+package com.androidformenhancer.helper;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -22,8 +22,9 @@ import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
-import com.androidformenhancer.FormHelper;
 import com.androidformenhancer.internal.DialogFragment;
+import com.androidformenhancer.internal.impl.DatePickerDialogFragment;
+import com.androidformenhancer.internal.impl.SimpleDialogFragment;
 
 public class ActivityFormHelper extends FormHelper {
 

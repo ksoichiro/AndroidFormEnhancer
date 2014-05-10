@@ -16,9 +16,8 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.FormHelper;
 import com.androidformenhancer.ValidationResult;
-import com.androidformenhancer.internal.impl.SupportV4FragmentFormHelper;
+import com.androidformenhancer.helper.SupportV4FragmentFormHelper;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

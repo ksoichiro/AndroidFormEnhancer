@@ -16,9 +16,8 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.FormHelper;
 import com.androidformenhancer.ValidationResult;
-import com.androidformenhancer.internal.impl.ActivityFormHelper;
+import com.androidformenhancer.helper.ActivityFormHelper;
 
 import android.app.Activity;
 import android.os.Bundle;

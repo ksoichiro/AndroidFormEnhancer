@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer;
+package com.androidformenhancer.helper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,6 +23,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.androidformenhancer.R;
+import com.androidformenhancer.ValidationResult;
+import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Widget;
 import com.androidformenhancer.internal.DialogFragment;
 import com.androidformenhancer.internal.ValidationManager;

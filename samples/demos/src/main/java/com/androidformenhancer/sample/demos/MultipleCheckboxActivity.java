@@ -25,7 +25,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.androidformenhancer.ValidationResult;
-import com.androidformenhancer.internal.impl.ActivityFormHelper;
+import com.androidformenhancer.helper.ActivityFormHelper;
 
 /**
  * @author Soichiro Kashima
