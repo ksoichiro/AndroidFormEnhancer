@@ -3,7 +3,6 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.10.+'
-    }
+    // Do not define Android Gradle Plugin dependency
+    // Because the each of the sub-projects must use different version of it.
 }

@@ -1,8 +1,25 @@
-apply plugin: 'android'
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.9.+'
+    }
+}
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
 }
+
+apply plugin: 'android'
+apply plugin: 'android-test'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
@@ -13,19 +30,20 @@ android {
     compileSdkVersion 17
     buildToolsVersion "19.0.3"
 
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 17
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
+            resources.srcDirs = ['src/main/java']
+            aidl.srcDirs = ['src/main/java']
+            renderscript.srcDirs = ['src/main/java']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
         }
-
-        // Move the tests to tests/java, tests/res, etc...
-        androidTest.setRoot('tests')
 
         // Move the build types to build-types/<type>
         // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
@@ -41,4 +59,13 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    testCompile 'com.squareup:fest-android:1.0.+'
+    androidTestCompile 'junit:junit:4.10'
+    androidTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
+    androidTestCompile 'com.squareup:fest-android:1.0.+'
 }
