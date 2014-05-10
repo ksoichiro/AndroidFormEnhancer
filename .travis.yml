@@ -11,6 +11,7 @@ before_install:
 
     # Install required Android components.
     - echo y | android update sdk --filter platform-tools,build-tools-19.0.3,sysimg-17,android-17,extra-android-support,extra-android-m2repository --no-ui --force
+    - ls -lR ${ANDROID_HOME}/extras
 
     # Create and start emulator
     - echo no | android create avd --force -n test -t android-17
