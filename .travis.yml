@@ -24,7 +24,7 @@ before_script:
 
 script:
     - TERM=dumb ./gradlew build
-    - TERM=dumb ./gradlew connectedCheck
+    - TERM=dumb ./gradlew :library:connectedCheck
 
 after_success:
     - TERM=dumb ./gradlew -p library -b library/coverage.gradle coveralls
