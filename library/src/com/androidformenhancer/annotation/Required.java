@@ -23,16 +23,16 @@ import java.lang.annotation.Target;
 
 /**
  * Represents the value of the field must not be null or empty String.
- * <p>
+ * <p/>
  * If the target widget is a Spinner or RadioGroup, it means that one of the
  * item must be selected. If the target widget are CheckBoxes, it means that
  * some of the items must be checked. The number of check boxes which must be
  * checked, is defined by {@linkplain #atLeast()}.
- * <p>
+ * <p/>
  * If you want to set conditions, use {@link #when()}.
- * 
- * @see When
+ *
  * @author Soichiro Kashima
+ * @see When
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

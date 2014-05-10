@@ -16,15 +16,15 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.FieldData;
-
 import android.text.TextUtils;
+
+import com.androidformenhancer.FieldData;
 
 import java.lang.annotation.Annotation;
 
 /**
  * Validates that the value matches the regular expression.
- * 
+ *
  * @author Soichiro Kashima
  */
 public abstract class AbstractRegexValidator<T extends Annotation> extends Validator<T> {

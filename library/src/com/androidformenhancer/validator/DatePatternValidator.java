@@ -16,11 +16,11 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.DatePattern;
-
-import android.text.TextUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -29,7 +29,7 @@ import java.util.Locale;
 
 /**
  * Validates that the value matches the regular expression.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class DatePatternValidator extends Validator<DatePattern> {

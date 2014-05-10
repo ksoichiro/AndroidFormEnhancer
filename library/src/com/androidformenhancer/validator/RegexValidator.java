@@ -21,7 +21,7 @@ import com.androidformenhancer.annotation.Regex;
 
 /**
  * Validates that the value matches the regular expression.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class RegexValidator extends AbstractRegexValidator<Regex> {

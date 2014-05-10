@@ -16,15 +16,15 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.MinValue;
 
-import android.text.TextUtils;
-
 /**
  * Validates that the value is less than the minimum value or not.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class MinValueValidator extends Validator<MinValue> {

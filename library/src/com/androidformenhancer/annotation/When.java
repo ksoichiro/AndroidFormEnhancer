@@ -23,13 +23,15 @@ import java.lang.annotation.Target;
 
 /**
  * Represents the condition when the validation is applied.
- * 
+ *
  * @author Soichiro Kashima
  */
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface When {
-    /** Resource ID of the condition field. */
+    /**
+     * Resource ID of the condition field.
+     */
     int id();
 
     /**

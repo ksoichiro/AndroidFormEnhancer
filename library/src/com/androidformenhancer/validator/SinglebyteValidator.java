@@ -16,21 +16,21 @@
 
 package com.androidformenhancer.validator;
 
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.ValidationException;
 import com.androidformenhancer.annotation.Singlebyte;
-
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.text.TextUtils;
 
 import java.io.UnsupportedEncodingException;
 
 /**
  * Validates that the value of the field consists of single-byte characters or
  * not.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class SinglebyteValidator extends Validator<Singlebyte> {

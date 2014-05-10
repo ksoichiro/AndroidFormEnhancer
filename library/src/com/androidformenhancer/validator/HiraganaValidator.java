@@ -22,7 +22,7 @@ import com.androidformenhancer.annotation.Hiragana;
 /**
  * Validates that the value of the field consists of Japanese hiragana
  * characters or not.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class HiraganaValidator extends AbstractRegexValidator<Hiragana> {

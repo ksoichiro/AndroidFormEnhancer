@@ -24,12 +24,12 @@ import java.lang.annotation.Target;
 /**
  * Represents the value of the field must be greater than or equals to the
  * {@link #value()}.
- * <p>
+ * <p/>
  * This annotation also assumes as an error if the value is not a valid Integer.
  * So you do not have to use {@linkplain IntType} together.
- * 
- * @see IntType
+ *
  * @author Soichiro Kashima
+ * @see IntType
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -41,6 +41,8 @@ public @interface MinValue {
      */
     int nameResId() default 0;
 
-    /** Minimum value of the field. */
+    /**
+     * Minimum value of the field.
+     */
     int value();
 }

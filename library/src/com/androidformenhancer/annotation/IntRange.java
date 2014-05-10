@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * Represents the value of the field must be in the integer range.
- * 
+ *
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
@@ -36,9 +36,13 @@ public @interface IntRange {
      */
     int nameResId() default 0;
 
-    /** Minimum value of the field. */
+    /**
+     * Minimum value of the field.
+     */
     int min();
 
-    /** Maximum value of the field. */
+    /**
+     * Maximum value of the field.
+     */
     int max();
 }

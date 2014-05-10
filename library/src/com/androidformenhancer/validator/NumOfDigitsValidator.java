@@ -16,15 +16,15 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.NumOfDigits;
 
-import android.text.TextUtils;
-
 /**
  * Validates that the number of the digits of the field.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class NumOfDigitsValidator extends Validator<NumOfDigits> {

@@ -14,30 +14,8 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer;
+package com.androidformenhancer.internal;
 
-/**
- * Types of the available widgets.
- *
- * @author Soichiro Kashima
- */
-public enum WidgetType {
-
-    /**
-     * Text field (EditText).
-     */
-    TEXT,
-    /**
-     * Multiple check boxes.
-     */
-    CHECKBOX,
-    /**
-     * Radio group and radio buttons.
-     */
-    RADIO,
-    /**
-     * Spinner.
-     */
-    SPINNER;
-
+public interface DialogFragment<FT> {
+    public int show(FT fragmentTransaction, String tag);
 }

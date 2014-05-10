@@ -18,6 +18,8 @@ package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.FormHelper;
 import com.androidformenhancer.ValidationResult;
+import com.androidformenhancer.internal.impl.SupportV4ActivityFormHelper;
+import com.androidformenhancer.internal.impl.SupportV4FragmentFormHelper;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -36,7 +38,7 @@ public class DefaultFragmentActivity extends FragmentActivity {
     }
 
     public void onSubmit(View v) {
-        FormHelper helper = new FormHelper(DefaultForm.class, this);
+        SupportV4ActivityFormHelper helper = new SupportV4ActivityFormHelper(DefaultForm.class, this);
         ValidationResult result = helper.validate();
         if (result.hasError()) {
             helper.showAlertDialog(result.getAllSerializedErrors());

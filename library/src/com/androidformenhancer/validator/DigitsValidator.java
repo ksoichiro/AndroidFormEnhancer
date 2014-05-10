@@ -21,7 +21,7 @@ import com.androidformenhancer.annotation.Digits;
 
 /**
  * This validator provides the digital character field validation.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class DigitsValidator extends AbstractRegexValidator<Digits> {

@@ -22,7 +22,7 @@ import com.androidformenhancer.annotation.AlphaNum;
 /**
  * Validates that the value of the field consists of ASCII alphabet and number
  * characters or not.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class AlphaNumValidator extends AbstractRegexValidator<AlphaNum> {

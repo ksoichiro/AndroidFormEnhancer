@@ -16,15 +16,15 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.Length;
 
-import android.text.TextUtils;
-
 /**
  * Validates that the length of the value of the field.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class LengthValidator extends Validator<Length> {

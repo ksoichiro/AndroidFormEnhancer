@@ -16,15 +16,15 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.MaxValue;
 
-import android.text.TextUtils;
-
 /**
  * Validates that the value exceeds the max value or not.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class MaxValueValidator extends Validator<MaxValue> {

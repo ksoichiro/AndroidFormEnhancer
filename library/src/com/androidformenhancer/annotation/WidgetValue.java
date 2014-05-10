@@ -24,14 +24,16 @@ import java.lang.annotation.Target;
 /**
  * Represents the grouped widget like RadioButton and CheckBox. This annotation
  * should be used with {@linkplain Widget}.
- * 
- * @see Widget
+ *
  * @author Soichiro Kashima
+ * @see Widget
  */
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface WidgetValue {
-    /** Target widget resource ID. */
+    /**
+     * Target widget resource ID.
+     */
     int id();
 
     /**

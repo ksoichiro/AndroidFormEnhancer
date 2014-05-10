@@ -16,15 +16,15 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.FloatType;
 
-import android.text.TextUtils;
-
 /**
  * This validator provides the float field validation.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class FloatTypeValidator extends Validator<FloatType> {

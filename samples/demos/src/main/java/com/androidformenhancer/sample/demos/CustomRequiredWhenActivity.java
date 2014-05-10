@@ -16,13 +16,13 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.FormHelper;
-import com.androidformenhancer.ValidationResult;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import com.androidformenhancer.ValidationResult;
+import com.androidformenhancer.internal.impl.ActivityFormHelper;
 
 /**
  * @author Soichiro Kashima
@@ -36,7 +36,7 @@ public class CustomRequiredWhenActivity extends Activity {
     }
 
     public void onSubmit(View v) {
-        FormHelper helper = new FormHelper(CustomRequiredWhenForm.class, this);
+        ActivityFormHelper helper = new ActivityFormHelper(CustomRequiredWhenForm.class, this);
         ValidationResult result = helper.validate();
         if (result.hasError()) {
             Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
