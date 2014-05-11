@@ -155,11 +155,6 @@ public final class ValidationManager {
 
     /**
      * Validates the input values of all the fields in the form.
-     * <p/>
-     * Validations are executed in the orders specified by the
-     * {@link android.androsuit.entity.annotation.Order}. If this annotation is
-     * not specified, the order is determined by field names(asc). The fields
-     * with the annotations are prior to the others.
      *
      * @return result of the validation
      */
