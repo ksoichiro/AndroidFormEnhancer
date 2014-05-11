@@ -63,6 +63,9 @@ public class DatePickerDialogSupportFragment extends android.support.v4.app.Dial
         }
     }
 
+    public DatePickerDialogSupportFragment() {
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();

@@ -67,6 +67,9 @@ public class SimpleDialogFragment extends android.app.DialogFragment implements 
         }
     }
 
+    public SimpleDialogFragment() {
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();

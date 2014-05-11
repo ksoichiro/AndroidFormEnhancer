@@ -64,6 +64,9 @@ public class SimpleDialogSupportFragment extends android.support.v4.app.DialogFr
         }
     }
 
+    public SimpleDialogSupportFragment() {
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();
