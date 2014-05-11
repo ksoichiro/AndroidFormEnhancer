@@ -60,7 +60,7 @@ Please import it into the Eclipse, Android Studio or other IDEs.
     validate them and convert types.
 
     ```java
-    ValidationResult result = new FormHelper(DefaultForm.class, this).validate();
+    ValidationResult result = new ActivityFormHelper(DefaultForm.class, this).validate();
     if (result.hasError()) {
         // Show error messages
         Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
@@ -73,10 +73,16 @@ Please import it into the Eclipse, Android Studio or other IDEs.
 1.  If you want to validate as soon as the focus changed, just write these codes:
 
     ```java
-    new FormHelper(DefaultForm.class, this).setOnFocusOutValidation();
+    new ActivityFormHelper(DefaultForm.class, this).setOnFocusOutValidation();
     ```
 
     Note that this method affects only for the text fields.
+
+1.  If you want to use other than `android.app.Activity`,
+    you must replace `ActivityFormHelper` to other classes.
+
+    * Use `FragmentActivityFormHelper`, if you use library from `android.support.v4.app.FragmentActivity`.
+    * Use `SupportFragmentFormHelper`, if you use library from `android.support.v4.app.Fragment`.
 
 ## Get input values
 
