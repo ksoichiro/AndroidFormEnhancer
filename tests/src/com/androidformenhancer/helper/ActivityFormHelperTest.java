@@ -17,4 +17,22 @@ public class ActivityFormHelperTest extends InstrumentationTestCase {
         fail();
     }
 
+    public void testInitWithEmptyFragmentActivity() {
+        try {
+            new FragmentActivityFormHelper(DummyForm.class, new android.support.v4.app.FragmentActivity());
+        } catch (NullPointerException e) {
+            return;
+        }
+        fail();
+    }
+
+    public void testInitWithEmptySupportFragment() {
+        try {
+            new SupportFragmentFormHelper(DummyForm.class, new android.support.v4.app.Fragment());
+        } catch (NullPointerException e) {
+            return;
+        }
+        fail();
+    }
+
 }
