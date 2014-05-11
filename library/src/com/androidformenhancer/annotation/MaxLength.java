@@ -24,16 +24,16 @@ import java.lang.annotation.Target;
 /**
  * Represents the value of the field must have digits less than or equals to the
  * number specified by {@link #value()}.
- * <p>
+ * <p/>
  * This annotation resembles to the {@linkplain MaxNumOfDigits}, but this does
  * treat as an error if the value includes non-digit character.
- * <p>
+ * <p/>
  * If you want to disallow length less than {@link #value()}, use
  * {@linkplain Length} instead.
- * 
+ *
+ * @author Soichiro Kashima
  * @see Length
  * @see MaxNumOfDigits
- * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -45,6 +45,8 @@ public @interface MaxLength {
      */
     int nameResId() default 0;
 
-    /** Max length of the field. */
+    /**
+     * Max length of the field.
+     */
     int value();
 }

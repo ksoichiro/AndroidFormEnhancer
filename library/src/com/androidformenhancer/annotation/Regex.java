@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * Represents the value of the field must match the regular expression.
- * 
+ *
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
@@ -36,6 +36,8 @@ public @interface Regex {
      */
     int nameResId() default 0;
 
-    /** Regular expression for the field. */
+    /**
+     * Regular expression for the field.
+     */
     String value();
 }

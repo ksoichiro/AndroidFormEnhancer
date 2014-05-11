@@ -16,8 +16,8 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.FormHelper;
 import com.androidformenhancer.ValidationResult;
+import com.androidformenhancer.helper.ActivityFormHelper;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -36,7 +36,7 @@ public class DefaultActivity extends Activity {
     }
 
     public void onSubmit(View v) {
-        FormHelper helper = new FormHelper(DefaultForm.class, this);
+        ActivityFormHelper helper = new ActivityFormHelper(DefaultForm.class, this);
         ValidationResult result = helper.validate();
         if (result.hasError()) {
             Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();

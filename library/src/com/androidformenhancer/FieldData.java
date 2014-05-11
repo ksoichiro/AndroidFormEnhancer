@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * Convenient container class to retrieve field information.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class FieldData {
@@ -40,8 +40,8 @@ public class FieldData {
 
     /**
      * Constructor.
-     * 
-     * @param field field information
+     *
+     * @param field      field information
      * @param widgetType type of the widget
      */
     public FieldData(final Field field, final WidgetType widgetType) {
@@ -50,10 +50,10 @@ public class FieldData {
 
     /**
      * Constructor.
-     * 
-     * @param field field information
+     *
+     * @param field      field information
      * @param widgetType type of the widget
-     * @param value value of the field
+     * @param value      value of the field
      */
     public FieldData(final Field field, final WidgetType widgetType, final Object value) {
         init(field, widgetType);
@@ -62,7 +62,7 @@ public class FieldData {
 
     /**
      * Sets the resource ID of the field.
-     * 
+     *
      * @param id resource ID
      */
     public void setId(final int id) {
@@ -71,7 +71,7 @@ public class FieldData {
 
     /**
      * Gets the resource ID of the field.
-     * 
+     *
      * @return resource ID
      */
     public int getId() {
@@ -80,7 +80,7 @@ public class FieldData {
 
     /**
      * Sets the name of the field in the form class.
-     * 
+     *
      * @param name name of the field
      */
     public void setName(final String name) {
@@ -90,7 +90,7 @@ public class FieldData {
     /**
      * Gets the name of the field in the form class.<br>
      * This value may be obfuscated by ProGuard.
-     * 
+     *
      * @return name of the field
      */
     public String getName() {
@@ -99,7 +99,7 @@ public class FieldData {
 
     /**
      * Gets the widget annotation given to the field definition.
-     * 
+     *
      * @return widget annotation
      */
     public Widget getWidget() {
@@ -108,7 +108,7 @@ public class FieldData {
 
     /**
      * Sets the type of the widget related to this field.
-     * 
+     *
      * @param type type of the widget
      */
     public void setWidgetType(final WidgetType type) {
@@ -117,7 +117,7 @@ public class FieldData {
 
     /**
      * Gets the type of the widget related to this field.
-     * 
+     *
      * @return type of the widget
      */
     public WidgetType getWidgetType() {
@@ -126,7 +126,7 @@ public class FieldData {
 
     /**
      * Sets whether the field is an array(List) or not.
-     * 
+     *
      * @param array true if the field is an array(List)
      */
     public void setArray(final boolean array) {
@@ -135,7 +135,7 @@ public class FieldData {
 
     /**
      * Checks if the value of the field is an array(List).
-     * 
+     *
      * @return true if the field is an array(List)
      */
     public boolean isArray() {
@@ -144,7 +144,7 @@ public class FieldData {
 
     /**
      * Sets the value of the field.
-     * 
+     *
      * @param value value of the field
      */
     public void setValue(final Object value) {
@@ -153,7 +153,7 @@ public class FieldData {
 
     /**
      * Sets the annotations given to the field.
-     * 
+     *
      * @param annotations annotations given to the field
      */
     public void setAnnotations(final Annotation[] annotations) {
@@ -165,7 +165,7 @@ public class FieldData {
 
     /**
      * Gets an annotation from the field.
-     * 
+     *
      * @param annotationClass annotation class to get
      * @return annotation object if exists
      */
@@ -175,10 +175,10 @@ public class FieldData {
 
     /**
      * Gets the value of the field from the target object.
-     * 
+     *
+     * @return value of the field
      * @see #getValueAsString()
      * @see #getValueAsStringList()
-     * @return value of the field
      */
     public Object getValue() {
         return mValue;
@@ -186,7 +186,7 @@ public class FieldData {
 
     /**
      * Gets the value of the field from the target object as String type.
-     * 
+     *
      * @param field target field
      * @return value as String type
      */
@@ -203,7 +203,7 @@ public class FieldData {
 
     /**
      * Gets the value of the field from the target object as List<String> type.
-     * 
+     *
      * @param field target field
      * @return value as List<String> type
      */

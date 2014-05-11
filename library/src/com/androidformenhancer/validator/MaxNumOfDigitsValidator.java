@@ -16,16 +16,16 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.MaxNumOfDigits;
 
-import android.text.TextUtils;
-
 /**
  * Validates that the length of the value of the field exceeds the max number of
  * digits or not.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class MaxNumOfDigitsValidator extends Validator<MaxNumOfDigits> {

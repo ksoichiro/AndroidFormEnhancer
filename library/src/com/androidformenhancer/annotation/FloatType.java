@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * Represents the value of the field must be convertible to Float.
- * 
+ *
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)

@@ -22,7 +22,7 @@ import com.androidformenhancer.annotation.Katakana;
 /**
  * Validates that the value of the field consists of Japanese katakana
  * characters or not.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class KatakanaValidator extends AbstractRegexValidator<Katakana> {

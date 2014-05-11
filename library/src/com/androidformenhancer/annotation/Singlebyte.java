@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * Represents the value of the field must consist of single-byte characters.
- * 
+ *
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)

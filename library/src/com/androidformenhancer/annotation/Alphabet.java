@@ -23,10 +23,10 @@ import java.lang.annotation.Target;
 
 /**
  * Represents the value of the field must consist of ASCII alphabet characters.
- * <p>
+ * <p/>
  * Use {@link #allowSpace()} if you want to control whether the single-byte
  * space character is an error.
- * 
+ *
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
@@ -39,6 +39,8 @@ public @interface Alphabet {
      */
     int nameResId() default 0;
 
-    /** Defines whether this field allows single-byte space character. */
+    /**
+     * Defines whether this field allows single-byte space character.
+     */
     boolean allowSpace() default false;
 }

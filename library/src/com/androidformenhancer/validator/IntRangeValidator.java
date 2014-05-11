@@ -16,15 +16,15 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.IntRange;
 
-import android.text.TextUtils;
-
 /**
  * Validates that the value is in the integer range or not.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class IntRangeValidator extends Validator<IntRange> {

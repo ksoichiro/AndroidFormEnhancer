@@ -18,18 +18,26 @@ package com.androidformenhancer;
 
 /**
  * Types of the available widgets.
- * 
+ *
  * @author Soichiro Kashima
  */
 public enum WidgetType {
 
-    /** Text field (EditText). */
+    /**
+     * Text field (EditText).
+     */
     TEXT,
-    /** Multiple check boxes. */
+    /**
+     * Multiple check boxes.
+     */
     CHECKBOX,
-    /** Radio group and radio buttons. */
+    /**
+     * Radio group and radio buttons.
+     */
     RADIO,
-    /** Spinner. */
+    /**
+     * Spinner.
+     */
     SPINNER;
 
 }

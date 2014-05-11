@@ -24,13 +24,15 @@ import java.lang.annotation.Target;
 /**
  * Represents the field is a widget of the form. If you want to validate the
  * value of the field, you must always apply this.
- * 
+ *
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Widget {
-    /** Resource ID of the widget related to this field. */
+    /**
+     * Resource ID of the widget related to this field.
+     */
     int id();
 
     /**
@@ -40,10 +42,14 @@ public @interface Widget {
      */
     int nameResId() default 0;
 
-    /** Validates this field after the the field related to this ID. */
+    /**
+     * Validates this field after the the field related to this ID.
+     */
     int validateAfter() default 0;
 
-    /** Values of the widget grouped by this field. */
+    /**
+     * Values of the widget grouped by this field.
+     */
     WidgetValue[] values() default {};
 
     public static enum Type {

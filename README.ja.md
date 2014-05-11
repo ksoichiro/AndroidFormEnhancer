@@ -1,6 +1,6 @@
 # AndroidFormEnhancer
 
-[![Build Status](https://travis-ci.org/ksoichiro/AndroidFormEnhancer.png)](https://travis-ci.org/ksoichiro/AndroidFormEnhancer)
+[![Build Status](https://travis-ci.org/ksoichiro/AndroidFormEnhancer.png)](https://travis-ci.org/ksoichiro/AndroidFormEnhancer.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/ksoichiro/AndroidFormEnhancer/badge.png?branch=master)](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer?branch=master)
 
 AndroidFormEnhancerは、Androidアプリケーションで入力フォームを簡単に実装するためのライブラリです。
@@ -75,6 +75,11 @@ EclipseやAndroid StudioなどのIDEでAndroid Library Projectとして取り込
     ```
 
     ただし、これはテキストのフィールドだけに有効な方法です。
+
+1.  `android.app.Activity`以外のクラスを使う場合は、`ActivityFormHelper`を別のクラスに置き換えてください。
+
+    * `android.support.v4.app.FragmentActivity`を使う場合は、`FragmentActivityFormHelper`に置き換えます。
+    * `android.support.v4.app.Fragment`を使う場合は、`SupportFragmentFormHelper`に置き換えます。
 
 ## 入力値の取得
 

@@ -16,39 +16,43 @@
 
 package com.androidformenhancer.validator;
 
-import com.androidformenhancer.FieldData;
-import com.androidformenhancer.R;
-import com.androidformenhancer.annotation.Widget;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.SparseArray;
+
+import com.androidformenhancer.FieldData;
+import com.androidformenhancer.R;
+import com.androidformenhancer.annotation.Widget;
 
 import java.lang.annotation.Annotation;
 
 /**
  * Provides the validation functions.
- * <p>
+ * <p/>
  * This class prepares the objects to validation for subclasses.
- * 
+ *
  * @param <T> annotation type which is necessary to the validation
  * @author Soichiro Kashima
  */
 public abstract class Validator<T extends Annotation> {
 
-    /** Context to access to the resources. */
+    /**
+     * Context to access to the resources.
+     */
     private Context mContext;
 
     private SparseArray<FieldData> mFieldDataArray;
 
-    /** Constructor. */
+    /**
+     * Constructor.
+     */
     public Validator() {
         mFieldDataArray = new SparseArray<FieldData>();
     }
 
     /**
      * Validates the object, and returns a message if there is an error.
-     * 
+     *
      * @param fieldData field value and meta data
      * @return error message
      */
@@ -59,9 +63,9 @@ public abstract class Validator<T extends Annotation> {
 
     /**
      * Validates the object, and returns a message if there is an error.
-     * 
+     *
      * @param annotation annotation which the field has
-     * @param fieldData field value and meta data
+     * @param fieldData  field value and meta data
      * @return error message
      */
     public abstract String validate(final T annotation, final FieldData fieldData);
@@ -71,18 +75,18 @@ public abstract class Validator<T extends Annotation> {
      * the {@linkplain Validator}, the abstract parameterized class cannot
      * determine its parameter's concrete class.<br>
      * When you implement this method, just return the class as follows:
-     * 
+     * <p/>
      * <pre>
      * return SomeAnnotation.class;
      * </pre>
-     * 
+     *
      * @return annotation class
      */
     public abstract Class<T> getAnnotationClass();
 
     /**
      * Gets the context set by the framework.
-     * 
+     *
      * @return context
      */
     protected Context getContext() {
@@ -91,9 +95,9 @@ public abstract class Validator<T extends Annotation> {
 
     /**
      * Sets the context for validators to access to the resources.
-     * <p>
+     * <p/>
      * This is designed to use in the framework internally.
-     * 
+     *
      * @param context context
      */
     public void setContext(final Context context) {
@@ -102,9 +106,9 @@ public abstract class Validator<T extends Annotation> {
 
     /**
      * Sets the array of the field meta data.
-     * <p>
+     * <p/>
      * This is designed to use in the framework internally.
-     * 
+     *
      * @param fieldDataArray array of the field data
      */
     public void setFieldDataArray(final SparseArray<FieldData> fieldDataArray) {
@@ -116,8 +120,8 @@ public abstract class Validator<T extends Annotation> {
      * This method use resource {@code overrideId}, otherwise
      * {@linkplain Widget#nameResId()} if there is defined, or the name of the
      * field.
-     * 
-     * @param fieldData field data given by the target field
+     *
+     * @param fieldData  field data given by the target field
      * @param overrideId resource ID of the name if you want to override
      * @return
      */
@@ -135,9 +139,9 @@ public abstract class Validator<T extends Annotation> {
 
     /**
      * Gets an error message from resource.
-     * 
-     * @param index index of the attributes
-     * @param defaultId message resource ID of the default message
+     *
+     * @param index         index of the attributes
+     * @param defaultId     message resource ID of the default message
      * @param messageParams array of the parameters needed by message resource
      * @return error message
      */
@@ -158,7 +162,7 @@ public abstract class Validator<T extends Annotation> {
 
     /**
      * Gets the value of the other field in the form.
-     * 
+     *
      * @param id resource ID of the target field
      * @return value of the target field
      */

@@ -16,15 +16,6 @@
 
 package com.androidformenhancer.internal;
 
-import com.androidformenhancer.FieldData;
-import com.androidformenhancer.R;
-import com.androidformenhancer.ValidationException;
-import com.androidformenhancer.ValidationResult;
-import com.androidformenhancer.WidgetType;
-import com.androidformenhancer.annotation.Widget;
-import com.androidformenhancer.annotation.WidgetValue;
-import com.androidformenhancer.validator.Validator;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
@@ -37,6 +28,15 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.androidformenhancer.FieldData;
+import com.androidformenhancer.R;
+import com.androidformenhancer.ValidationException;
+import com.androidformenhancer.ValidationResult;
+import com.androidformenhancer.WidgetType;
+import com.androidformenhancer.annotation.Widget;
+import com.androidformenhancer.annotation.WidgetValue;
+import com.androidformenhancer.validator.Validator;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ import java.util.Set;
 
 /**
  * The utility to validate input values.
- * 
+ *
  * @author Soichiro Kashima
  */
 public final class ValidationManager {
@@ -66,8 +66,8 @@ public final class ValidationManager {
 
     /**
      * Constructor.
-     * 
-     * @param context context
+     *
+     * @param context   context
      * @param formClass POJO form class which has information of the form
      */
     public ValidationManager(final Context context, final Class<?> formClass) {
@@ -79,7 +79,7 @@ public final class ValidationManager {
 
     /**
      * Reads the form information from the form, and creates a new object.
-     * 
+     *
      * @param rootView root view of the form
      */
     public void extractFormFromView(final View rootView) {
@@ -155,12 +155,7 @@ public final class ValidationManager {
 
     /**
      * Validates the input values of all the fields in the form.
-     * <p>
-     * Validations are executed in the orders specified by the
-     * {@link android.androsuit.entity.annotation.Order}. If this annotation is
-     * not specified, the order is determined by field names(asc). The fields
-     * with the annotations are prior to the others.
-     * 
+     *
      * @return result of the validation
      */
     public ValidationResult validate() {
@@ -169,7 +164,7 @@ public final class ValidationManager {
 
     /**
      * Validates the input values of the field specified by {@code id}.
-     * 
+     *
      * @param id resource ID of the target field
      * @return result of the validation
      */
@@ -183,10 +178,11 @@ public final class ValidationManager {
             validator.setFieldDataArray(mFieldDataArray);
         }
 
-        FieldData[] sorted = id == 0 ? sort() : new FieldData[] {
+        FieldData[] sorted = id == 0 ? sort() : new FieldData[]{
                 mFieldDataArray.get(id),
         };
-        validation: for (FieldData f : sorted) {
+        validation:
+        for (FieldData f : sorted) {
             Widget widget = f.getWidget();
             validationResult.addValidatedId(widget.id());
             for (Validator validator : mValidators) {
@@ -212,10 +208,10 @@ public final class ValidationManager {
 
     /**
      * Gets the field data of the field specified by the {@code id}.
-     * <p>
+     * <p/>
      * You should execute {@linkplain #extractFormFromView(View)} to extract
      * field data before calling this method.
-     * 
+     *
      * @param id resource ID of the target field
      * @return field data
      */
@@ -226,7 +222,7 @@ public final class ValidationManager {
     /**
      * Gets the resource IDs of the fields extracted by
      * {@linkplain #extractFormFromView(View)}.
-     * 
+     *
      * @return set of the resource IDs
      */
     public Set<Integer> getExtractedWidgetIds() {
@@ -241,7 +237,7 @@ public final class ValidationManager {
      * Returns the extracted form.<br>
      * The form returned is deep copy, so values of this object's fields cannot
      * be changed from inside the FormHelper.
-     * 
+     *
      * @return deep copy of the extracted form
      */
     public Object getForm() {
@@ -278,7 +274,8 @@ public final class ValidationManager {
                 } else {
                     throw new IllegalStateException(
                             "Form class can have only String and List<String> fields but "
-                                    + type + " found.");
+                                    + type + " found."
+                    );
                 }
             }
             return form;
@@ -292,7 +289,7 @@ public final class ValidationManager {
 
     /**
      * Copies an object fields which have same names as the form class.
-     * 
+     *
      * @param clazz the entity class to create
      * @return created entity object
      */
@@ -341,7 +338,8 @@ public final class ValidationManager {
                     } else {
                         throw new IllegalArgumentException(
                                 "Entity field types must be primitive types or String or List<String>: "
-                                        + dstType.getCanonicalName());
+                                        + dstType.getCanonicalName()
+                        );
                     }
                 }
             }
@@ -361,7 +359,7 @@ public final class ValidationManager {
 
     /**
      * Adds a validator to be used by {@linkplain #validate()}.
-     * 
+     *
      * @param validator validator object to add
      */
     public void addValidator(final Validator<?> validator) {
@@ -456,7 +454,7 @@ public final class ValidationManager {
             return null;
         }
         if (mFieldDataArray.size() == 1) {
-            return new FieldData[] {
+            return new FieldData[]{
                     mFieldDataArray.valueAt(0),
             };
         }
@@ -490,7 +488,7 @@ public final class ValidationManager {
                 }
             }
         }
-        return result.toArray(new FieldData[] {});
+        return result.toArray(new FieldData[]{});
     }
 
     private List<CheckBox> findCheckboxes(ViewGroup group) {

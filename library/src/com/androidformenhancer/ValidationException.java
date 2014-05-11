@@ -18,7 +18,7 @@ package com.androidformenhancer;
 
 /**
  * Runtime exception caused on validation.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class ValidationException extends RuntimeException {

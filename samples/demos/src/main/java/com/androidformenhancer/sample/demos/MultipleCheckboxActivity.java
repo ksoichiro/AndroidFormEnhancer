@@ -16,9 +16,6 @@
 
 package com.androidformenhancer.sample.demos;
 
-import com.androidformenhancer.FormHelper;
-import com.androidformenhancer.ValidationResult;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,6 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
+import com.androidformenhancer.ValidationResult;
+import com.androidformenhancer.helper.ActivityFormHelper;
 
 /**
  * @author Soichiro Kashima
@@ -41,7 +41,7 @@ public class MultipleCheckboxActivity extends Activity {
     }
 
     public void onSubmit(View v) {
-        FormHelper helper = new FormHelper(MultipleCheckboxForm.class, this);
+        ActivityFormHelper helper = new ActivityFormHelper(MultipleCheckboxForm.class, this);
         ValidationResult result = helper.validate();
         if (result.hasError()) {
             Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();

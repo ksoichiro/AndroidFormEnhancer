@@ -24,7 +24,7 @@ import java.util.Set;
 
 /**
  * Result of the validation such as validated widget IDs and error messages.
- * 
+ *
  * @author Soichiro Kashima
  */
 public final class ValidationResult {
@@ -32,7 +32,9 @@ public final class ValidationResult {
     private ArrayList<Integer> mValidatedIds;
     private LinkedHashMap<Integer, ArrayList<String>> mErrorMessages;
 
-    /** Constructor. */
+    /**
+     * Constructor.
+     */
     public ValidationResult() {
         mValidatedIds = new ArrayList<Integer>();
         mErrorMessages = new LinkedHashMap<Integer, ArrayList<String>>();
@@ -40,7 +42,7 @@ public final class ValidationResult {
 
     /**
      * Adds a widget ID to be validated.
-     * 
+     *
      * @param id ID to add
      */
     public void addValidatedId(final int id) {
@@ -49,7 +51,7 @@ public final class ValidationResult {
 
     /**
      * Returns the widget IDs which has been validated.
-     * 
+     *
      * @return list of widget IDs
      */
     public ArrayList<Integer> getValidatedIds() {
@@ -58,7 +60,7 @@ public final class ValidationResult {
 
     /**
      * Check if there were any errors on the validation.
-     * 
+     *
      * @return true if there were some errors
      */
     public boolean hasError() {
@@ -67,7 +69,7 @@ public final class ValidationResult {
 
     /**
      * Check if there were any errors for the specific widget on the validation.
-     * 
+     *
      * @param id ID of the target widget
      * @return true if there were some errors
      */
@@ -77,8 +79,8 @@ public final class ValidationResult {
 
     /**
      * Adds a validation error message for the specified widget.
-     * 
-     * @param id ID of the target widget
+     *
+     * @param id           ID of the target widget
      * @param errorMessage validation error message to add
      */
     public void addError(final int id, final String errorMessage) {
@@ -92,7 +94,7 @@ public final class ValidationResult {
     /**
      * Returns the validation error messages for the specified widget as a list.<br>
      * Note that this method returns empty list when there are no errors.
-     * 
+     *
      * @param id ID of the target widget
      * @return list of error messages
      */
@@ -105,7 +107,7 @@ public final class ValidationResult {
 
     /**
      * Gets the set of the widget IDs which have some validation errors.
-     * 
+     *
      * @return set of the IDs
      */
     public Set<Integer> getErrorIds() {
@@ -114,7 +116,7 @@ public final class ValidationResult {
 
     /**
      * Returns all the validation error messages of all the widget as a list.
-     * 
+     *
      * @return list of error messages
      */
     public ArrayList<String> getAllErrors() {
@@ -129,7 +131,7 @@ public final class ValidationResult {
      * Returns all the validation error messages of all the widget as a String.<br>
      * If there are two or more errors, this method inserts new line character
      * between error messages.
-     * 
+     *
      * @return error messages
      */
     public String getAllSerializedErrors() {

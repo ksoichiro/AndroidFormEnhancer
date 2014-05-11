@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Represents the value of the field must consist of Japanese Katakana
  * characters.
- * 
+ *
  * @author Soichiro Kashima
  */
 @Target(ElementType.FIELD)

@@ -27,7 +27,7 @@ public final class StringUtils {
      * Converts the list of the error messages to one string joined with the
      * line separator.<br>
      * Returns blank string if the errorMessages is null.
-     * 
+     *
      * @param errorMessages the list of the error messages to convert
      * @return converted messages
      */

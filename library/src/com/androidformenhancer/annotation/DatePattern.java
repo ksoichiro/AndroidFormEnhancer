@@ -23,17 +23,17 @@ import java.lang.annotation.Target;
 
 /**
  * Represents the value of the field must match the date format.
- * <p>
+ * <p/>
  * Use {@link #value()} if you change the default date format. It will be passed
  * to the {@linkplain java.text.SimpleDateFormat()} with the device's default
  * Locale. If you do not change {@link #value()},
  * {@link java.text.DateFormat.SHORT} with the device's default Locale will be
  * used.
- * <p>
+ * <p/>
  * If you want to disallow feature date, use {@linkplain PastDate} instead.
- * 
- * @see PastDate
+ *
  * @author Soichiro Kashima
+ * @see PastDate
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -45,6 +45,8 @@ public @interface DatePattern {
      */
     int nameResId() default 0;
 
-    /** Date format of the field. */
+    /**
+     * Date format of the field.
+     */
     String value() default "";
 }

@@ -16,19 +16,19 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Required;
 import com.androidformenhancer.annotation.When;
 
-import android.text.TextUtils;
-
 import java.util.List;
 
 /**
  * This validator provides the required field validation.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class RequiredValidator extends Validator<Required> {
@@ -81,7 +81,7 @@ public class RequiredValidator extends Validator<Required> {
             final String strValue = fieldData.getValueAsString();
             if (TextUtils.isEmpty(strValue)
                     || (fieldData.getWidgetType() == WidgetType.SPINNER
-                            && annotation.otherThanHead() && strValue.equals("0"))) {
+                    && annotation.otherThanHead() && strValue.equals("0"))) {
                 if (fieldData.getWidgetType() == WidgetType.RADIO
                         || fieldData.getWidgetType() == WidgetType.SPINNER) {
                     return getMessage(R.styleable.ValidatorMessages_afeErrorRequiredSelection,

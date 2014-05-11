@@ -16,11 +16,11 @@
 
 package com.androidformenhancer.validator;
 
+import android.text.TextUtils;
+
 import com.androidformenhancer.FieldData;
 import com.androidformenhancer.R;
 import com.androidformenhancer.annotation.PastDate;
-
-import android.text.TextUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,7 +31,7 @@ import java.util.Locale;
 
 /**
  * Validates that the value is the past date.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class PastDateValidator extends Validator<PastDate> {

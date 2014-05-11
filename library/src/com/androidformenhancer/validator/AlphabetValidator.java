@@ -22,7 +22,7 @@ import com.androidformenhancer.annotation.Alphabet;
 /**
  * Validates that the value of the field consists of ASCII alphabet characters
  * or not.
- * 
+ *
  * @author Soichiro Kashima
  */
 public class AlphabetValidator extends AbstractRegexValidator<Alphabet> {

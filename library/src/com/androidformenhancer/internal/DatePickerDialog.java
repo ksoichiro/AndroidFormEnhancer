@@ -14,24 +14,7 @@
  * limitations under the License.
  */
 
-package com.androidformenhancer.sample.demos;
+package com.androidformenhancer.internal;
 
-import com.androidformenhancer.helper.FormHelper;
-import com.androidformenhancer.helper.FragmentActivityFormHelper;
-
-import android.os.Bundle;
-
-/**
- * @author Soichiro Kashima
- */
-public class FocusOutValidationActivity extends DefaultFragmentActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        FormHelper helper = new FragmentActivityFormHelper(DefaultForm.class, this);
-        helper.setOnFocusOutValidation();
-    }
-
+public interface DatePickerDialog extends DialogFragment {
 }
