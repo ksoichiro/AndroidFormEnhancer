@@ -45,6 +45,7 @@ public abstract class FormHelper {
                     + "Check that you set a FragmentActivity instance to the constructor.";
 
     private Context mContext;
+    private Class<?> mFormClass;
     private View mRootView;
     private boolean mValidationErrorIconEnabled;
     private Drawable mIconError;
@@ -52,8 +53,8 @@ public abstract class FormHelper {
     private ValidationManager mValidationManager;
 
     public FormHelper(final Class<?> clazz, final Context context) {
-        setContext(context);
-        setValidationManager(context, clazz);
+        mContext = context;
+        mFormClass = clazz;
     }
 
     /**
@@ -117,8 +118,8 @@ public abstract class FormHelper {
      * @return result of the validation
      */
     public ValidationResult validate() {
-        mValidationManager.extractFormFromView(mRootView);
-        ValidationResult validationResult = mValidationManager.validate();
+        getValidationManager().extractFormFromView(mRootView);
+        ValidationResult validationResult = getValidationManager().validate();
         for (int id : validationResult.getValidatedIds()) {
             View v = mRootView.findViewById(id);
             if (!(v instanceof TextView)) {
@@ -137,9 +138,9 @@ public abstract class FormHelper {
      * {@linkplain #validateText(int)}.
      */
     public void setOnFocusOutValidation() {
-        mValidationManager.extractFormFromView(mRootView);
-        for (final int id : mValidationManager.getExtractedWidgetIds()) {
-            WidgetType widgetType = mValidationManager.getFieldData(id).getWidgetType();
+        getValidationManager().extractFormFromView(mRootView);
+        for (final int id : getValidationManager().getExtractedWidgetIds()) {
+            WidgetType widgetType = getValidationManager().getFieldData(id).getWidgetType();
             if (widgetType != WidgetType.TEXT) {
                 continue;
             }
@@ -148,8 +149,8 @@ public abstract class FormHelper {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (!hasFocus) {
-                        mValidationManager.extractFormFromView(mRootView);
-                        ValidationResult result = mValidationManager.validate(id);
+                        getValidationManager().extractFormFromView(mRootView);
+                        ValidationResult result = getValidationManager().validate(id);
                         setErrorToTextView(result, e);
                     }
                 }
@@ -165,8 +166,8 @@ public abstract class FormHelper {
      * @param textViewId target TextView or EditText's resource ID
      */
     public void validateText(final int textViewId) {
-        mValidationManager.extractFormFromView(mRootView);
-        ValidationResult result = mValidationManager.validate(textViewId);
+        getValidationManager().extractFormFromView(mRootView);
+        ValidationResult result = getValidationManager().validate(textViewId);
         TextView v = (TextView) mRootView.findViewById(textViewId);
         setErrorToTextView(result, v);
     }
@@ -179,7 +180,7 @@ public abstract class FormHelper {
      * @return deep copy of the extracted form
      */
     public Object getForm() {
-        return mValidationManager.getForm();
+        return getValidationManager().getForm();
     }
 
     /**
@@ -189,7 +190,7 @@ public abstract class FormHelper {
      * @return created entity object
      */
     public <E> E create(final Class<E> clazz) {
-        return mValidationManager.create(clazz);
+        return getValidationManager().create(clazz);
     }
 
     /**
@@ -352,14 +353,6 @@ public abstract class FormHelper {
         mRootView = view;
     }
 
-    protected void setValidationManager(final Context context, final Class<?> clazz) {
-        mValidationManager = new ValidationManager(context, clazz);
-    }
-
-    protected void setContext(final Context context) {
-        mContext = context;
-    }
-
     protected void init() {
         if (mContext == null || mContext.getTheme() == null) {
             return;
@@ -401,5 +394,19 @@ public abstract class FormHelper {
         if (d != null) {
             d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
         }
+    }
+
+    private ValidationManager getValidationManager() {
+        // Lazy initialization
+        if (mValidationManager == null) {
+            if (mContext == null) {
+                throw new IllegalStateException("Cannot create ValidationManager. Context is required");
+            }
+            if (mFormClass == null) {
+                throw new IllegalStateException("Cannot create ValidationManager. Form class is required");
+            }
+            mValidationManager = new ValidationManager(mContext, mFormClass);
+        }
+        return mValidationManager;
     }
 }
