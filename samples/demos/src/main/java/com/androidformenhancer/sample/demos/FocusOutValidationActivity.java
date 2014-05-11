@@ -17,7 +17,7 @@
 package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.helper.FormHelper;
-import com.androidformenhancer.helper.SupportV4ActivityFormHelper;
+import com.androidformenhancer.helper.FragmentActivityFormHelper;
 
 import android.os.Bundle;
 
@@ -30,7 +30,7 @@ public class FocusOutValidationActivity extends DefaultFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FormHelper helper = new SupportV4ActivityFormHelper(DefaultForm.class, this);
+        FormHelper helper = new FragmentActivityFormHelper(DefaultForm.class, this);
         helper.setOnFocusOutValidation();
     }
 

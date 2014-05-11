@@ -25,7 +25,7 @@ import com.androidformenhancer.internal.DialogFragment;
 import com.androidformenhancer.internal.impl.DatePickerDialogSupportFragment;
 import com.androidformenhancer.internal.impl.SimpleDialogSupportFragment;
 
-public class SupportV4FragmentFormHelper extends FormHelper {
+public class SupportFragmentFormHelper extends FormHelper {
 
     private Fragment mFragment;
 
@@ -36,7 +36,7 @@ public class SupportV4FragmentFormHelper extends FormHelper {
      * @param clazz    class of the form
      * @param fragment fragment which create this object
      */
-    public SupportV4FragmentFormHelper(final Class<?> clazz, final Fragment fragment) {
+    public SupportFragmentFormHelper(final Class<?> clazz, final Fragment fragment) {
         super(clazz, fragment.getActivity().getBaseContext());
         mFragment = fragment;
         setRootView(fragment.getView().getRootView());

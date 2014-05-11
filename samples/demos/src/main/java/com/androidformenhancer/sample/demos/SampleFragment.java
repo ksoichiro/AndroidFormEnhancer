@@ -17,7 +17,7 @@
 package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.ValidationResult;
-import com.androidformenhancer.helper.SupportV4FragmentFormHelper;
+import com.androidformenhancer.helper.SupportFragmentFormHelper;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -56,12 +56,12 @@ public class SampleFragment extends Fragment {
 
         // You must not call this in onCreateView() because we cannot access
         // to root view by getView().
-        SupportV4FragmentFormHelper helper = new SupportV4FragmentFormHelper(DefaultForm.class, this);
+        SupportFragmentFormHelper helper = new SupportFragmentFormHelper(DefaultForm.class, this);
         helper.setOnFocusOutValidation();
     }
 
     public void onSubmit(View v) {
-        SupportV4FragmentFormHelper helper = new SupportV4FragmentFormHelper(DefaultForm.class, this);
+        SupportFragmentFormHelper helper = new SupportFragmentFormHelper(DefaultForm.class, this);
         ValidationResult result = helper.validate();
         if (result.hasError()) {
             showAlertDialog(result.getAllSerializedErrors());

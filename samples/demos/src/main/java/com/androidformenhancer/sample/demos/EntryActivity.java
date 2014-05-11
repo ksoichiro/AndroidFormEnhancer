@@ -18,7 +18,7 @@ package com.androidformenhancer.sample.demos;
 
 import com.androidformenhancer.helper.FormHelper;
 import com.androidformenhancer.ValidationResult;
-import com.androidformenhancer.helper.SupportV4ActivityFormHelper;
+import com.androidformenhancer.helper.FragmentActivityFormHelper;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -35,13 +35,13 @@ public class EntryActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
 
-        FormHelper helper = new SupportV4ActivityFormHelper(EntryForm.class, this);
+        FormHelper helper = new FragmentActivityFormHelper(EntryForm.class, this);
         helper.setAsDateField(R.id.textfield_birthday, R.string.msg_default_date);
         helper.setOnFocusOutValidation();
     }
 
     public void onSubmit(View v) {
-        FormHelper helper = new SupportV4ActivityFormHelper(EntryForm.class, this);
+        FormHelper helper = new FragmentActivityFormHelper(EntryForm.class, this);
         ValidationResult result = helper.validate();
         if (result.hasError()) {
             helper.showAlertDialog(result.getAllSerializedErrors());
