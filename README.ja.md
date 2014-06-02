@@ -16,14 +16,14 @@ ActivityやFragmentの中に含まれる画面との値のやり取りや入力�
 ![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) エラーメッセージ、アイコン、..といったものもカスタマイズ可能  
 ![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) APIレベル 8 から 19 までをサポート
 
-![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/screenshot.png "Screenshots")
+![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/androidformenhancer-samples/images/screenshot.png "Screenshots")
 
 ## デモ
 
 * ライブラリを使用したサンプルアプリケーションは、samplesフォルダに含まれています。
 * Google Playからダウンロードしてお試しいただけます。
 
-  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/en_generic_rgb_wo_60.png "Demo on Google Play")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
+  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/androidformenhancer-samples/images/en_generic_rgb_wo_60.png "Demo on Google Play")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
 
 ## インストール
 

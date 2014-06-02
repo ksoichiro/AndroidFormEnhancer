@@ -16,14 +16,14 @@ reduce codes that handle data of the screens in the Activities and Fragments.
 ![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) Error messages, icons, ... are customizable  
 ![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) Support API level 8 through 19
 
-![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/screenshot.png "Screenshots")
+![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/androidformenhancer-samples/images/screenshot.png "Screenshots")
 
 ## Demo
 
 * Sample applications using this library are included in the samples folder.
 * You can also try it on Google Play.
 
-  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/en_generic_rgb_wo_60.png "Demo on Google Play")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
+  [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/androidformenhancer-samples/images/en_generic_rgb_wo_60.png "Demo on Google Play")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
 
 ## Install
 
