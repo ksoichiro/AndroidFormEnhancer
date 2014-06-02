@@ -9,12 +9,12 @@ reduce codes that handle data of the screens in the Activities and Fragments.
 
 ## Features
 
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Input values of widgets can be handled with simple POJO class  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Input validation can be implemented with annotations  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Useful validation patterns are included and also customizable  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Validation errors can be obtained easily, which you can show with dialogs  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Error messages, icons, ... are customizable  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) Support API level 8 through 19
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) Input values of widgets can be handled with simple POJO class  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) Input validation can be implemented with annotations  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) Useful validation patterns are included and also customizable  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) Validation errors can be obtained easily, which you can show with dialogs  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) Error messages, icons, ... are customizable  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) Support API level 8 through 19
 
 ![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/screenshot.png "Screenshots")
 
@@ -27,7 +27,7 @@ reduce codes that handle data of the screens in the Activities and Fragments.
 
 ## Install
 
-The 'library' folder is the main library.  
+The 'androidformenhancer' folder is the main library.  
 Please import it into the Eclipse, Android Studio or other IDEs.
 
 ## Usage
@@ -504,7 +504,7 @@ Test codes for JUnit test are included in the tests folder.
 You can execute tests on your environment with a command below:
 
 ```
-./gradlew :library:connectedAndroidTest
+./gradlew :androidformenhancer:connectedAndroidTest
 ```
 
 #### Unit Tests with Docker
@@ -517,6 +517,8 @@ you can also execute tests with the following command using Docker.
 ./test-docker.sh
 ```
 
+Warning: This does not works currently.
+
 #### Continuous Integration
 
 This project is built on the [Travis CI](https://travis-ci.org/ksoichiro/AndroidFormEnhancer) triggered by pushes to master branch.
@@ -526,16 +528,16 @@ This project is built on the [Travis CI](https://travis-ci.org/ksoichiro/Android
 #### Unit test report
 
 ```
-library/build/reports/androidTests/connected/index.html
+androidformenhancer/build/reports/androidTests/connected/index.html
 ```
 
 #### Coverage report by JaCoCo
 
-The coverage of this library (library folder) is measured using JaCoCo.  
+The coverage of this library (androidformenhancer folder) is measured using JaCoCo.  
 You can also check the results of Travis CI builds on [Coveralls](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer).
 
 ```
-library/build/reports/coverage/debug/index.html
+androidformenhancer/build/reports/coverage/debug/index.html
 ```
 
 ## Developed By

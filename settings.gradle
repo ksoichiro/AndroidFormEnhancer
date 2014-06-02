@@ -1,2 +1,2 @@
-include ':library'
-include ':samples:demos'
+include ':androidformenhancer'
+include ':androidformenhancer-samples:demos'

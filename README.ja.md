@@ -9,12 +9,12 @@ ActivityやFragmentの中に含まれる画面との値のやり取りや入力�
 
 ## 主な機能
 
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) UI部品の入力値がシンプルなPOJOクラスで処理可能  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) 入力値検証がアノテーションで実装可能  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) 多数の入力値検証パターンが利用できカスタマイズも可能  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) 入力エラーメッセージは簡単に取得できダイアログ表示も可能  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) エラーメッセージ、アイコン、..といったものもカスタマイズ可能  
-![OK](library/res/drawable-ldpi/ic_textfield_ok.png) APIレベル 8 から 19 までをサポート
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) UI部品の入力値がシンプルなPOJOクラスで処理可能  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) 入力値検証がアノテーションで実装可能  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) 多数の入力値検証パターンが利用できカスタマイズも可能  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) 入力エラーメッセージは簡単に取得できダイアログ表示も可能  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) エラーメッセージ、アイコン、..といったものもカスタマイズ可能  
+![OK](androidformenhancer/res/drawable-ldpi/ic_textfield_ok.png) APIレベル 8 から 19 までをサポート
 
 ![Screenshot](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/samples/images/screenshot.png "Screenshots")
 
@@ -27,7 +27,7 @@ ActivityやFragmentの中に含まれる画面との値のやり取りや入力�
 
 ## インストール
 
-libraryフォルダがライブラリ本体です。  
+androidformenhancerフォルダがライブラリ本体です。  
 EclipseやAndroid StudioなどのIDEでAndroid Library Projectとして取り込んでください。
 
 ## 使い方
@@ -493,7 +493,7 @@ JUnitテストコードはtestsフォルダに含まれています。
 以下のコマンドでテストを実行できます。
 
 ```
-./gradlew :library:connectedAndroidTest
+./gradlew :androidformenhancer:connectedAndroidTest
 ```
 
 #### Dockerを利用したビルド
@@ -505,6 +505,8 @@ JUnitテストコードはtestsフォルダに含まれています。
 ./test-docker.sh
 ```
 
+注意: 現在、このスクリプトは動作しません。
+
 #### Continuous Integration
 
 このプロジェクトは[Travis CI](https://travis-ci.org/ksoichiro/AndroidFormEnhancer)でmasterブランチへのPushをトリガーとしてビルドされています。
@@ -514,16 +516,16 @@ JUnitテストコードはtestsフォルダに含まれています。
 #### ユニットテストレポート
 
 ```
-library/build/reports/androidTests/connected/index.html
+androidformenhancer/build/reports/androidTests/connected/index.html
 ```
 
 #### JaCoCoによるカバレッジ計測レポート
 
-ライブラリ本体部分(libraryフォルダ)のカバレッジをJaCoCoを使って計測しています。  
+ライブラリ本体部分(androidformenhancerフォルダ)のカバレッジをJaCoCoを使って計測しています。  
 Travis CIでのビルド結果は[Coveralls](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer)で確認できます。
 
 ```
-library/build/reports/coverage/debug/index.html
+androidformenhancer/build/reports/coverage/debug/index.html
 ```
 
 ## 開発者
