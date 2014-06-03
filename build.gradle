@@ -6,3 +6,11 @@ buildscript {
     // Do not define Android Gradle Plugin dependency
     // Because the each of the sub-projects must use different version of it.
 }
+
+allprojects {
+    group = 'androidformenhancer'
+    version = '1.1.0'
+    repositories {
+        mavenCentral()
+    }
+}

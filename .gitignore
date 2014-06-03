@@ -1,13 +1,10 @@
-library/bin
-library/gen
-samples/demos/bin
-samples/demos/gen
-tests/bin
-tests/gen
+bin/
+gen/
 local.properties
 private.properties
 *.keystore
 *.gradle/
 build/
+target/
 .idea/
 *.iml
