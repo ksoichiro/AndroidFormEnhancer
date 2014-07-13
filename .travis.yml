@@ -14,8 +14,9 @@ android:
     - android-sdk-license-598b93a6
     - android-sdk-preview-license-52d11cd2
 before_script:
-    - echo no | android create avd --force -n test -t android-19 --abi default/armeabi-v7a
-    - emulator -avd test -no-skin -no-audio -no-window & - chmod +x wait-for-emulator
+    - echo no | android create avd --force -n test -t android-17 --abi default/armeabi-v7a
+    - emulator -avd test -no-skin -no-audio -no-window &
+    - chmod +x wait-for-emulator
     - ./wait-for-emulator
 script:
     - TERM=dumb ./gradlew build
