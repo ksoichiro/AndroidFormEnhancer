@@ -5,6 +5,5 @@ private.properties
 *.keystore
 *.gradle/
 build/
-target/
 .idea/
 *.iml
