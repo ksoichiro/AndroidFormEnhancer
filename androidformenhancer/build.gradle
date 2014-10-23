@@ -1,17 +1,13 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven {
-            url "$System.env.ANDROID_HOME/extras/android/m2repository"
-        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.1'
-        classpath 'com.android.support:support-v4:19.1.+'
+        classpath 'com.android.tools.build:gradle:0.13.3'
     }
 }
 
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 // This is required to resolve Jacoco dependency
 repositories {
@@ -19,12 +15,12 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.1.+'
+    compile 'com.android.support:support-v4:21.0.0'
 }
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.2"
 
     jacoco {
         version = '0.7.0.201403182114'

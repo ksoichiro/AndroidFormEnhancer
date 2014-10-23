@@ -1,35 +1,33 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven {
-            url "$System.env.ANDROID_HOME/extras/android/m2repository"
-        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.1'
-        classpath 'com.android.support:support-v4:19.1.+'
-        classpath 'org.robolectric:robolectric:2.3'
+        classpath 'com.android.tools.build:gradle:0.13.3'
     }
 }
+
+apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
 }
 
-apply plugin: 'android'
-
 dependencies {
     compile project(':androidformenhancer')
-    compile 'com.android.support:support-v4:19.1.+'
+    compile 'com.android.support:support-v4:21.0.0'
+    androidTestCompile 'junit:junit:4.10'
+    androidTestCompile 'org.robolectric:robolectric:2.3'
+    androidTestCompile 'com.squareup:fest-android:1.0.0'
 }
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.2"
 
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 17
+        targetSdkVersion 21
     }
 
     sourceSets {
@@ -56,10 +54,4 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
-}
-
-dependencies {
-    androidTestCompile 'junit:junit:4.10'
-    androidTestCompile 'org.robolectric:robolectric:2.3'
-    androidTestCompile 'com.squareup:fest-android:1.0.+'
 }
