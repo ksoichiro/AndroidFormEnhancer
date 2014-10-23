@@ -1,26 +1,21 @@
 language: android
 android:
   components:
-    - build-tools-20.0.0
-    - build-tools-19.1.0
+    - build-tools-21.0.2
     - tools
-    - android-17
+    - android-19
+    - android-21
     - system-image
     - extra-android-support
     - extra-android-m2repository
   licenses:
-    - android-sdk-license-bcbbd656
-    - android-sdk-license-5be876d5
-    - android-sdk-license-598b93a6
+    - 'android-sdk-license-.+'
     - android-sdk-preview-license-52d11cd2
 before_script:
-    - echo no | android create avd --force -n test -t android-17 --abi default/armeabi-v7a
+    - echo no | android create avd --force -n test -t android-19 --abi default/armeabi-v7a
     - emulator -avd test -no-skin -no-audio -no-window &
-    - chmod +x wait-for-emulator
-    - ./wait-for-emulator
+    - android-wait-for-emulator
 script:
-    - TERM=dumb ./gradlew build
-    - TERM=dumb ./gradlew :androidformenhancer:connectedCheck
-
+    - travis_retry ./gradlew build :androidformenhancer:connectedCheck
 after_success:
-    - TERM=dumb ./gradlew -p androidformenhancer -b androidformenhancer/coverage.gradle coveralls
+    - ./gradlew :androidformenhancer:coveralls
