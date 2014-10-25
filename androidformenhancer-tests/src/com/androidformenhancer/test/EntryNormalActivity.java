@@ -16,42 +16,43 @@
 
 package com.androidformenhancer.test;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.androidformenhancer.ValidationResult;
 import com.androidformenhancer.helper.ActivityFormHelper;
+import com.androidformenhancer.helper.FormHelper;
+import com.androidformenhancer.helper.FragmentActivityFormHelper;
 
 /**
  * @author Soichiro Kashima
  */
-public class DefaultActivity extends Activity {
-
-    private static final String TAG = DefaultActivity.class.getSimpleName();
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+public class EntryNormalActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_default);
+        setContentView(R.layout.activity_entry);
+
+        FormHelper helper = new ActivityFormHelper(EntryForm.class, this);
+        helper.setAsDateField(R.id.textfield_birthday, R.string.msg_default_date);
+        helper.setOnFocusOutValidation();
     }
 
     public void onSubmit(View v) {
-        ActivityFormHelper helper = new ActivityFormHelper(DefaultForm.class, this);
+        FormHelper helper = new ActivityFormHelper(EntryForm.class, this);
         ValidationResult result = helper.validate();
         if (result.hasError()) {
-            Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
+            helper.showAlertDialog(result.getAllSerializedErrors());
         } else {
-            // Create entity and do what you want
-            // e.g. insert into database, send to server by HTTP
-            DefaultEntity entity = helper.create(DefaultEntity.class);
-            Toast.makeText(this, "OK, " + entity.name + "!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "OK!", Toast.LENGTH_SHORT).show();
         }
-        // Get a copy of form
-        DefaultForm form = (DefaultForm) helper.getForm();
-        Log.v(TAG, form.name);
     }
 
 }

@@ -4,15 +4,14 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 
-public class DefaultActivityTest extends ActivityInstrumentationTestCase2<DefaultActivity> {
+public class DontStopActivityTest extends ActivityInstrumentationTestCase2<DontStopActivity> {
 
-    private DefaultActivity activity;
+    private DontStopActivity activity;
 
-    public DefaultActivityTest() {
-        super(DefaultActivity.class);
+    public DontStopActivityTest() {
+        super(DontStopActivity.class);
     }
 
     @Override

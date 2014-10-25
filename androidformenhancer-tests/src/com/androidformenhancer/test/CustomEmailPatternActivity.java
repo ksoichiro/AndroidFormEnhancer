@@ -18,7 +18,6 @@ package com.androidformenhancer.test;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,30 +27,21 @@ import com.androidformenhancer.helper.ActivityFormHelper;
 /**
  * @author Soichiro Kashima
  */
-public class DefaultActivity extends Activity {
-
-    private static final String TAG = DefaultActivity.class.getSimpleName();
+public class CustomEmailPatternActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_default);
+        setContentView(R.layout.activity_custom_email_pattern);
     }
 
     public void onSubmit(View v) {
-        ActivityFormHelper helper = new ActivityFormHelper(DefaultForm.class, this);
-        ValidationResult result = helper.validate();
+        ValidationResult result = new ActivityFormHelper(CustomEmailPatternForm.class, this).validate();
         if (result.hasError()) {
             Toast.makeText(this, result.getAllSerializedErrors(), Toast.LENGTH_SHORT).show();
         } else {
-            // Create entity and do what you want
-            // e.g. insert into database, send to server by HTTP
-            DefaultEntity entity = helper.create(DefaultEntity.class);
-            Toast.makeText(this, "OK, " + entity.name + "!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "OK!", Toast.LENGTH_SHORT).show();
         }
-        // Get a copy of form
-        DefaultForm form = (DefaultForm) helper.getForm();
-        Log.v(TAG, form.name);
     }
 
 }

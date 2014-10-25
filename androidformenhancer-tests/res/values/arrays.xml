@@ -29,7 +29,7 @@
         <item>Other</item>
     </string-array>
     <string-array name="custom_validators">
-        <item>com.androidformenhancer.sample.demos.SampleValidator</item>
+        <item>com.androidformenhancer.test.SampleValidator</item>
     </string-array>
     <string-array name="form_entries_residence">
         <item>Please select</item>

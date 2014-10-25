@@ -57,6 +57,10 @@ public abstract class FormHelper {
         mFormClass = clazz;
     }
 
+    public void setContext(final Context context) {
+        mContext = context;
+    }
+
     /**
      * Enables or disables the error icon feature. If enabled and the EditText
      * has errors, the icon will be shown on the right of it. By default, it is

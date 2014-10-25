@@ -15,21 +15,38 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.androidformenhancer.test" >
+    package="com.androidformenhancer.test">
 
-    <instrumentation
-        android:name="android.test.InstrumentationTestRunner"
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="com.androidformenhancer.test" />
-    <instrumentation
-        android:name="com.androidformenhancer.validator.ValidatorTestRunner"
+    <instrumentation android:name="com.androidformenhancer.validator.ValidatorTestRunner"
         android:targetPackage="com.androidformenhancer.test" />
-    <instrumentation
-        android:name="com.androidformenhancer.validator.ValidatorJaJpTestRunner"
+    <instrumentation android:name="com.androidformenhancer.validator.ValidatorJaJpTestRunner"
         android:targetPackage="com.androidformenhancer.test" />
 
-    <application>
+    <application android:theme="@style/AppTheme">
         <uses-library android:name="android.test.runner" />
         <activity android:name="DefaultActivity" />
+        <activity android:name=".DefaultFragmentActivity" />
+        <activity android:name=".DontStopActivity" android:theme="@style/AppTheme.DontStop" />
+        <activity android:name=".ResumeNextActivity" android:theme="@style/AppTheme.ResumeNext" />
+        <activity android:name=".CustomMessagesActivity"
+            android:theme="@style/AppTheme.CustomMessages" />
+        <activity android:name=".CustomValidatorActivity"
+            android:theme="@style/AppTheme.CustomValidator" />
+        <activity android:name=".CustomEmailPatternActivity"
+            android:theme="@style/AppTheme.CustomEmailPattern" />
+        <activity android:name=".FocusOutValidationActivity" />
+        <activity android:name=".ValidationErrorIconDisabledActivity" />
+        <activity android:name=".SampleFragmentActivity" />
+        <activity android:name=".CustomErrorIconActivity"
+            android:theme="@style/AppTheme.CustomErrorIcon" />
+        <activity android:name=".CustomRequiredWhenActivity" />
+        <activity android:name=".EntryActivity" android:theme="@style/AppTheme.DontStop" />
+        <activity android:name=".EntryNormalActivity" android:theme="@style/AppTheme.DontStop" />
+        <activity android:name=".EntrySupportFragmentActivity" android:theme="@style/AppTheme.DontStop" />
+        <activity android:name=".MultipleCheckboxActivity"
+            android:theme="@style/AppTheme.DontStop" />
     </application>
 
 </manifest>
