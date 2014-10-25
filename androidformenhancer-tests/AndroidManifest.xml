@@ -29,6 +29,7 @@
 
     <application>
         <uses-library android:name="android.test.runner" />
+        <activity android:name="DefaultActivity" />
     </application>
 
 </manifest>
