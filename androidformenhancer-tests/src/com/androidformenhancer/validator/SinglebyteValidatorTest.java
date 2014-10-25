@@ -17,6 +17,7 @@
 package com.androidformenhancer.validator;
 
 import com.androidformenhancer.FieldData;
+import com.androidformenhancer.ValidationException;
 import com.androidformenhancer.WidgetType;
 import com.androidformenhancer.annotation.Singlebyte;
 import com.androidformenhancer.annotation.Widget;
@@ -74,6 +75,9 @@ public class SinglebyteValidatorTest extends ValidatorTest {
         fieldData.setValue("あ𠮷");
         validate(validator, fieldData, false);
 
+        fieldData.setValue("𠮷");
+        validate(validator, fieldData, false);
+
         validator.setEncoding("SJIS");
 
         fieldData.setValue(new String("1".getBytes("SJIS"), "SJIS"));
@@ -87,6 +91,36 @@ public class SinglebyteValidatorTest extends ValidatorTest {
 
         fieldData.setValue(new String("予定表".getBytes("SJIS"), "SJIS"));
         validate(validator, fieldData, false);
+    }
+
+    public void testEncoding() throws Throwable {
+        SinglebyteValidator validator = new SinglebyteValidator();
+        validator.setEncoding("UTF-8");
+        assertEquals("UTF-8", validator.getEncoding());
+    }
+
+    public void testSetContext() {
+        SinglebyteValidator validator = new SinglebyteValidator();
+        validator.setContext(getInstrumentation().getContext());
+
+        validator.setEncoding("UTF-8");
+        validator.setContext(getInstrumentation().getContext());
+    }
+
+    public void testUnsupportedEncoding() throws Throwable {
+        try {
+            SinglebyteValidator validator = new SinglebyteValidator();
+            validator.setContext(getInstrumentation().getContext());
+
+            Field field = Foo.class.getDeclaredField("a");
+            FieldData fieldData = new FieldData(field, WidgetType.TEXT);
+
+            validator.setEncoding("FOO");
+            fieldData.setValue("a");
+            validate(validator, fieldData, true);
+        } catch (ValidationException e) {
+            assertEquals("Unsupported encoding used: FOO", e.getMessage());
+        }
     }
 
 }

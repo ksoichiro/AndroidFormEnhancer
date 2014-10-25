@@ -18,6 +18,7 @@ package com.androidformenhancer.helper;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
@@ -42,6 +43,10 @@ public class ActivityFormHelper extends FormHelper {
         mNormalActivity = activity;
         setRootView(activity.getWindow().getDecorView().findViewById(android.R.id.content));
         init();
+    }
+
+    public void setActivity(Activity activity) {
+        mNormalActivity = activity;
     }
 
     @Override

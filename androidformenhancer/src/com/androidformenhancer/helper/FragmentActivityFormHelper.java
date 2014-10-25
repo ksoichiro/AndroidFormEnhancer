@@ -44,6 +44,10 @@ public class FragmentActivityFormHelper extends FormHelper {
         init();
     }
 
+    public void setActivity(final FragmentActivity activity) {
+        mFragmentActivity = activity;
+    }
+
     @Override
     public void showAlertDialog(final String title, final String message, final boolean cancelable) {
         if (mFragmentActivity == null) {

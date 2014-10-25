@@ -43,6 +43,10 @@ public class SupportFragmentFormHelper extends FormHelper {
         init();
     }
 
+    public void setFragment(Fragment fragment) {
+        mFragment = fragment;
+    }
+
     @Override
     public void showAlertDialog(final String title, final String message, final boolean cancelable) {
         if (mFragment == null) {

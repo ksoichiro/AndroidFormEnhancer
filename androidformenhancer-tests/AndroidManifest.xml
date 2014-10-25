@@ -26,7 +26,8 @@
 
     <application android:theme="@style/AppTheme">
         <uses-library android:name="android.test.runner" />
-        <activity android:name="DefaultActivity" />
+        <activity android:name=".DefaultActivity" />
+        <activity android:name=".VarietyActivity" />
         <activity android:name=".DefaultFragmentActivity" />
         <activity android:name=".DontStopActivity" android:theme="@style/AppTheme.DontStop" />
         <activity android:name=".ResumeNextActivity" android:theme="@style/AppTheme.ResumeNext" />
