@@ -24,7 +24,7 @@ android {
     buildToolsVersion "21.0.2"
 
     jacoco {
-        version = '0.7.0.201403182114'
+        version = '0.7.2.201409121644'
     }
 
     sourceSets {
