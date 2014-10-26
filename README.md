@@ -1,7 +1,8 @@
 # AndroidFormEnhancer
 
 [![Build Status](https://travis-ci.org/ksoichiro/AndroidFormEnhancer.svg?branch=master)](https://travis-ci.org/ksoichiro/AndroidFormEnhancer)
-[![Coverage Status](https://img.shields.io/coveralls/ksoichiro/AndroidFormEnhancer.svg)](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/ksoichiro/AndroidFormEnhancer/master.svg)](https://coveralls.io/r/ksoichiro/AndroidFormEnhancer?branch=master)
+[![Maven Central](http://img.shields.io/maven-central/v/com.github.ksoichiro/androidformenhancer.svg)](https://github.com/ksoichiro/AndroidFormEnhancer/releases/latest)
 
 AndroidFormEnhancer is a library for implementing input forms easily in the Android application.
 You can use annotations to describe the definitions of the input form briefly,
