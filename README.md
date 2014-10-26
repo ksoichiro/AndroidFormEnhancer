@@ -20,15 +20,28 @@ reduce codes that handle data of the screens in the Activities and Fragments.
 
 ## Demo
 
-* Sample applications using this library are included in the samples folder.
+* Sample applications using this library are included in the `androidformenhancer-samples` folder.
 * You can also try it on Google Play.
 
   [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/androidformenhancer-samples/images/en_generic_rgb_wo_60.png "Demo on Google Play")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
 
 ## Install
 
+### Gradle / Android Studio
+
+```groovy
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'com.github.ksoichiro:androidformenhancer:1.1.0@aar'
+}
+```
+
+### Eclipse
+
 The 'androidformenhancer' folder is the main library.  
-Please import it into the Eclipse, Android Studio or other IDEs.
+Please import it into the Eclipse.
 
 ## Usage
 

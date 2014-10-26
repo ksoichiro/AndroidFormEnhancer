@@ -20,15 +20,28 @@ ActivityやFragmentの中に含まれる画面との値のやり取りや入力�
 
 ## デモ
 
-* ライブラリを使用したサンプルアプリケーションは、samplesフォルダに含まれています。
+* ライブラリを使用したサンプルアプリケーションは、`androidformenhancer-samples`フォルダに含まれています。
 * Google Playからダウンロードしてお試しいただけます。
 
   [![Demo on Google Play](https://raw.github.com/ksoichiro/AndroidFormEnhancer/master/androidformenhancer-samples/images/en_generic_rgb_wo_60.png "Demo on Google Play")](https://play.google.com/store/apps/details?id=com.androidformenhancer.sample.demos)
 
 ## インストール
 
+### Gradle / Android Studio
+
+```groovy
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'com.github.ksoichiro:androidformenhancer:1.1.0@aar'
+}
+```
+
+### Eclipse
+
 androidformenhancerフォルダがライブラリ本体です。  
-EclipseやAndroid StudioなどのIDEでAndroid Library Projectとして取り込んでください。
+EclipseでAndroid Library Projectとして取り込んでください。
 
 ## 使い方
 
